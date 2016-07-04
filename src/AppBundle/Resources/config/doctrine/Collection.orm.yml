@@ -1,0 +1,32 @@
+# src/AppBundle/Resources/config/doctrine/Collection.orm.yml
+
+AppBundle\Entity\Collection:
+    type: entity
+    table: collection
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+            nullable: true
+        create_date:
+            type: datetime
+            nullable: true
+        change_date:
+            type: datetime
+            nullable: true
+        description:
+            type: text
+            nullable: true
+    manyToOne:
+        owner:
+            targetEntity: User
+            joinColumn:
+                referencedColumnName: id
+    lifecycleCallbacks:
+        prePersist: [setCreate_DateValue]
+        preUpdate: [setChange_DateValue]

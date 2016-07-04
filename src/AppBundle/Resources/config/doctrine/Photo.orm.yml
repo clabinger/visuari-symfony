@@ -1,0 +1,23 @@
+# src/AppBundle/Resources/config/doctrine/Photo.orm.yml
+
+AppBundle\Entity\Photo:
+    type: entity
+    table: photo
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        size_original:
+            type: string
+            length: 255
+            nullable: true
+        size_medium:
+            type: string
+            length: 255
+            nullable: true
+        size_thumb:
+            type: string
+            length: 255
+            nullable: true

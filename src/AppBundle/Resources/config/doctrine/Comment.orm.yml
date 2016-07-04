@@ -1,0 +1,39 @@
+# src/AppBundle/Resources/config/doctrine/Comment.orm.yml
+
+AppBundle\Entity\Comment:
+    type: entity
+    table: comment
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        create_date:
+            type: datetime
+            nullable: true
+        change_date:
+            type: datetime
+            nullable: true
+        content:
+            type: text
+    manyToOne:
+        collection:
+            targetEntity: Collection
+            joinColumn:
+                referencedColumnName: id
+        album:
+            targetEntity: Album
+            joinColumn:
+                referencedColumnName: id
+        album_photo:
+            targetEntity: Album_Photo
+            joinColumn:
+                referencedColumnName: id
+        owner:
+            targetEntity: User
+            joinColumn:
+                referencedColumnName: id
+    lifecycleCallbacks:
+        prePersist: [setCreate_DateValue]
+        preUpdate: [setChange_DateValue]

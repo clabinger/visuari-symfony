@@ -1,0 +1,25 @@
+# src/AppBundle/Resources/config/doctrine/Star.orm.yml
+
+AppBundle\Entity\Star:
+    type: entity
+    table: star
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        create_date:
+            type: datetime
+            nullable: true
+    manyToOne:
+        owner:
+            targetEntity: User
+            joinColumn:
+                referencedColumnName: id
+        album_photo:
+            targetEntity: Album_Photo
+            joinColumn:
+                referencedColumnName: id
+    lifecycleCallbacks:
+        prePersist: [setCreate_DateValue]
