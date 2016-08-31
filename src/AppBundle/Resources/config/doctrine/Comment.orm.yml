@@ -20,18 +20,22 @@ AppBundle\Entity\Comment:
     manyToOne:
         collection:
             targetEntity: Collection
+            inversedBy: comments
             joinColumn:
                 referencedColumnName: id
         album:
             targetEntity: Album
+            inversedBy: comments
             joinColumn:
                 referencedColumnName: id
         album_photo:
             targetEntity: Album_Photo
+            inversedBy: comments
             joinColumn:
                 referencedColumnName: id
         owner:
             targetEntity: User
+            inversedBy: comments
             joinColumn:
                 referencedColumnName: id
     lifecycleCallbacks:

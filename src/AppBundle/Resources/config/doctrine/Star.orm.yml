@@ -15,10 +15,12 @@ AppBundle\Entity\Star:
     manyToOne:
         owner:
             targetEntity: User
+            inversedBy: stars
             joinColumn:
                 referencedColumnName: id
         album_photo:
             targetEntity: Album_Photo
+            inversedBy: starredBy
             joinColumn:
                 referencedColumnName: id
     lifecycleCallbacks:

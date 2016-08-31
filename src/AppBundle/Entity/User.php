@@ -11,9 +11,20 @@ class User extends BaseUser {
 
 	protected $id;
 
+	private $collections;
+
 	public function __construct(){
 		parent::__construct();
 
+		$this->collections = new ArrayCollection();
+
 	}
+
+	public function getCollections(){
+        return $this->collections;
+	}
+
+
+
 
 }

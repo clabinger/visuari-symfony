@@ -32,8 +32,7 @@
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0",
-        "zurb/foundation": "^6.2"
+        "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
         "post-install-cmd": [

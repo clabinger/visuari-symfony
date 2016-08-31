@@ -22,9 +22,15 @@ AppBundle\Entity\Collection:
         description:
             type: text
             nullable: true
+        public:
+            type: boolean
+            nullable: false
+            options:
+                default: false
     manyToOne:
         owner:
             targetEntity: User
+            inversedBy: collections
             joinColumn:
                 referencedColumnName: id
     lifecycleCallbacks:

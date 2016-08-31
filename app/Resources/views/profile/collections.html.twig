@@ -1,0 +1,15 @@
+{# app/Resources/views/profile/collections.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<p>Collections page - {{ user.username }}</p>
+
+
+
+	{% for collection in collections %}
+        <li>{{ collection.name|e }} ... {{ collection.description|e }}</li>
+    {% endfor %}
+
+
+{% endblock %}

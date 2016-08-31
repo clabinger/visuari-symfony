@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5f76e7deda6399c73187039f72ce976d",
-    "content-hash": "0d2911086e1bfc418014080153a7857a",
+    "hash": "581e0489ab460355afcf693d489721b8",
+    "content-hash": "d4f47537d1b74179ca3251262b39a421",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -945,17 +945,140 @@
             "time": "2014-01-12 16:20:24"
         },
         {
-            "name": "monolog/monolog",
-            "version": "1.19.0",
+            "name": "knplabs/knp-menu",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf"
+                "url": "https://github.com/KnpLabs/KnpMenu.git",
+                "reference": "9917b999a3c3d3901386d60c4888b07679291031"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5f56ed5212dc509c8dc8caeba2715732abb32dbf",
-                "reference": "5f56ed5212dc509c8dc8caeba2715732abb32dbf",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/9917b999a3c3d3901386d60c4888b07679291031",
+                "reference": "9917b999a3c3d3901386d60c4888b07679291031",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "pimple/pimple": "~1.0",
+                "silex/silex": "~1.0",
+                "symfony/phpunit-bridge": "~2.7|~3.0",
+                "symfony/routing": "~2.3|~3.0",
+                "twig/twig": "~1.16|~2.0"
+            },
+            "suggest": {
+                "pimple/pimple": "for the built-in implementations of the menu provider and renderer provider",
+                "silex/silex": "for the integration with your silex application",
+                "twig/twig": "for the TwigRenderer and the integration with your templates"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Knp\\Menu\\": "src/Knp/Menu"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christophe Coevoet",
+                    "email": "stof@notk.org"
+                },
+                {
+                    "name": "KnpLabs",
+                    "homepage": "http://knplabs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/KnpLabs/KnpMenu/contributors"
+                }
+            ],
+            "description": "An object oriented menu library",
+            "homepage": "http://knplabs.com",
+            "keywords": [
+                "menu",
+                "tree"
+            ],
+            "time": "2016-01-08 15:42:54"
+        },
+        {
+            "name": "knplabs/knp-menu-bundle",
+            "version": "2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/KnpMenuBundle.git",
+                "reference": "42ff1953c3a79d0b31aba2ece8c03fbd70e7f1ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenuBundle/zipball/42ff1953c3a79d0b31aba2ece8c03fbd70e7f1ca",
+                "reference": "42ff1953c3a79d0b31aba2ece8c03fbd70e7f1ca",
+                "shasum": ""
+            },
+            "require": {
+                "knplabs/knp-menu": "~2.1",
+                "symfony/framework-bundle": "~2.3|~3.0"
+            },
+            "require-dev": {
+                "symfony/expression-language": "~2.4|~3.0",
+                "symfony/phpunit-bridge": "~2.7|~3.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Knp\\Bundle\\MenuBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christophe Coevoet",
+                    "email": "stof@notk.org"
+                },
+                {
+                    "name": "KnpLabs",
+                    "homepage": "http://knplabs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/KnpLabs/KnpMenuBundle/contributors"
+                }
+            ],
+            "description": "This bundle provides an integration of the KnpMenu library",
+            "keywords": [
+                "menu"
+            ],
+            "time": "2016-06-21 06:53:03"
+        },
+        {
+            "name": "monolog/monolog",
+            "version": "1.20.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "55841909e2bcde01b5318c35f2b74f8ecc86e037"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/55841909e2bcde01b5318c35f2b74f8ecc86e037",
+                "reference": "55841909e2bcde01b5318c35f2b74f8ecc86e037",
                 "shasum": ""
             },
             "require": {
@@ -974,8 +1097,8 @@
                 "php-console/php-console": "^3.1.3",
                 "phpunit/phpunit": "~4.5",
                 "phpunit/phpunit-mock-objects": "2.3.0",
-                "raven/raven": "^0.13",
                 "ruflin/elastica": ">=0.90 <3.0",
+                "sentry/sentry": "^0.13",
                 "swiftmailer/swiftmailer": "~5.3"
             },
             "suggest": {
@@ -987,9 +1110,9 @@
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
                 "php-console/php-console": "Allow sending log messages to Google Chrome",
-                "raven/raven": "Allow sending log messages to a Sentry server",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
+                "sentry/sentry": "Allow sending log messages to a Sentry server"
             },
             "type": "library",
             "extra": {
@@ -1020,7 +1143,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2016-04-12 18:29:35"
+            "time": "2016-07-02 14:02:10"
         },
         {
             "name": "paragonie/random_compat",
@@ -1156,16 +1279,16 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v5.0.6",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "ffe306d09c1f2bad721237f63b2169d1b78253d0"
+                "reference": "a9c4723cbdbc6cf7fbfdfde3c639cb1943f0293a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/ffe306d09c1f2bad721237f63b2169d1b78253d0",
-                "reference": "ffe306d09c1f2bad721237f63b2169d1b78253d0",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/a9c4723cbdbc6cf7fbfdfde3c639cb1943f0293a",
+                "reference": "a9c4723cbdbc6cf7fbfdfde3c639cb1943f0293a",
                 "shasum": ""
             },
             "require": {
@@ -1204,7 +1327,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2016-04-25 20:50:31"
+            "time": "2016-06-23 16:11:33"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -1821,16 +1944,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "6e1b1497276f8477e9d89b1b6398cf7c7dcebd7d"
+                "reference": "2e98c829524e505a9561ac9e54fa715e8b79905e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/6e1b1497276f8477e9d89b1b6398cf7c7dcebd7d",
-                "reference": "6e1b1497276f8477e9d89b1b6398cf7c7dcebd7d",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/2e98c829524e505a9561ac9e54fa715e8b79905e",
+                "reference": "2e98c829524e505a9561ac9e54fa715e8b79905e",
                 "shasum": ""
             },
             "require": {
@@ -1902,7 +2025,7 @@
                 "doctrine/dbal": "~2.4",
                 "doctrine/doctrine-bundle": "~1.4",
                 "doctrine/orm": "~2.4,>=2.4.5",
-                "egulias/email-validator": "~1.2",
+                "egulias/email-validator": "~1.2,>=1.2.1",
                 "monolog/monolog": "~1.11",
                 "ocramius/proxy-manager": "~0.4|~1.0|~2.0",
                 "phpdocumentor/reflection-docblock": "^3.0",
@@ -1952,7 +2075,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-06-15 05:59:11"
+            "time": "2016-06-30 17:16:26"
         },
         {
             "name": "twig/twig",
@@ -2071,16 +2194,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "f5e7cdc9b5cd3f7d9b0228692cd6ec5736c3b074"
+                "reference": "eeb3bf9a195df7552fdda46f4724a9442d157413"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/f5e7cdc9b5cd3f7d9b0228692cd6ec5736c3b074",
-                "reference": "f5e7cdc9b5cd3f7d9b0228692cd6ec5736c3b074",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/eeb3bf9a195df7552fdda46f4724a9442d157413",
+                "reference": "eeb3bf9a195df7552fdda46f4724a9442d157413",
                 "shasum": ""
             },
             "require": {
@@ -2122,46 +2245,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2016-04-12 18:27:47"
-        },
-        {
-            "name": "zurb/foundation",
-            "version": "6.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zurb/foundation-sites.git",
-                "reference": "7a6ed604689635ddda430ae46a100d30c415959b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zurb/foundation-sites/zipball/7a6ed604689635ddda430ae46a100d30c415959b",
-                "reference": "7a6ed604689635ddda430ae46a100d30c415959b",
-                "shasum": ""
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "ZURB, Inc.",
-                    "email": "foundation@zurb.com",
-                    "homepage": "http://zurb.com"
-                }
-            ],
-            "description": "The most advanced responsive front-end framework in the world.",
-            "homepage": "http://foundation.zurb.com",
-            "keywords": [
-                "JS",
-                "css",
-                "framework",
-                "mobile-first",
-                "responsive",
-                "sass",
-                "scss"
-            ],
-            "time": "2016-04-08 18:15:06"
+            "time": "2016-06-29 05:42:25"
         }
     ],
     "aliases": [],

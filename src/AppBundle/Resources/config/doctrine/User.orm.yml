@@ -8,7 +8,11 @@ AppBundle\Entity\User:
             type: integer
             generator:
                 strategy: AUTO
-    attributeOverride: # Change length of indexed fields from 255 to 191 so that the indexes will be within the MySQL index byte limit
+    oneToMany:
+        collections:
+            targetEntity: Collection
+            mappedBy: owner
+    attributeOverride: # Change length of indexed fields from 255 to 191 so that the indexes will be within the MySQL index byte limit. This section is only used when creating (updating?) the database schema.
         usernameCanonical:
             name: username_canonical
             length: 191

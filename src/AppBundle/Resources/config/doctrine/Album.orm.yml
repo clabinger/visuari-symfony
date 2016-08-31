@@ -25,10 +25,12 @@ AppBundle\Entity\Album:
     manyToOne:
         collection:
             targetEntity: Collection
+            inversedBy: albums
             joinColumn:
                 referencedColumnName: id
         owner:
             targetEntity: User
+            inversedBy: albums
             joinColumn:
                 referencedColumnName: id
     lifecycleCallbacks:

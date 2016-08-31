@@ -1,0 +1,7 @@
+# messages.en.yml
+menu:
+    home: Home
+    upload: Upload
+    login: Sign In
+    logout: Sign Out
+    my_profile: My Profile

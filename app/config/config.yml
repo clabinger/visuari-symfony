@@ -82,3 +82,6 @@ fos_user:
     registration:
         confirmation:
             enabled: true
+
+framework:
+    translator: { fallbacks: [en] }
