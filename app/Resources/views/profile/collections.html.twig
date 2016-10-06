@@ -1,6 +1,8 @@
 {# app/Resources/views/profile/collections.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% set page_title = user.username ~ '\'s collections' %}
+
 {% block body %}
 
 	<p>Collections page - {{ user.username }}</p>

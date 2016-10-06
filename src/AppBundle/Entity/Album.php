@@ -1,29 +1,83 @@
 <?php
 
-// src/AppBindle/Entity/Album.php
+// src/appBundle/Entity/Album.php
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AlbumRepository")
+ * @ORM\Table(name="album")
+ * @ORM\HasLifecycleCallbacks()
+ */
 class Album
 {
 
+    const NUM_ITEMS = 10;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     private $id;
     
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     */
     private $name;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Collection", inversedBy="albums", cascade={"persist"})
+     * @ORM\JoinColumn(name="collection_id", referencedColumnName="id", nullable=false)
+     * @Assert\Type(type="AppBundle\Entity\Collection")
+     * @Assert\Valid()
+     */    
     private $collection;
 
-    private $create_date;
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createDate;
     
-    private $change_date;
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $changeDate;
     
+    /**
+     * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="albums")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
+     */    
     private $owner;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Album_Photo", mappedBy="album")
+     */
     private $photos;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="album")
+     */
     private $comments;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default" : false})
+     * @Assert\Type("bool")
+     */
+    private $public;
+    
 
     public function __construct(){
         
@@ -34,14 +88,41 @@ class Album
 
     public function getName() { return $this->name; }
 
-    public function setCreate_DateValue(){
-        $this->create_date = new \DateTime();
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreateDateValue(){
+        $this->createDate = new \DateTime();
     }
 
-    public function setChange_DateValue(){
-        $this->change_date = new \DateTime();
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setChangeDateValue(){
+        $this->changeDate = new \DateTime();
     }
 
+
+    /**
+     * Get public
+     *
+     * @return bool
+     */
+    public function isPublic() { return $this->public; }
+
+    /**
+     * Set public
+     *
+     * @param bool $public
+     *
+     * @return Album
+     */
+    public function setPublic($public) { 
+
+        $this->public = ($public ? true : false); 
+        
+        return $this;
+    }
 
     /**
      * Get id
@@ -76,7 +157,7 @@ class Album
      */
     public function setCreateDate($createDate)
     {
-        $this->create_date = $createDate;
+        $this->createDate = $createDate;
 
         return $this;
     }
@@ -88,7 +169,7 @@ class Album
      */
     public function getCreateDate()
     {
-        return $this->create_date;
+        return $this->createDate;
     }
 
     /**
@@ -100,7 +181,7 @@ class Album
      */
     public function setChangeDate($changeDate)
     {
-        $this->change_date = $changeDate;
+        $this->changeDate = $changeDate;
 
         return $this;
     }
@@ -112,7 +193,7 @@ class Album
      */
     public function getChangeDate()
     {
-        return $this->change_date;
+        return $this->changeDate;
     }
 
     /**

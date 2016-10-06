@@ -4,32 +4,48 @@
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% if page_title is defined %} {{ page_title }} - {% endif %} Photo Albums</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="{{ asset('assets/vendor/foundation/css/app.css') }}">
         <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
     </head>
     <body>
 
-    <div class="top-bar">
-        <div class="top-bar-left">
-            <ul class="menu">
-            <li class="menu-text">Visuari</li>
-            </ul>
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <ul class="menu">
+                <li class="menu-text">Visuari</li>
+                </ul>
+            </div>
+            <div class="top-bar-right">   
+                  {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+            </div>
         </div>
-        <div class="top-bar-right">   
-              {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+          
+
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+
+        {# {% block fos_user_content %}{% endblock %} #}
+
+        <div class="row">
+             <div class="small-2 large-4 columns">
+            {% block body %}{% endblock %}
+            </div>
         </div>
-    </div>
-      
 
-
-
-        {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
         <script type="text/javascript" src="{{ asset('assets/vendor/foundation/js/app.js') }}"></script>
+        {% block javascripts_end %}{% endblock %}
     </body>
 </html>

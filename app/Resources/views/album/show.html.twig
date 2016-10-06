@@ -1,0 +1,13 @@
+{# Resources/views/album/show.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body_id 'show_album' %}
+
+{% block body %}
+    <h1>{{ album.name }}</h1>
+
+    <p>{{ album.owner.username }}</p>
+    <p>{{ album.description|e }}</p>
+
+{% endblock %}

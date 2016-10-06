@@ -1,0 +1,15 @@
+{# app/Resources/views/album/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% set page_title = 'album.title.create_album'|trans %}
+
+{% block body %}
+
+	<h1>{{ page_title }}</h1>
+
+	{{ form_start(form) }}
+	{{ form_widget(form) }}
+	<input type="submit" value="{{ 'album.label.create_album'|trans }}">
+	{{ form_end(form) }}
+
+{% endblock %}

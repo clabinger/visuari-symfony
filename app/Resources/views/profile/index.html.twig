@@ -1,9 +1,19 @@
 {# app/Resources/views/profile/index.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% set page_title = user.username %}
+
 {% block body %}
 
-	<p>Profile page - {{ username }}</p>
+	<p>Profile page - {{ user.username }}</p>
+
+	<p>
+		<ul>
+			<li><a href="{{ path('user_collections', {'username': user.username}) }}">{{ 'collection.list_my'|trans }}</a></li>
+			<li><a href="{{ path('user_albums', {'username': user.username}) }}">{{ 'album.list_my'|trans }}</a></li>
+
+		</ul>
+	</p>
 
 
 

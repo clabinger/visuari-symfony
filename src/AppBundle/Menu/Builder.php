@@ -21,13 +21,12 @@ class Builder implements ContainerAwareInterface
 
         $menu = $factory->createItem('root', array(
             'childrenAttributes'    => array(
-                'class'             => 'menu dropdown',
+                'class'             => 'menu dropdown align-right',
                 'data-dropdown-menu' => '',
             ),
         ));
 
-        $menu->addChild('menu.home', array('route' => 'homepage'));
-        $menu->addChild('menu.upload', array('route' => 'upload'));
+      
         
         if(is_string($user)){
 
@@ -51,6 +50,9 @@ class Builder implements ContainerAwareInterface
 
         }
 
+        $menu->addChild('menu.upload', array('route' => 'upload'));
+        $menu->addChild('menu.collections', array('route' => 'collection_index'));
+        $menu->addChild('menu.home', array('route' => 'homepage'));
 
         return $menu;
     }

@@ -1,0 +1,35 @@
+{# app/Resources/views/album/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% if name is defined %}
+    {% set page_title = label|trans({'%name%': name}) %}
+{% else %}
+    {% set page_title = label|trans %}
+{% endif %}
+
+{% block body_id 'album_index' %}
+
+{% block body %}
+    
+    <h1>{{ page_title }}</h1>
+
+    {% for album in albums %}
+        <article class="post">
+            <h2>
+                <a href="{{ path('show_album', { id: album.id }) }}">
+                    {{ album.name }}
+                </a>
+            </h2>
+
+            {{ album.description|e }}
+        </article>
+    {% else %}
+        <div class="well">{{ 'album.no_albums_found'|trans }}</div>
+    {% endfor %}
+    
+
+    <div class="navigation text-center">
+       {# {{ pagerfanta(collections, 'twitter_bootstrap3_translated', { routeName: 'collection_index_paginated' }) }} #}
+    </div>
+{% endblock %}
+

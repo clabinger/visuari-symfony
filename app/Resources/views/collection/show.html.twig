@@ -1,0 +1,20 @@
+{# Resources/views/collection/show.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% set page_title = collection.name|e %}
+
+{% block body_id 'show_collection' %}
+
+{% block body %}
+    <h1>{{ page_title }}</h1>
+
+    <p>{{ collection.owner.username }}</p>
+    <p>{{ collection.description|e }}</p>
+
+    {% for album in collection.albums %}
+        <h3><a href="{{ path('show_album', {'id': album.id}) }}">{{ album.name|e }}</a></h3>
+        <p>{{ album.description|e }}</p>
+    {% endfor %}
+
+    
+{% endblock %}

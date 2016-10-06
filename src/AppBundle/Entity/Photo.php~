@@ -194,28 +194,4 @@ class Photo
     {
         return $this->originalFilename;
     }
-
-    /**
-     * Set originalModified
-     *
-     * @param \DateTime $originalModified
-     *
-     * @return Photo
-     */
-    public function setOriginalModified($originalModified)
-    {
-        $this->originalModified = $originalModified;
-
-        return $this;
-    }
-
-    /**
-     * Get originalModified
-     *
-     * @return \DateTime
-     */
-    public function getOriginalModified()
-    {
-        return $this->originalModified;
-    }
 }

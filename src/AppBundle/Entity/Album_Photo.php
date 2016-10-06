@@ -1,29 +1,76 @@
 <?php
 
-// src/AppBindle/Entity/Album_Photo.php
+// src/appBundle/Entity/Album_Photo.php
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="album_photo")
+ * @ORM\HasLifecycleCallbacks()
+ */
 class Album_Photo
 {
+    
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     private $id;
     
+    /**
+     * @ORM\ManyToOne(targetEntity="Photo")
+     * @ORM\JoinColumn(name="photo_id", referencedColumnName="id", nullable=false)
+     */    
     private $photo;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Album", inversedBy="photos")
+     * @ORM\JoinColumn(name="album_id", referencedColumnName="id", nullable=false)
+     */    
     private $album;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
     private $position;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $title;
     
+    /**
+     * @ORM\Column(type="text")
+     */
     private $caption;
     
+    /**
+     * @ORM\Column(type="text")
+     */
     private $description;
 
-    private $create_date;
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createDate;
     
-    private $change_date;
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $changeDate;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $notes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="album_photo")
+     */
     private $comments;
 
     public function __construct(){
@@ -32,12 +79,18 @@ class Album_Photo
 
     public function getName() { return $this->name; }
 
-    public function setCreate_DateValue(){
-        $this->create_date = new \DateTime();
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreateDateValue(){
+        $this->createDate = new \DateTime();
     }
 
-    public function setChange_DateValue(){
-        $this->change_date = new \DateTime();
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setChangeDateValue(){
+        $this->changeDate = new \DateTime();
     }
 
 

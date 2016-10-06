@@ -1,0 +1,15 @@
+{# app/Resources/views/collection/edit.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% set page_title = 'collection.title.edit_collection'|trans %}
+
+{% block body %}
+
+	<h1>{{ page_title }}</h1>
+
+	{{ form_start(edit_form) }}
+	{{ form_widget(edit_form) }}
+	<input type="submit" value="{{ 'collection.label.edit_collection'|trans }}">
+	{{ form_end(edit_form) }}
+
+{% endblock %}

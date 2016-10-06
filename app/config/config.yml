@@ -85,3 +85,37 @@ fos_user:
 
 framework:
     translator: { fallbacks: [en] }
+
+oneup_flysystem:
+    adapters:
+        photoalbums_flysystem_adapter_local:
+            local:
+                directory: "%local_photo_directory%"
+        photoalbums_flysystem_adapter:
+            awss3v3:
+                client: app.s3_client
+                bucket: "%aws_s3_bucket%"
+                prefix: ~
+    filesystems:
+        photoalbums:
+            adapter: photoalbums_flysystem_adapter
+            alias: photoalbums_filesystem
+        photoalbums_local:
+            adapter: photoalbums_flysystem_adapter_local
+            alias: photoalbums_filesystem_local
+
+oneup_uploader:
+    mappings:
+        photoalbums:
+            frontend: dropzone
+            storage:
+                type: flysystem
+                filesystem: photoalbums_filesystem
+            max_size: %max_upload_size%
+        photoalbums_local:
+            frontend: dropzone
+            storage:
+                type: flysystem
+                filesystem: photoalbums_filesystem_local
+            max_size: %max_upload_size%
+

@@ -28,7 +28,13 @@
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "pagerfanta/pagerfanta": "^1.0",
+        "white-october/pagerfanta-bundle": "^1.0",
+        "oneup/flysystem-bundle": "^1.4",
+        "league/flysystem-aws-s3-v3": "^1.0",
+        "oneup/uploader-bundle": "^1.7",
+        "imagine/imagine": "^0.6.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

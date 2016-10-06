@@ -1,9 +1,9 @@
-profile_base_default:
-    path: "/"
-    defaults: { _controller: AppBundle:Profile/Profile:index }
-collections:
-    path: "/collections"
-    defaults: { _controller: AppBundle:Profile/Collection:showCollections }
-albums:
-    path: "/albums"
-    defaults: { _controller: AppBundle:Default:index }
+# profile_base_default:
+#     path: "/"
+#     defaults: { _controller: AppBundle:Profile/Profile:index }
+# collections:
+#     path: "/collections"
+#     defaults: { _controller: AppBundle:Profile/Collection:showCollections }
+# albums:
+#     path: "/albums"
+#     defaults: { _controller: AppBundle:Default:index }
