@@ -36,6 +36,9 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        signed_url_cacher: "@app.signed_url_cacher"
+        default_form_theme: "foundation_5_layout.html.twig"
 
 # Doctrine Configuration
 doctrine:
@@ -111,11 +114,20 @@ oneup_uploader:
             storage:
                 type: flysystem
                 filesystem: photoalbums_filesystem
-            max_size: %max_upload_size%
+            max_size: "%max_upload_size%"
         photoalbums_local:
             frontend: dropzone
             storage:
                 type: flysystem
                 filesystem: photoalbums_filesystem_local
-            max_size: %max_upload_size%
+            max_size: "%max_upload_size%"
 
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
+
+white_october_breadcrumbs:
+    listClass: 'breadcrumbs'
+    separator: ''

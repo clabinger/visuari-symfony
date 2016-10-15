@@ -15,4 +15,6 @@
 /vendor/
 /web/bundles/
 /web/cache/
+/web/css/compiled/
+/web/js/
 /app/photo_upload_temp/

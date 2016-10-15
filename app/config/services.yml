@@ -56,3 +56,7 @@ services:
         arguments: ["@security.authorization_checker", "@doctrine.orm.entity_manager", "@translator", "@photoalbums_filesystem", "@photoalbums_filesystem_local", "@imagine.handler", %local_photo_directory%, %size_thumb%, %size_medium%, %allowed_extensions%]
         tags:
             - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
+
+    app.signed_url_cacher: 
+        class: AppBundle\Utils\S3SignedUrlCacher
+        arguments: ["@app.s3_client", "@doctrine.orm.entity_manager"]

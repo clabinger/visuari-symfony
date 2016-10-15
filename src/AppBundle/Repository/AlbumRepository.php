@@ -51,10 +51,11 @@ class AlbumRepository extends EntityRepository
                 $qb->expr()->eq('a.owner', ':owner'),
                 $qb->expr()->orX(
                     $qb->expr()->eq('a.public', '1'),
-                    $qb->expr()->eq('a.owner', ($user===NULL ? '0' : $user->getId())) // If user is not set, use 0 to effectively remove this condition
+                    $qb->expr()->eq('a.owner', ($user===NULL ? '0' : ':user')) // If user is not set, use 0 to effectively remove this condition
                 )
             ))
             ->setParameter('owner', $owner->getId())
+            ->setParameter('user', $user->getId())
 
             ->orderBy('a.createDate','DESC')
             

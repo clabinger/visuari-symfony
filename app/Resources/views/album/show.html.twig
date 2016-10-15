@@ -4,10 +4,65 @@
 
 {% block body_id 'show_album' %}
 
+{% set page_title = album.name %}
+
+
+{% block pre_body %}
+    <div class="row column">
+        {{ wo_render_breadcrumbs() }}
+    </div>
+{% endblock %}
+
 {% block body %}
-    <h1>{{ album.name }}</h1>
+    
+    <div class="row column">
+
+    {% if is_granted('edit', album) %}
+    	<p><a class="button" href="{{ path('edit_album', {'id': album.id}) }}">Edit</a>
+        <a class="button" href="{{ path('upload_to_album', {'id': album.id}) }}">Upload</a></p>
+    {% endif %}
 
     <p>{{ album.owner.username }}</p>
     <p>{{ album.description|e }}</p>
 
+    </div>
+
+    <div class="row small-up-2 medium-up-3 large-up-5 gallery-wrapper">
+        {% for photo in album.photos %}
+        	<div class="column">
+                
+                 <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                    <a class="thumbnail thumbnail-view-album" href="{{ signed_url_cacher.getUrl(photo.photo.sizeMedium) }}" itemprop="contentUrl" data-size="{{ photo.photo.mediumwidth }}x{{ photo.photo.mediumheight }}">
+                        <img src="{{ signed_url_cacher.getUrl(photo.photo.sizeThumb) }}" itemprop="thumbnail" alt="{{ photo.title }}">
+                    </a>
+                    <figcaption itemprop="caption description">{{ photo.title }} - {{ photo.caption }} - {{ photo.description }}</figcaption>
+                </figure>
+
+            </div>
+        {% endfor %}
+    </div>
+
+    {% include 'tools/photoswipe.html' %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {% javascripts 
+        "https://rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js"
+        "https://rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js"
+        %} 
+        <script type="text/javascript" src="{{ asset_url }}" ></script>
+    {% endjavascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets 
+        'https://rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.css'
+        'https://rawgit.com/dimsemenov/PhotoSwipe/master/dist/default-skin/default-skin.css'
+        filter='cssrewrite' output='css/compiled/app_show_album.css' %}
+
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
 {% endblock %}

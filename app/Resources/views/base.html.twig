@@ -1,3 +1,5 @@
+{# app/Resources/views/base.html.twig #}
+
 <!doctype html>
 <html class="no-js" lang="en">
     <head>
@@ -5,47 +7,80 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% if page_title is defined %} {{ page_title }} - {% endif %} Photo Albums</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            {% stylesheets 
+                'assets/vendor/foundation/css/app.css'
+                'https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css'
+                filter='cssrewrite' output='css/compiled/app_base.css' %}
+
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/vendor/foundation/css/app.css') }}">
-        <link href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+        <!--[if lt IE 9]>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <![endif]-->
     </head>
     <body>
 
-        <div class="top-bar">
-            <div class="top-bar-left">
-                <ul class="menu">
-                <li class="menu-text">Visuari</li>
-                </ul>
-            </div>
-            <div class="top-bar-right">   
-                  {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+        <div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="medium" data-responsivetoggle="decr9o-responsivetoggle" style="display: none;">
+            <button class="menu-icon" type="button" data-toggle=""></button>
+            <div class="title-bar-title">Menu</div>
+        </div>
+
+        <div class="top-bar" id="main-menu">
+            <div class="row column">
+                <div class="top-bar-left">
+                    <ul class="menu">
+                        <li class="menu-text">Visuari</li>
+                    </ul>
+                </div>
+                <div class="top-bar-right">   
+                      {{ knp_menu_render('AppBundle:Builder:mainMenu') }}
+                </div>
             </div>
         </div>
           
 
-        {% for type, messages in app.session.flashbag.all() %}
-            {% for message in messages %}
-                <div class="flash-{{ type }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endfor %}
 
 
         {# {% block fos_user_content %}{% endblock %} #}
 
-        <div class="row">
-             <div class="small-2 large-4 columns">
-            {% block body %}{% endblock %}
-            </div>
+        {% block pre_body %}{% endblock %}
+
+        <div class="row column">
+            <h1>{{ page_title }}</h1>
         </div>
 
-        {% block javascripts %}{% endblock %}
-        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-        <script src="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
-        <script type="text/javascript" src="{{ asset('assets/vendor/foundation/js/app.js') }}"></script>
-        {% block javascripts_end %}{% endblock %}
+        <div class="row column">
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="callout {{ type }}" data-closable>
+                        <p>{{ message }}</p>
+                        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+    
+        {% block body %}{% endblock %}
+
+
+        {# 'https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js' #}
+
+        {% block javascripts %}
+            {% javascripts 
+                'https://code.jquery.com/jquery-2.2.4.min.js' 
+                
+                'https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.3/foundation.min.js'
+                'assets/vendor/foundation/js/app.js'
+                'assets/js/app.js'
+            %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
     </body>
 </html>

@@ -64,6 +64,7 @@ class Album
 
     /**
      * @ORM\OneToMany(targetEntity="Album_Photo", mappedBy="album")
+     * @ORM\OrderBy({"album" = "ASC", "position" = "ASC"})
      */
     private $photos;
 
@@ -267,4 +268,9 @@ class Album
     {
         return $this->owner;
     }
+
+    public function getPhotos() {
+        return $this->photos;
+    }
+
 }

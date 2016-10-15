@@ -50,7 +50,6 @@ class Builder implements ContainerAwareInterface
 
         }
 
-        $menu->addChild('menu.upload', array('route' => 'upload'));
         $menu->addChild('menu.collections', array('route' => 'collection_index'));
         $menu->addChild('menu.home', array('route' => 'homepage'));
 

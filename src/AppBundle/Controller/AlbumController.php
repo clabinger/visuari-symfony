@@ -50,6 +50,14 @@ class AlbumController extends Controller {
         // Check voters
         $this->denyAccessUnlessGranted('view', $album, $this->get('translator')->trans('album.view.denied'));
 
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+
+        $collection = $album->getCollection();
+
+        $breadcrumbs->addItem('collection.data.name', $this->get("router")->generate("show_collection", ['id'=>$collection->getId()]), ['%name%'=>$collection->getName()]);
+
+        $breadcrumbs->addItem('album.data.name', NULL, ['%name%'=> $album->getName()] );
+
     	return $this->render('album/show.html.twig', ['album'=>$album]);
 
     }
@@ -126,7 +134,6 @@ class AlbumController extends Controller {
 
 
     }
-
 
 
     /**

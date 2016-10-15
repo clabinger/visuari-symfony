@@ -38,6 +38,38 @@ class Photo
 
 
     /**
+     * @ORM\Column(type="smallint")
+     */
+    private $original_width;
+    
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $original_height;
+    
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $medium_width;
+    
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $medium_height;
+    
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $thumb_width;
+    
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $thumb_height;
+
+
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createDate;
@@ -217,5 +249,149 @@ class Photo
     public function getOriginalModified()
     {
         return $this->originalModified;
+    }
+
+    /**
+     * Set originalWidth
+     *
+     * @param integer $originalWidth
+     *
+     * @return Photo
+     */
+    public function setOriginalWidth($originalWidth)
+    {
+        $this->original_width = $originalWidth;
+
+        return $this;
+    }
+
+    /**
+     * Get originalWidth
+     *
+     * @return integer
+     */
+    public function getOriginalWidth()
+    {
+        return $this->original_width;
+    }
+
+    /**
+     * Set originalHeight
+     *
+     * @param integer $originalHeight
+     *
+     * @return Photo
+     */
+    public function setOriginalHeight($originalHeight)
+    {
+        $this->original_height = $originalHeight;
+
+        return $this;
+    }
+
+    /**
+     * Get originalHeight
+     *
+     * @return integer
+     */
+    public function getOriginalHeight()
+    {
+        return $this->original_height;
+    }
+
+    /**
+     * Set mediumWidth
+     *
+     * @param integer $mediumWidth
+     *
+     * @return Photo
+     */
+    public function setMediumWidth($mediumWidth)
+    {
+        $this->medium_width = $mediumWidth;
+
+        return $this;
+    }
+
+    /**
+     * Get mediumWidth
+     *
+     * @return integer
+     */
+    public function getMediumWidth()
+    {
+        return $this->medium_width;
+    }
+
+    /**
+     * Set mediumHeight
+     *
+     * @param integer $mediumHeight
+     *
+     * @return Photo
+     */
+    public function setMediumHeight($mediumHeight)
+    {
+        $this->medium_height = $mediumHeight;
+
+        return $this;
+    }
+
+    /**
+     * Get mediumHeight
+     *
+     * @return integer
+     */
+    public function getMediumHeight()
+    {
+        return $this->medium_height;
+    }
+
+    /**
+     * Set thumbWidth
+     *
+     * @param integer $thumbWidth
+     *
+     * @return Photo
+     */
+    public function setThumbWidth($thumbWidth)
+    {
+        $this->thumb_width = $thumbWidth;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbWidth
+     *
+     * @return integer
+     */
+    public function getThumbWidth()
+    {
+        return $this->thumb_width;
+    }
+
+    /**
+     * Set thumbHeight
+     *
+     * @param integer $thumbHeight
+     *
+     * @return Photo
+     */
+    public function setThumbHeight($thumbHeight)
+    {
+        $this->thumb_height = $thumbHeight;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbHeight
+     *
+     * @return integer
+     */
+    public function getThumbHeight()
+    {
+        return $this->thumb_height;
     }
 }

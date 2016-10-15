@@ -6,15 +6,21 @@
 {% block body_id 'show_collection' %}
 
 {% block body %}
-    <h1>{{ page_title }}</h1>
 
-    <p>{{ collection.owner.username }}</p>
-    <p>{{ collection.description|e }}</p>
+	<div class="row column">
 
-    {% for album in collection.albums %}
-        <h3><a href="{{ path('show_album', {'id': album.id}) }}">{{ album.name|e }}</a></h3>
-        <p>{{ album.description|e }}</p>
-    {% endfor %}
+	    {% if is_granted('edit', collection) %}
+	    	<p><a class="button" href="{{ path('edit_collection', {'id': collection.id}) }}">Edit</a>
+	    {% endif %}
 
-    
+	    <p>{{ collection.owner.username }}</p>
+	    <p>{{ collection.description|e }}</p>
+
+	    {% for album in collection.albums %}
+	        <h3><a href="{{ path('show_album', {'id': album.id}) }}">{{ album.name|e }}</a></h3>
+	        <p>{{ album.description|e }}</p>
+	    {% endfor %}
+
+	</div>
+	    
 {% endblock %}

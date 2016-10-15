@@ -33,10 +33,11 @@ class CollectionVoter extends Voter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof User) {
-            // the user must be logged in; if not, deny access
-            return false;
-        }
+        // Not using this condition for Collection
+        // if (!$user instanceof User) {
+        //     // the user must be logged in; if not, deny access
+        //     return false;
+        // }
 
         // you know $subject is a Collection object, thanks to supports
         /** @var Collection $collection */
@@ -44,15 +45,15 @@ class CollectionVoter extends Voter
 
         switch ($attribute) {
             case self::VIEW:
-                return $this->canView($collection, $user);
+                return $this->canView($collection, ($user instanceof User) ? $user : NULL);
             case self::EDIT:
-                return $this->canEdit($collection, $user);
+                return $this->canEdit($collection, ($user instanceof User) ? $user : NULL);
         }
 
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canView(Collection $collection, User $user)
+    private function canView(Collection $collection, User $user=NULL)
     {
         // if they can edit, they can view
         if ($this->canEdit($collection, $user)) {
@@ -62,7 +63,7 @@ class CollectionVoter extends Voter
         return $collection->isPublic();
     }
 
-    private function canEdit(Collection $collection, User $user)
+    private function canEdit(Collection $collection, User $user=NULL)
     {
         // this assumes that the data object has a getOwner() method
         // to get the entity of the user who owns this data object

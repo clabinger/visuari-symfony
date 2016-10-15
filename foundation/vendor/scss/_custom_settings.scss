@@ -1,0 +1,58 @@
+$brand-darkest: #283941;
+$brand-lightest: #CBE6F2;
+$brand-dark: #405B67;
+$brand-medium: #507180;
+
+$body-background: #F2F5F7;
+
+$white: #ffffff;
+
+$primary-color: $brand-medium;
+$button-background: $brand-medium;
+
+$breadcrumbs-item-font-size: rem-calc(12);
+
+$global-radius: 2px;
+
+$button-radius: $global-radius;
+
+@import url('https://fonts.googleapis.com/css?family=Hind+Madurai:300|Questrial');
+
+$body-font-family: 'Hind Madurai', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$header-font-family: 'Questrial', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+
+
+
+/* Topbar */
+
+$topbar-background: $brand-darkest;
+$topbar-text-color: $brand-lightest;
+$dropdownmenu-arrow-color: $topbar-text-color;
+
+.top-bar li.menu-text,
+.top-bar div.column>div>ul>li>a
+{
+	color: $topbar-text-color;
+}
+
+
+
+body{
+	background-color: $body-background;
+}
+
+
+.space-vertical{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+a.thumbnail-edit-list{
+	max-width:300px;
+	max-height:400px;
+}
+
+a.thumbnail-view-album{
+	max-width:200px;
+	max-height:200px;
+}

@@ -33,10 +33,11 @@ class AlbumVoter extends Voter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof User) {
-            // the user must be logged in; if not, deny access
-            return false;
-        }
+        // Not using this condition for Album
+        // if (!$user instanceof User) {
+        //     // the user must be logged in; if not, deny access
+        //     return false;
+        // }
 
         // you know $subject is a Album object, thanks to supports
         /** @var Album $album */
@@ -44,15 +45,15 @@ class AlbumVoter extends Voter
 
         switch ($attribute) {
             case self::VIEW:
-                return $this->canView($album, $user);
+                return $this->canView($album, ($user instanceof User) ? $user : NULL);
             case self::EDIT:
-                return $this->canEdit($album, $user);
+                return $this->canEdit($album, ($user instanceof User) ? $user : NULL);
         }
 
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canView(Album $album, User $user)
+    private function canView(Album $album, User $user=NULL)
     {
         // if they can edit, they can view
         if ($this->canEdit($album, $user)) {
@@ -62,7 +63,7 @@ class AlbumVoter extends Voter
         return $album->isPublic();
     }
 
-    private function canEdit(Album $album, User $user)
+    private function canEdit(Album $album, User $user=NULL)
     {
         // this assumes that the data object has a getOwner() method
         // to get the entity of the user who owns this data object

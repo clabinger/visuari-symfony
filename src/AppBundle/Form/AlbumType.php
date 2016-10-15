@@ -14,6 +14,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 // use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 use AppBundle\Repository\CollectionRepository;
@@ -53,6 +54,16 @@ class AlbumType extends AbstractType
                         return $cr->queryByOwner($user, $user);
                     },
                 ))
+            ->add('photos', CollectionType::class, array(
+                'entry_type' => AlbumPhotoType::class,
+                'label' => 'album.label.photos',
+                'entry_options' => array(
+                    'label'=> false,
+                ),
+                'attr'=>array(
+                    'class'=>'reorder-photos',
+                ),
+            ))
         ;
     }
 

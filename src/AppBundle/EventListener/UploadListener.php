@@ -18,6 +18,7 @@ use Imagine\Image\ImageInterface;
 
 
 use AppBundle\Entity\Photo;
+use AppBundle\Entity\Album_Photo;
 
 class UploadListener
 {
@@ -26,8 +27,18 @@ class UploadListener
      */
     private $om;
 
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, ObjectManager $om, DataCollectorTranslator $translator, Filesystem $filesystem, Filesystem $filesystem_local, Imagine $imager, $local_photos_directory, $size_thumb, $size_medium, $extensions_allowed)
-    {
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker, 
+        ObjectManager $om, 
+        DataCollectorTranslator $translator, 
+        Filesystem $filesystem, 
+        Filesystem $filesystem_local, 
+        Imagine $imager, 
+        $local_photos_directory, 
+        $size_thumb, 
+        $size_medium, 
+        $extensions_allowed
+    ){
         $this->authorizationChecker = $authorizationChecker;
         $this->om = $om;
         $this->translator = $translator;
@@ -47,6 +58,8 @@ class UploadListener
         $filename = $file->getBasename();
         $extension = $file->getExtension();
 
+        $dimensions = Array(); // Used to store dimensions of original and resized photos until they are written to the database.
+
         if(!in_array(strtoupper($extension), $this->extensions_allowed)){
             throw new UploadException($this->translator->trans('upload.error.file_format_not_supported'));
         }
@@ -58,8 +71,19 @@ class UploadListener
         // file_put_contents('/tmp/test.txt', implode("\n", get_class_methods($file)), FILE_APPEND);
 
         $request = $event->getRequest();
-        $album = $this->om->getRepository('AppBundle:Album')
-        ->find( $request->get('album') );
+        
+
+        try{
+            $album = $this->om->getRepository('AppBundle:Album')->find( $request->get('album') );
+        }catch(\Doctrine\ORM\ORMException $e){
+            throw new UploadException($this->translator->trans('upload.error.album_not_found'));
+        }
+
+        try{
+            $album_max_position = $this->om->getRepository('AppBundle:Album_Photo')->getMaxPosition($album);
+        }catch(\Doctrine\ORM\ORMException $e){
+            throw new UploadException($this->translator->trans('upload.error.album_not_initialized'));
+        }
 
         if(false === $this->authorizationChecker->isGranted('edit', $album)){
             throw new UploadException($this->translator->trans('album.edit_not_allowed_photos'));
@@ -73,23 +97,17 @@ class UploadListener
         // For Testing:
         // // file_put_contents('/tmp/test.txt', $event->getRequest(), FILE_APPEND);
         // // file_put_contents('/tmp/test.txt', $event->getResponse(), FILE_APPEND);
-        
         // file_put_contents('/tmp/test.txt', $file->getPathname()."\n", FILE_APPEND);
         // file_put_contents('/tmp/test.txt', $file->getBasename()."\n", FILE_APPEND);
         // file_put_contents('/tmp/test.txt', print_r($file->getMetadata(), true)."\n", FILE_APPEND);
         // file_put_contents('/tmp/test.txt', "\n\nALBUM: ".$album, FILE_APPEND);
         // file_put_contents('/tmp/test.txt', "\n\n".$this->local_photos_directory, FILE_APPEND);
-        
         // file_put_contents('/tmp/test.txt', implode("\n", get_class_methods($file)), FILE_APPEND);
-
-        file_put_contents('/tmp/test.txt', $file_original_modified, FILE_APPEND);
-
-        file_put_contents('/tmp/test.txt', "\n\n", FILE_APPEND);
-
-
+        // file_put_contents('/tmp/test.txt', $file_original_modified, FILE_APPEND);
+        // file_put_contents('/tmp/test.txt', "\n\n", FILE_APPEND);
         // End For Testing
 
-        function resize($imager, $image_in, $image_out, $width, $height){
+        function resize($imager, $image_in, $image_out, $width, $height, &$input_width=null, &$input_height=null, &$output_width=null, &$output_height=null){
 
             $image = $imager->open($image_in);
 
@@ -114,6 +132,11 @@ class UploadListener
                 ->save($image_out)
                 ;
 
+            $input_width = $orig_width;
+            $input_height = $orig_height;
+            $output_width = $new_width;
+            $output_height = $new_height;
+
             return true;
 
         }
@@ -124,7 +147,11 @@ class UploadListener
             $this->local_photos_directory.'/'.$filename,
             $this->local_photos_directory.'/'.$filename_thumb,
             $this->size_thumb,
-            $this->size_thumb
+            $this->size_thumb,
+            $dimensions['original']['width'],
+            $dimensions['original']['height'],
+            $dimensions['thumb']['width'],
+            $dimensions['thumb']['height']
         );
 
         // Create medium size and save locally
@@ -133,7 +160,11 @@ class UploadListener
             $this->local_photos_directory.'/'.$filename,
             $this->local_photos_directory.'/'.$filename_medium,
             $this->size_medium,
-            $this->size_medium
+            $this->size_medium,
+            $dimensions['original']['width'],
+            $dimensions['original']['height'],
+            $dimensions['medium']['width'],
+            $dimensions['medium']['height']
         );
         
 
@@ -155,13 +186,23 @@ class UploadListener
         $contents = $this->filesystem_local->delete($filename_medium);
 
 
-
+        // Start create photo
 
         $photo = new Photo();
 
         $photo->setSizeOriginal($filename);
         $photo->setSizeMedium($filename_medium);
         $photo->setSizeThumb($filename_thumb);
+        
+        $photo->setOriginalWidth($dimensions['original']['width']);
+        $photo->setOriginalHeight($dimensions['original']['height']);
+
+        $photo->setMediumWidth($dimensions['medium']['width']);
+        $photo->setMediumHeight($dimensions['medium']['height']);
+
+        $photo->setThumbWidth($dimensions['thumb']['width']);
+        $photo->setThumbHeight($dimensions['thumb']['height']);
+
 
         $photo->setOriginalFilename($file_original_name);
 
@@ -172,6 +213,24 @@ class UploadListener
         }
 
         $this->om->persist($photo);
+
+        // End create photo
+
+
+
+        // Start add photo to album
+
+        $album_photo = new Album_Photo();
+
+        $album_photo->setPhoto($photo);
+        $album_photo->setAlbum($album);
+        $album_photo->setPosition($album_max_position + 1);
+
+        $this->om->persist($album_photo);
+
+        // End add photo to album
+
+
         $this->om->flush();
 
     }

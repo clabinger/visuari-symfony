@@ -1,7 +1,10 @@
 {# app/Resources/views/album/new.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% set page_title = 'album.title.create_album'|trans %}
+
+{% form_theme form default_form_theme %}
 
 {% block body %}
 
@@ -9,7 +12,8 @@
 
 	{{ form_start(form) }}
 	{{ form_widget(form) }}
-	<input type="submit" value="{{ 'album.label.create_album'|trans }}">
+	<input type="submit" class="button" value="{{ 'album.label.create_album'|trans }}">
+	<a class="button" href="{{ path('homepage', {'id': album.id}) }}">Cancel</a>
 	{{ form_end(form) }}
 
 {% endblock %}

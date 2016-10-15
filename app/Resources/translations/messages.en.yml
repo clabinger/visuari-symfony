@@ -24,9 +24,11 @@ collection:
         description: Collection Description
         make_public: Make Collection Public
         create_collection: Create Collection
-        edit_collection: Save Collection
+        save_collection: Save Collection
     view:
         denied: You do not have permission to view this collection.
+    data:
+        name: %name%
 album:
     created_successfully: The album has been created successfully.
     photos_added_successfully: The photos have been added to the album successfully.
@@ -50,9 +52,18 @@ album:
         collection: Collection
         make_public: Make Album Public
         create_album: Create Album
-        edit_album: Save Album
+        save_album: Save Album
+        photos: Photos
     view:
         denied: You do not have permission to view this album.
+    data:
+        name: %name%
+album_photo:
+    label:
+        name: Name
+        title: Title
+        description: Description
+        caption: Caption
 upload:
     title:
         upload: Upload Page
@@ -60,3 +71,7 @@ upload:
         upload: Upload
     error:
         file_format_not_supported: File format not supported.
+        album_not_found: Album to upload into was not found.
+        album_not_initialized: Album to upload into could not be initialized
+misc:
+    cancel: Cancel

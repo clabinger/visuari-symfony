@@ -1,37 +1,45 @@
 {# app/Resources/views/album/upload.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% set page_title = 'album.title.upload_to_album'|trans %}
+{% set page_title = 'album.title.upload_to_album'|trans ~ ' - ' ~ album.name %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{% javascripts 
+		"https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"
+		"assets/js/dropzone.js"
+		%} 
+		<script type="text/javascript" src="{{ asset_url }}" ></script>
+	{% endjavascripts %}
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+    {% stylesheets 
+        'https://rawgit.com/enyo/dropzone/master/dist/dropzone.css'
+        filter='cssrewrite' output='css/compiled/app.css' %}
+
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
 
 {% block body %}
 
 	<h1>{{ page_title }}</h1>
 
-
-	{{ form_start(upload_form, {'attr': {'id':'upload-dropzone', 'class':'dropzone'}}) }}
-	<div class="fallback">
-		<input name="file" type="file" multiple />
+	<div class="row column">
+		{{ form_start(upload_form, {'attr': {'id':'upload-dropzone', 'class':'dropzone'}}) }}
+		<div class="fallback">
+			<input name="file" type="file" multiple />
+		</div>
+		{{ form_widget(upload_form) }}
+		{{ form_end(upload_form) }}
 	</div>
-	{{ form_widget(upload_form) }}
-	{{ form_end(upload_form) }}
 
-
-{% endblock %}
-
-{% block javascripts_end %}
-
-<script type="text/javascript" src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
-
-<script>
-	Dropzone.options.uploadDropzone = {
-		maxFilesize: 30, // MB		
-		sending: function(file, xhr, formData){
-			var album = $('form.dropzone input.uploader_album_id').val();
-			formData.append("album", album);
-			formData.append("file_name", file.name);
-			formData.append("file_modified_date", file.lastModified);
-	    }
-	};
-</script>
+	<div class="row column">
+		<p class="text-center space-vertical">
+			<a class="button" href="{{ path('show_album', {id: album.id}) }}">Done</a>
+		</p>
+	</div>
 
 {% endblock %}

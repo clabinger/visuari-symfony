@@ -1,15 +1,20 @@
 {# app/Resources/views/collection/edit.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% set page_title = 'collection.title.edit_collection'|trans %}
 
+{% form_theme edit_form default_form_theme _self %}
+
+
 {% block body %}
 
-	<h1>{{ page_title }}</h1>
-
-	{{ form_start(edit_form) }}
-	{{ form_widget(edit_form) }}
-	<input type="submit" value="{{ 'collection.label.edit_collection'|trans }}">
-	{{ form_end(edit_form) }}
+	<div class="row column">
+		{{ form_start(edit_form) }}
+		<input type="submit" class="button" value="{{ 'collection.label.save_collection'|trans }}">
+		<a class="button" href="{{ path('show_collection', {'id': collection.id}) }}">{{ 'misc.cancel'|trans }}</a>
+		{{ form_widget(edit_form) }}
+		{{ form_end(edit_form) }}
+	</div>
 
 {% endblock %}
