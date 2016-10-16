@@ -1,6 +1,0 @@
-# collection_base_default:
-#     path: "/"
-#     defaults: { _controller: AppBundle:Profile/Profile:index }
-# new:
-#     path: "/new"
-#     defaults: { _controller: AppBundle:Profile/Collection:new }
