@@ -3,6 +3,9 @@ $brand-lightest: #CBE6F2;
 $brand-dark: #405B67;
 $brand-medium: #507180;
 
+$brand-alert: #D65957;
+$brand-success: #10BF69;
+
 $body-background: #F2F5F7;
 
 $white: #ffffff;
@@ -10,24 +13,29 @@ $white: #ffffff;
 $primary-color: $brand-medium;
 $button-background: $brand-medium;
 
-$breadcrumbs-item-font-size: rem-calc(12);
 
 $global-radius: 2px;
 
 $button-radius: $global-radius;
+$callout-radius: $global-radius;
 
 @import url('https://fonts.googleapis.com/css?family=Hind+Madurai:300|Questrial');
 
 $body-font-family: 'Hind Madurai', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 $header-font-family: 'Questrial', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 
+.gallery-wrapper figure{
+	margin: 6px;
+}
 
-
-/* Topbar */
+/* START Topbar */
 
 $topbar-background: $brand-darkest;
 $topbar-text-color: $brand-lightest;
 $dropdownmenu-arrow-color: $topbar-text-color;
+$topbar-padding: 0;
+
+$topbar-padding-vert: 8px;
 
 .top-bar li.menu-text,
 .top-bar div.column>div>ul>li>a
@@ -35,7 +43,75 @@ $dropdownmenu-arrow-color: $topbar-text-color;
 	color: $topbar-text-color;
 }
 
+.top-bar{
+	padding-top: 0;
+	padding-bottom: 0;
+}
 
+.top-bar li:not(.is-dropdown-submenu-item){
+	padding-top: $topbar-padding-vert;
+	padding-bottom: $topbar-padding-vert;
+}
+
+.top-bar a.flush-left{
+	padding-left: 0;
+}
+
+/* END Topbar */
+
+
+/* START Breadcrumbs*/
+
+$breadcrumbs-item-font-size: rem-calc(16);
+$breadcrumbs-item-uppercase: false;
+
+ol.breadcrumbs{
+	margin-top:20px;
+}
+
+/* END Breadcrumbs*/
+
+
+
+
+/* START FOS User Bundle */
+
+form.fos_user_registration_register,
+form.fos_user_login
+{ 
+	input[type="submit"]{
+		@extend .button;
+	}
+}
+
+
+form.fos_user_registration_register ul{
+	list-style: none;
+	background-color: $brand-alert;
+	display: inline-block;
+	padding: 6px;
+	border-color: darken($brand-alert, 20%);
+	border-radius: $global-radius;
+	color: white;
+}
+
+/* END FOS User Bundle */
+
+/* START Callouts */
+div.callout.alert {
+	background-color: $brand-alert;
+	color: $white;
+	border-color: darken($brand-alert, 20%);
+}
+
+
+div.callout.success {
+	background-color: $brand-success;
+	color: $white;
+	border-color: darken($brand-success, 20%);
+}
+
+/* END Callouts d*/
 
 body{
 	background-color: $body-background;
@@ -56,3 +132,20 @@ a.thumbnail-view-album{
 	max-width:200px;
 	max-height:200px;
 }
+
+div.album-edit-position-wrap{
+	white-space: nowrap 
+}
+
+div.album-edit-position-arrows{
+	vertical-align:middle;
+	font-size:1.5em;
+	display:inline-block;
+	padding-right:10px;
+}
+
+
+div.page-title{
+	margin-top: 20px;
+}
+

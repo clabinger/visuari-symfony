@@ -35,11 +35,15 @@ class ProfileController extends Controller
     public function indexAction(Request $request)
     {
 
-    	$user = $this->load_user_by_request($request);
+        $user = $this->load_user_by_request($request);
 
-        if(!$user){
+        if(!$user instanceof User){
             throw $this->createNotFoundException('Page not found.');
         }
+
+
+        $this->get('breadcrumbs_organizer')->showUser($user);
+        
 
         return $this->render('profile/index.html.twig', ['user' => $user]);
 
@@ -52,6 +56,9 @@ class ProfileController extends Controller
     public function userCollectionsAction(Request $request){
 
     	$request_user = $this->load_user_by_request($request);
+
+        $this->get('breadcrumbs_organizer')->listUserCollections($request_user);
+
 
     	if($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
         	$current_user = $this->container->get('security.token_storage')->getToken()->getUser();
@@ -82,6 +89,9 @@ class ProfileController extends Controller
     public function userAlbumsAction(Request $request){
 
     	$request_user = $this->load_user_by_request($request);
+
+        $this->get('breadcrumbs_organizer')->listUserAlbums($request_user);
+
 
     	if($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
         	$current_user = $this->container->get('security.token_storage')->getToken()->getUser();

@@ -7,22 +7,18 @@
 {% set page_title = album.name %}
 
 
-{% block pre_body %}
-    <div class="row column">
-        {{ wo_render_breadcrumbs() }}
-    </div>
-{% endblock %}
-
 {% block body %}
     
     <div class="row column">
 
+    <p>Album by <a href="{{ path('profile_base_default', {'username': album.owner.username}) }}">{{ album.owner.username }}</a></p>
+
+
     {% if is_granted('edit', album) %}
-    	<p><a class="button" href="{{ path('edit_album', {'id': album.id}) }}">Edit</a>
-        <a class="button" href="{{ path('upload_to_album', {'id': album.id}) }}">Upload</a></p>
+    	<p><a class="button" href="{{ path('edit_album', {'id': album.id}) }}">{{ 'album.button.edit'|trans }}</a>
+        <a class="button" href="{{ path('upload_to_album', {'id': album.id}) }}">{{ 'album.button.upload'|trans }}</a></p>
     {% endif %}
 
-    <p>{{ album.owner.username }}</p>
     <p>{{ album.description|e }}</p>
 
     </div>

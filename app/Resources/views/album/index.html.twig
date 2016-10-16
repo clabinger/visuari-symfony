@@ -10,23 +10,23 @@
 {% block body_id 'album_index' %}
 
 {% block body %}
-    
-    <h1>{{ page_title }}</h1>
 
-    {% for album in albums %}
-        <article class="post">
-            <h2>
-                <a href="{{ path('show_album', { id: album.id }) }}">
-                    {{ album.name }}
-                </a>
-            </h2>
+    <div class="row column">
 
-            {{ album.description|e }}
-        </article>
-    {% else %}
-        <div class="well">{{ 'album.no_albums_found'|trans }}</div>
-    {% endfor %}
-    
+        {% for album in albums %}
+            <article class="post">
+                <h2>
+                    <a href="{{ path('show_album', { id: album.id }) }}">
+                        {{ album.name }}
+                    </a>
+                </h2>
+
+                {{ album.description|e }}
+            </article>
+        {% else %}
+            <div class="well">{{ 'album.no_albums_found'|trans }}</div>
+        {% endfor %}
+    </div>
 
     <div class="navigation text-center">
        {# {{ pagerfanta(collections, 'twitter_bootstrap3_translated', { routeName: 'collection_index_paginated' }) }} #}

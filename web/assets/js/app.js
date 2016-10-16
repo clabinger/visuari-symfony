@@ -87,3 +87,18 @@ $('div.gallery-wrapper').each(function(){
 
 });
 
+
+$('.autofocus').first().each(function(){
+
+    // Make sure user hasn't already filled it out
+    if($(this).val()===''){
+        $(this).focus();
+    }else{
+
+        // Focus on secondary field, such as a password field
+        $('.autofocus_2').first().focus();
+
+    }
+});
+
+

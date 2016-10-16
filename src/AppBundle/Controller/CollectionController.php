@@ -29,6 +29,7 @@ class CollectionController extends Controller {
     {
         $collections = $this->getDoctrine()->getRepository(Collection::class)->findLatest($page);
 
+        $this->get('breadcrumbs_organizer')->listCollections();
 
         // $collections = $this->getDoctrine()
         // ->getRepository('AppBundle:Collection')
@@ -46,6 +47,8 @@ class CollectionController extends Controller {
 
         // Check voters
         $this->denyAccessUnlessGranted('view', $collection, $this->get('translator')->trans('collection.view.denied'));
+
+        $this->get('breadcrumbs_organizer')->showCollection($collection);
 
     	return $this->render('collection/show.html.twig', ['collection'=>$collection]);
 

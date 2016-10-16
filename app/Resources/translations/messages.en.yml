@@ -6,11 +6,18 @@ menu:
     login: Sign In
     logout: Sign Out
     my_profile: My Profile
+user:
+    title:
+        create_new: Create New Account
+        account_confirmed: Account Confirmed
+    data:
+        username: %username%
 collection:
     created_successfully: The collection has been created successfully.
     updated_successfully: The collection has been updated successfully.
     deleted_successfully: The collection has been deleted successfully.
     no_collections_found: No collections were found.
+    list_plural: Collections
     list_all: All Collections
     list_my: My Collections
     list_name: %name%'s Collections
@@ -35,6 +42,7 @@ album:
     updated_successfully: The album has been updated successfully.
     deleted_successfully: The album has been deleted successfully.
     no_albums_found: No albums were found.
+    list_plural: Albums
     list_all: All Albums
     list_my: My Albums
     list_name: %name%'s Albums
@@ -46,6 +54,9 @@ album:
         edit_album: Edit Album
         upload_to_album: Add Photos to Album
         create_album: New Album
+    button:
+        edit: Edit
+        upload: Upload
     label:
         name: Album Name
         description: Album Description
@@ -75,3 +86,6 @@ upload:
         album_not_initialized: Album to upload into could not be initialized
 misc:
     cancel: Cancel
+    thank_you: Thank You!
+    generic_error: An error has occured.
+    done: Done

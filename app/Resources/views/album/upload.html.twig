@@ -25,7 +25,6 @@
 
 {% block body %}
 
-	<h1>{{ page_title }}</h1>
 
 	<div class="row column">
 		{{ form_start(upload_form, {'attr': {'id':'upload-dropzone', 'class':'dropzone'}}) }}
@@ -38,7 +37,7 @@
 
 	<div class="row column">
 		<p class="text-center space-vertical">
-			<a class="button" href="{{ path('show_album', {id: album.id}) }}">Done</a>
+			<a class="button" href="{{ path('show_album', {id: album.id}) }}">{{ 'misc.done'|trans }}</a>
 		</p>
 	</div>
 

@@ -50,13 +50,7 @@ class AlbumController extends Controller {
         // Check voters
         $this->denyAccessUnlessGranted('view', $album, $this->get('translator')->trans('album.view.denied'));
 
-        $breadcrumbs = $this->get("white_october_breadcrumbs");
-
-        $collection = $album->getCollection();
-
-        $breadcrumbs->addItem('collection.data.name', $this->get("router")->generate("show_collection", ['id'=>$collection->getId()]), ['%name%'=>$collection->getName()]);
-
-        $breadcrumbs->addItem('album.data.name', NULL, ['%name%'=> $album->getName()] );
+        $this->get('breadcrumbs_organizer')->showAlbum($album);
 
     	return $this->render('album/show.html.twig', ['album'=>$album]);
 
@@ -111,6 +105,8 @@ class AlbumController extends Controller {
         // Check voters
         $this->denyAccessUnlessGranted('edit', $album, $this->get('translator')->trans('album.edit_not_allowed'));
 
+        $this->get('breadcrumbs_organizer')->editAlbum($album);
+
         $entityManager = $this->getDoctrine()->getManager();
 
         $editForm = $this->createForm(AlbumType::class, $album);
@@ -145,6 +141,8 @@ class AlbumController extends Controller {
 
         // Check voters
         $this->denyAccessUnlessGranted('edit', $album, $this->get('translator')->trans('album.edit_not_allowed_photos'));
+
+        $this->get('breadcrumbs_organizer')->uploadToAlbum($album);
 
         $entityManager = $this->getDoctrine()->getManager();
 

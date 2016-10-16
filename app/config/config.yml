@@ -81,7 +81,7 @@ fos_user:
     user_class: AppBundle\Entity\User
     from_email:
         address:    noreply@visuari.com
-        sender_name: Photo Albums Website
+        sender_name: Visuari
     registration:
         confirmation:
             enabled: true

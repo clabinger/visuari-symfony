@@ -60,3 +60,7 @@ services:
     app.signed_url_cacher: 
         class: AppBundle\Utils\S3SignedUrlCacher
         arguments: ["@app.s3_client", "@doctrine.orm.entity_manager"]
+
+    breadcrumbs_organizer:
+        class: AppBundle\Utils\BreadcrumbsOrganizer
+        arguments: ['@white_october_breadcrumbs', '@router']

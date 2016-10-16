@@ -6,44 +6,65 @@
 
 {% form_theme edit_form default_form_theme _self %}
 
+
+
+{# Magic name to provide custom template block for the photo field in each photo sub-form #}
 {% block _album_photos_entry_photo_widget %}
-	<div style="vertical-align:middle;font-size:1.5em;display:inline-block;padding-right:10px;">
-		<a style="display:block;" class="reorder-photo reorder-photo-up"><i class="fi-arrow-up"></i></a>
-		<a style="display:block;" class="reorder-photo reorder-photo-down"><i class="fi-arrow-down"></i></a>
+
+	<div class="album-edit-position-wrap">
+		<div class="album-edit-position-arrows">
+			<a style="display:block;" class="reorder-photo reorder-photo-up"><i class="fi-arrow-up"></i></a>
+			<a style="display:block;" class="reorder-photo reorder-photo-down"><i class="fi-arrow-down"></i></a>
+		</div>
+		<a target="_blank" class="thumbnail thumbnail-edit-list" href="{{ signed_url_cacher.getUrl(data.sizeOriginal) }}">
+	    	<img src="{{ signed_url_cacher.getUrl(data.sizeThumb) }}">
+	    </a>
 	</div>
-     <a target="_blank" class="thumbnail thumbnail-edit-list" href="{{ signed_url_cacher.getUrl(data.sizeOriginal) }}">
-     	<img src="{{ signed_url_cacher.getUrl(data.sizeThumb) }}">
-     </a>
+
 {% endblock %}
 
 
+
+
+
+
+{# Magic name to provide custom template block for each photo sub-form #}
 {% block _album_photos_entry_widget %}
 	
 	<hr>
 
 	<div class="large-4 columns">
-		<row>
-			{{ form_widget(form.photo) }}
-		</row>
+		{{ form_widget(form.photo) }}
 	</div>
 
 	<div class="large-8 columns">
-		<row>
-			{{ form_row(form.title) }}
-			{{ form_row(form.caption) }}
-			{{ form_row(form.description) }}
-			{{ form_row(form.position) }}
-		</row>
+		{{ form_row(form.title) }}
+		{{ form_row(form.caption) }}
+		{{ form_row(form.description) }}
+		{{ form_row(form.position) }}
 	</div>
 {% endblock %}
 
+
+
 {% block body %}
 
-	<div class="row column">
+	<div class="row">
 		{{ form_start(edit_form) }}
-		<input type="submit" class="button" value="{{ 'album.label.save_album'|trans }}">
-		<a class="button" href="{{ path('show_album', {'id': album.id}) }}">{{ 'misc.cancel'|trans }}</a>
-		{{ form_widget(edit_form) }}
+		
+		<div class="column large-6 medium-8 small-12">
+			<input type="submit" class="button" value="{{ 'album.label.save_album'|trans }}">
+			<a class="button" href="{{ path('show_album', {'id': album.id}) }}">{{ 'misc.cancel'|trans }}</a>
+			
+
+			{{ form_row(edit_form.name) }}
+			{{ form_row(edit_form.description) }}
+			{{ form_row(edit_form.collection) }}
+			{{ form_row(edit_form.public) }}
+		</div>
+
+		{{ form_row(edit_form.photos) }}
+		
 		{{ form_end(edit_form) }}
 	</div>
 

@@ -22,6 +22,12 @@ app:
 #     defaults: { _controller: AppBundle:Upload:upload }
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+
+fos_user_registration_register:
+    path:      '/register'
+    defaults:  { _controller: FOSUserBundle:Registration:register }
+
 # profile_base:
 #     resource: routing/profile_base.yml
 #     prefix: /{username}

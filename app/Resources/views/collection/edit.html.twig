@@ -9,12 +9,14 @@
 
 {% block body %}
 
-	<div class="row column">
-		{{ form_start(edit_form) }}
-		<input type="submit" class="button" value="{{ 'collection.label.save_collection'|trans }}">
-		<a class="button" href="{{ path('show_collection', {'id': collection.id}) }}">{{ 'misc.cancel'|trans }}</a>
-		{{ form_widget(edit_form) }}
-		{{ form_end(edit_form) }}
+	<div class="row">
+		<div class="column large-6 medium-8 small-12 end">
+			{{ form_start(edit_form) }}
+			<input type="submit" class="button" value="{{ 'collection.label.save_collection'|trans }}">
+			<a class="button" href="{{ path('show_collection', {'id': collection.id}) }}">{{ 'misc.cancel'|trans }}</a>
+			{{ form_widget(edit_form) }}
+			{{ form_end(edit_form) }}
+		</div>
 	</div>
 
 {% endblock %}

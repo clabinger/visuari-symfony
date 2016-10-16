@@ -32,7 +32,7 @@
             <div class="row column">
                 <div class="top-bar-left">
                     <ul class="menu">
-                        <li class="menu-text">Visuari</li>
+                        <li><a href="{{ path('homepage') }}" class="flush-left"><b>Visuari</b></a></li>
                     </ul>
                 </div>
                 <div class="top-bar-right">   
@@ -46,11 +46,17 @@
 
         {# {% block fos_user_content %}{% endblock %} #}
 
+        <div class="row column">
+            {{ wo_render_breadcrumbs() }}
+        </div>
+
         {% block pre_body %}{% endblock %}
 
-        <div class="row column">
-            <h1>{{ page_title }}</h1>
-        </div>
+        {% if page_title is defined %}
+            <div class="row column page-title">
+                <h1>{{ page_title }}</h1>
+            </div>
+        {% endif %}
 
         <div class="row column">
             {% for type, messages in app.session.flashbag.all() %}

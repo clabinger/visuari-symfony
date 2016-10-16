@@ -5,16 +5,15 @@
 
 {% block body %}
 
-	<p>Profile page - {{ user.username }}</p>
+	<div class="row column">
+		<p>
+			<ul>
+				<li><a href="{{ path('user_collections', {'username': user.username}) }}">{{ 'collection.list_plural'|trans }}</a></li>
+				<li><a href="{{ path('user_albums', {'username': user.username}) }}">{{ 'album.list_plural'|trans }}</a></li>
 
-	<p>
-		<ul>
-			<li><a href="{{ path('user_collections', {'username': user.username}) }}">{{ 'collection.list_my'|trans }}</a></li>
-			<li><a href="{{ path('user_albums', {'username': user.username}) }}">{{ 'album.list_my'|trans }}</a></li>
-
-		</ul>
-	</p>
-
+			</ul>
+		</p>
+	</div>
 
 
 {% endblock %}

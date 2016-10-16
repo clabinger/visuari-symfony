@@ -40,7 +40,7 @@ class Builder implements ContainerAwareInterface
                 'routeParameters'=>array('username'=>$username)
             );
 
-            $profile = $menu->addChild($username, $profile_link)->setExtra('translation_domain', false);
+            $profile = $menu->addChild($username, Array('uri'=>'#'))->setExtra('translation_domain', false);
 
             $profile->setChildrenAttribute('class', 'menu');
 

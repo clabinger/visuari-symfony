@@ -1,0 +1,4 @@
+# FOSUserBundle.en.yml
+fos_user.email.already_used: 'An account already exists with that email address.'
+fos_user.username.already_used: 'An account already exists with that username.'
+fos_user.password.mismatch: 'The entered passwords do not match.'

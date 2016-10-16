@@ -1,0 +1,15 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set page_title = 'user.title.create_new'|trans %}
+
+{% block fos_preface %}
+
+{% endblock %}
+
+{% block fos_user_content %}
+
+	
+    <div class="column large-6 medium-8 small-12 end">
+		{% include "FOSUserBundle:Registration:register_content.html.twig" %}
+	</div>
+{% endblock fos_user_content %}

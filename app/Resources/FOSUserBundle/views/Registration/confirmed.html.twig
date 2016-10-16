@@ -1,0 +1,25 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set page_title = 'user.title.account_confirmed'|trans %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    
+    <div class="column">
+	    <div class="callout success">
+	    	<p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+	    </div>
+    </div>
+
+	    <div class="column">
+			<p class="text-center space-vertical">
+			    {% if targetUrl %}
+	    			<a class="button" href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a>
+			    {% endif %}
+	    		<a class="button" href="{{ path('homepage') }}">{{ 'menu.home'|trans({}, 'messages') }}</a>
+			</p>
+		</div>
+
+
+{% endblock fos_user_content %}

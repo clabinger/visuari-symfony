@@ -45,7 +45,6 @@ class AlbumType extends AbstractType
         $builder
             ->add('name', TextType::class, Array('label'=>'album.label.name'))
             ->add('description', TextType::class, Array('label'=>'album.label.description'))
-            ->add('public', CheckboxType::class, Array('label'=>'album.label.make_public', 'required'=>false))
             ->add('collection', EntityType::class, Array(
                     'class' => 'AppBundle:Collection',
                     'choice_label' => 'name',
@@ -54,6 +53,7 @@ class AlbumType extends AbstractType
                         return $cr->queryByOwner($user, $user);
                     },
                 ))
+            ->add('public', CheckboxType::class, Array('label'=>'album.label.make_public', 'required'=>false))
             ->add('photos', CollectionType::class, array(
                 'entry_type' => AlbumPhotoType::class,
                 'label' => 'album.label.photos',

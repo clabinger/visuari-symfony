@@ -9,11 +9,12 @@
 
 	<div class="row column">
 
+	    <p>Collection by <a href="{{ path('profile_base_default', {'username': collection.owner.username}) }}">{{ collection.owner.username }}</a></p>
+
 	    {% if is_granted('edit', collection) %}
 	    	<p><a class="button" href="{{ path('edit_collection', {'id': collection.id}) }}">Edit</a>
 	    {% endif %}
 
-	    <p>{{ collection.owner.username }}</p>
 	    <p>{{ collection.description|e }}</p>
 
 	    {% for album in collection.albums %}
