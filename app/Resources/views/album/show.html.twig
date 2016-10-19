@@ -11,24 +11,31 @@
     
     <div class="row column">
 
-    <p>Album by <a href="{{ path('profile_base_default', {'username': album.owner.username}) }}">{{ album.owner.username }}</a></p>
+    <p>
+        {{ 'album.view.ownership'|trans({'%owner%':album.owner.username, '%link_start%':'<a href="'~path('profile_base_default', {'username': album.owner.username})~'">', '%link_end%':'</a>' })|raw }}
+        <span class="bar"></span>
+        {{ 'album.view.num_photos'|transchoice(album.photos.count) }}
+    </p>
 
 
     {% if is_granted('edit', album) %}
-    	<p><a class="button" href="{{ path('edit_album', {'id': album.id}) }}">{{ 'album.button.edit'|trans }}</a>
-        <a class="button" href="{{ path('upload_to_album', {'id': album.id}) }}">{{ 'album.button.upload'|trans }}</a></p>
+    	<p>
+            <a class="button" href="{{ path('edit_album', {'id': album.id}) }}">{{ 'album.button.edit'|trans }}</a>
+            <a class="button" href="{{ path('upload_to_album', {'id': album.id}) }}">{{ 'album.button.upload'|trans }}</a>
+            <a class="button" href="{{ path('edit_album_permissions', {'id': album.id}) }}">{{ 'album.button.edit_permissions'|trans }}</a>
+        </p>
     {% endif %}
 
     <p>{{ album.description|e }}</p>
 
     </div>
 
-    <div class="row small-up-2 medium-up-3 large-up-5 gallery-wrapper">
+    <div class="row small-up-2 medium-up-3 large-up-5 gallery-wrapper align-middle">
         {% for photo in album.photos %}
-        	<div class="column">
+        	<div class="column align-middle">
                 
                  <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a class="thumbnail thumbnail-view-album" href="{{ signed_url_cacher.getUrl(photo.photo.sizeMedium) }}" itemprop="contentUrl" data-size="{{ photo.photo.mediumwidth }}x{{ photo.photo.mediumheight }}">
+                    <a class="thumbnail" href="{{ signed_url_cacher.getUrl(photo.photo.sizeMedium) }}" itemprop="contentUrl" data-size="{{ photo.photo.mediumwidth }}x{{ photo.photo.mediumheight }}">
                         <img src="{{ signed_url_cacher.getUrl(photo.photo.sizeThumb) }}" itemprop="thumbnail" alt="{{ photo.title }}">
                     </a>
                     <figcaption itemprop="caption description">{{ photo.title }} - {{ photo.caption }} - {{ photo.description }}</figcaption>

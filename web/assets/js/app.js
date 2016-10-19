@@ -18,6 +18,29 @@ $('a.reorder-photo').on('click', function(){
 });
 
 
+// Manage deleting photos from an album
+$('a.delete-photo').on('click', function(){
+    
+    var target = $(this).closest('div.reorder-photo');
+
+    var img = $('<img>').attr('src', target.find('img').attr('src') );
+    
+    $('#confirmDeleteModal').find('p.img-container').html(img);
+
+    $('#confirmDeleteModal').foundation('open');
+
+    $('#confirmDeleteModal').find('button.delete-cancel').on('click', function(){
+        $('#confirmDeleteModal').foundation('close');
+    });
+
+    $('#confirmDeleteModal').find('button.delete-confirm').on('click', function(){
+        target.remove(); 
+        $('#confirmDeleteModal').foundation('close');
+    });
+
+});
+
+
 
 
 // Set up thumbnails for PhotoSwipe
@@ -88,6 +111,7 @@ $('div.gallery-wrapper').each(function(){
 });
 
 
+// Generic autofocusing
 $('.autofocus').first().each(function(){
 
     // Make sure user hasn't already filled it out
@@ -102,3 +126,48 @@ $('.autofocus').first().each(function(){
 });
 
 
+// Manage deleting permissions
+var delete_permission_buttons = function(){
+    $('a.delete-permission').off().on('click', function(){
+        
+        var target = $(this).closest('div.permission-row');
+
+        $('#confirmDeleteModal').foundation('open');
+
+        $('#confirmDeleteModal').find('button.delete-cancel').on('click', function(){
+            $('#confirmDeleteModal').foundation('close');
+        });
+
+        $('#confirmDeleteModal').find('button.delete-confirm').on('click', function(){
+            target.remove(); 
+            $('#confirmDeleteModal').foundation('close');
+        });
+
+    });
+};
+
+delete_permission_buttons();
+
+// Add new permission
+$('#add_new_permission').click(function(e) {
+    e.preventDefault();
+
+    var permissionsList = $('#album_permissions_permissions');
+
+    var permissionsCount = permissionsList.children().length;
+
+    // grab the prototype template
+    var newWidget = permissionsList.attr('data-prototype');
+    // replace the "__name__" used in the id and name of the prototype
+    // with a number that's unique to your emails
+    // end name attribute looks like name="contact[emails][2]"
+    newWidget = newWidget.replace(/__name__/g, permissionsCount);
+    permissionsCount++;
+
+    // add the new blank permission it to the list
+    permissionsList.prepend(newWidget);
+
+delete_permission_buttons();
+    
+
+});

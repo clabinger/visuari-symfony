@@ -1,6 +1,6 @@
 <?php
 
-// src/AppBundle/Form/AlbumType.php
+// src/AppBundle/Form/AlbumPermissionsType.php
 
 namespace AppBundle\Form;
 
@@ -18,9 +18,12 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 // use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 use AppBundle\Repository\CollectionRepository;
+use AppBundle\Entity\Permission;
 
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
-class AlbumType extends AbstractType
+class AlbumPermissionsType extends AbstractType
 {
 
     private $tokenStorage;
@@ -43,26 +46,15 @@ class AlbumType extends AbstractType
         }
 
         $builder
-            ->add('name', TextType::class, Array('label'=>'album.label.name'))
-            ->add('description', TextType::class, Array('label'=>'album.label.description'))
-            ->add('collection', EntityType::class, Array(
-                    'class' => 'AppBundle:Collection',
-                    'choice_label' => 'name',
-                    'label'=>'album.label.collection',
-                    'query_builder' => function (CollectionRepository $cr) use ($user){
-                        return $cr->queryByOwner($user, $user);
-                    },
-                ))
-            ->add('public', CheckboxType::class, Array('label'=>'album.label.make_public', 'required'=>false))
-            ->add('photos', CollectionType::class, array(
-                'entry_type' => AlbumPhotoType::class,
+            ->add('permissions', CollectionType::class, array(
+                'entry_type' => PermissionType::class,
+                'prototype' => true,
+                'allow_add' => true,
                 'allow_delete' => true,
-                'label' => 'album.label.photos',
+                'by_reference' => false,
+                'label' => 'album.label.permissions',
                 'entry_options' => array(
                     'label'=> false,
-                ),
-                'attr'=>array(
-                    'class'=>'reorder-photos',
                 ),
             ))
         ;
@@ -75,5 +67,14 @@ class AlbumType extends AbstractType
 	        'data_class' => 'AppBundle\Entity\Album',
 	    ));
 	}
+
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        @usort($view['permissions']->children, function (FormView $a, FormView $b) {
+            
+            // 'name' contains the numerical index from the DOM field naming
+            return ($a->vars['name'] < $b->vars['name']) ? 1 : -1;
+        });
+    }
 
 }

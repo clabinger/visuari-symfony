@@ -18,3 +18,32 @@ registration:
             If you did not initiate this request, please disregard this message.
 
             Thank you!
+security:
+    login:
+        submit: Sign In
+        forgot_offer: Forgot password?
+        already_signed_in: You are already signed in.
+
+resetting:
+    request:
+    flash:
+        success: 'Your password has been reset successfully.'
+    email:
+        subject: 'Reset Password'
+        message: |
+            Dear %username%,
+
+            A password reset was initiated on your Visuari account. To reset your password, please click the link below:
+            %confirmationUrl%
+
+            If you did not make this request, please disregard this message.
+
+            Thank you!
+
+profile:
+    flash:
+        updated: Your profile has been updated.
+
+change_password:
+    flash:
+        success: Your password has been changed.

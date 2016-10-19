@@ -1,0 +1,26 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set page_title = 'user.title.check_email'|trans %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block pre_process %}
+	{{ breadcrumbs.resetPassword() }}
+{% endblock %}
+
+{% block fos_user_content %}
+
+    <div class="row column">
+	    <div class="callout primary">
+			<p>{{ 'resetting.check_email'|trans({'%email%': email}) }}</p>
+	    </div>
+    </div>
+
+    <div class="row column">
+		<p class="text-center space-vertical">
+		    <a class="button" href="{{ path('homepage') }}">{{ 'menu.home'|trans({}, 'messages') }}</a>
+		</p>
+	</div>
+
+
+{% endblock fos_user_content %}

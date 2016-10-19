@@ -6,32 +6,56 @@
 
 {% trans_default_domain 'FOSUserBundle' %}
 
+{% block pre_process %}
+	{{ breadcrumbs.showLogin() }}
+{% endblock %}
+
 {% block fos_user_content %}
 	
-	{% if error %}
-	    <div class="callout alert">
-		  <h5>Error</h5>
-		  <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+	{% if app.user %}
+		<div class="row column">
+		    <div class="callout primary">
+	    		<p>{{ 'security.login.already_signed_in'|trans }}</p>
+	    		<p class="text-center"><a class="button" href="{{ path('homepage') }}">{{ 'menu.home'|trans({}, 'messages') }}</a></p>
+	    	</div>
+		</div>
+	{% else %}
+		<div class="row column">
+			<div class="callout primary">
+				<p>Don't have an account yet? <a href="{{ path('fos_user_registration_register') }}">Register here.</a></p>
+			</div>
+		</div>
+
+		{% if error %}
+			<div class="row column">    
+			    <div class="callout alert">
+				  <h5>Error</h5>
+				  <p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+				</div>
+			</div>
+		{% endif %}
+
+		<div class="row">
+			<div class="column large-6 medium-8 small-12 end">
+
+				<form action="{{ path("fos_user_security_check") }}" method="post" class="fos_user_login">
+				    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+				    <label for="username">{{ 'security.login.username'|trans }}</label>
+				    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="autofocus" autocomplete="off" />
+
+				    <label for="password">{{ 'security.login.password'|trans }}</label>
+				    <input type="password" id="password" name="_password" required="required" class="autofocus_2" />
+
+				    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+				    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+				    <br>
+
+				    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+
+				    <p><a href="{{ path('fos_user_resetting_request') }}">{{ 'security.login.forgot_offer'|trans }}</a></p>
+				</form>
+			</div>
 		</div>
 	{% endif %}
-
-	<div class="column large-6 medium-8 small-12 end">
-
-		<form action="{{ path("fos_user_security_check") }}" method="post" class="fos_user_login">
-		    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-
-		    <label for="username">{{ 'security.login.username'|trans }}</label>
-		    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="autofocus" autocomplete="off" />
-
-		    <label for="password">{{ 'security.login.password'|trans }}</label>
-		    <input type="password" id="password" name="_password" required="required" class="autofocus_2" />
-
-		    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-		    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
-		    <br>
-
-		    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-		</form>
-	</div>
-
 {% endblock fos_user_content %}

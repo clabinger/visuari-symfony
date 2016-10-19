@@ -75,6 +75,12 @@ class Album_Photo
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Permission", mappedBy="album_photo", cascade={"persist"})
+     */
+    private $permissions;
+
+
     public function __construct(){
         $this->comments = new ArrayCollection();
     }

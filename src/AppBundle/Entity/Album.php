@@ -79,11 +79,17 @@ class Album
      */
     private $public;
     
+    /**
+     * @ORM\OneToMany(targetEntity="Permission", mappedBy="album")
+     */
+    private $permissions;
+
 
     public function __construct(){
         
         $this->photos = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->permissions = new ArrayCollection();
 
     }
 
@@ -273,4 +279,114 @@ class Album
         return $this->photos;
     }
 
+    public function removeAlbumPhoto(Album_Photo $album_photo)
+    {
+        $this->photos->removeElement($album_photo);
+    }
+
+
+    /**
+     * Get public
+     *
+     * @return boolean
+     */
+    public function getPublic()
+    {
+        return $this->public;
+    }
+
+    /**
+     * Add photo
+     *
+     * @param \AppBundle\Entity\Album_Photo $photo
+     *
+     * @return Album
+     */
+    public function addPhoto(\AppBundle\Entity\Album_Photo $photo)
+    {
+        $this->photos[] = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Remove photo
+     *
+     * @param \AppBundle\Entity\Album_Photo $photo
+     */
+    public function removePhoto(\AppBundle\Entity\Album_Photo $photo)
+    {
+        $this->photos->removeElement($photo);
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Album
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add permission
+     *
+     * @param \AppBundle\Entity\Permission $permission
+     *
+     * @return Album
+     */
+    public function addPermission(\AppBundle\Entity\Permission $permission)
+    {
+
+        $permission->setAlbum($this);
+
+        $this->permissions[] = $permission;
+
+        return $this;
+    }
+
+    /**
+     * Remove permission
+     *
+     * @param \AppBundle\Entity\Permission $permission
+     */
+    public function removePermission(\AppBundle\Entity\Permission $permission)
+    {
+        $this->permissions->removeElement($permission);
+    }
+
+    /**
+     * Get permissions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
 }

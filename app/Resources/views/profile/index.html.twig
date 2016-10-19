@@ -6,6 +6,10 @@
 {% block body %}
 
 	<div class="row column">
+		<p><a class="button" href="{{ path('fos_user_profile_show') }}">{{ 'user.title.my_account'|trans }}</a></p>
+	</div>
+
+	<div class="row column">
 		<p>
 			<ul>
 				<li><a href="{{ path('user_collections', {'username': user.username}) }}">{{ 'collection.list_plural'|trans }}</a></li>

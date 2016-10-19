@@ -7,13 +7,14 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Album;
 
 use AppBundle\Form\AlbumType;
+use AppBundle\Form\AlbumPermissionsType;
 use AppBundle\Form\UploadPhotosToAlbumType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Controller used to manage albums
@@ -109,12 +110,32 @@ class AlbumController extends Controller {
 
         $entityManager = $this->getDoctrine()->getManager();
 
+
+        // START get list of photos for the purpose of deleting photos from album
+        $originalPhotos = new ArrayCollection();
+
+        // Create an ArrayCollection of the current Photo objects in the database
+        foreach ($album->getPhotos() as $photo) {
+            $originalPhotos->add($photo);
+        }
+        // END get list of photos
+
+
         $editForm = $this->createForm(AlbumType::class, $album);
         $deleteForm = $this->createDeleteForm($album);
 
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+            // START Remove any deleted photos
+            foreach ($originalPhotos as $photo) {
+                if (false === $album->getPhotos()->contains($photo)) {
+                    $entityManager->remove($photo);
+                }
+            }
+            // END Remove any deleted photos
+
             $entityManager->flush();
 
             $this->addFlash('success', $this->get('translator')->trans('album.updated_successfully'));
@@ -126,6 +147,70 @@ class AlbumController extends Controller {
             'album'  => $album,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+        ]);
+
+
+    }
+
+    /**
+     * @Route("/{id}/permissions",  requirements={"id": "\d+"}, name="edit_album_permissions")
+     * @Method({"GET", "POST"})
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function editPermissionsAction(Album $album, Request $request){
+
+        // Check voters
+        $this->denyAccessUnlessGranted('edit', $album, $this->get('translator')->trans('album.edit_not_allowed'));
+
+        $this->get('breadcrumbs_organizer')->permissionsAlbum($album);
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // START get list of permissions for the purpose of persisting new permissions to the DB / deleting permissions that were deleted from DOM
+        $originalPermissions = new ArrayCollection();
+
+        // Create an ArrayCollection of the current Photo objects in the database
+        foreach ($album->getPermissions() as $permission) {
+            $originalPermissions->add($permission);
+        }
+        // END get list of permissions
+
+        $editForm = $this->createForm(AlbumPermissionsType::class, $album);
+
+        $editForm->handleRequest($request);
+
+        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+            // START persist any new permissions
+            foreach ($album->getPermissions() as $permission) {
+                if (false === $originalPermissions->contains($permission)) {
+                    $permission->setAlbum($album);
+                    $permission->setGrantedBy($user);
+                    $entityManager->persist($permission);
+                }
+            }
+            // END persist any new permissions
+
+            // START Remove any deleted permissions
+            foreach ($originalPermissions as $permission) {
+                if (false === $album->getPermissions()->contains($permission)) {
+                    $entityManager->remove($permission);
+                }
+            }
+            // END Remove any deleted permissions
+
+            $entityManager->flush();
+
+            $this->addFlash('success', $this->get('translator')->trans('album.updated_successfully'));
+            
+            return $this->redirectToRoute('show_album', ['id' => $album->getId()]);
+        }
+
+        return $this->render('album/edit_permissions.html.twig', [
+            'album'  => $album,
+            'edit_form'   => $editForm->createView(),
         ]);
 
 

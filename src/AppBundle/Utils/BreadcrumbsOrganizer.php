@@ -6,13 +6,15 @@ use AppBundle\Entity\Collection;
 use AppBundle\Entity\Album;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class BreadcrumbsOrganizer
 {
 
-	public function __construct(Breadcrumbs $breadcrumbs, Router $router){
+	public function __construct(Breadcrumbs $breadcrumbs, Router $router, TokenStorage $security_context){
 		$this->breadcrumbs = $breadcrumbs;
 		$this->router = $router;
+		$this->security_context = $security_context;
 	}
 
 	public function showHome($last=true){
@@ -71,6 +73,17 @@ class BreadcrumbsOrganizer
 
 	}
 
+	public function permissionsAlbum(Album $album, $last=true){
+
+		$this->showAlbum($album, false);
+
+		$this->breadcrumbs->addItem(
+			'album.title.edit_album_permissions',
+			($last ? null : $this->router->generate('edit_album_permissions', ['id'=>$album->getId()]))
+		);
+
+	}
+
 	public function uploadToAlbum(Album $album, $last=true){
 
 		$this->showAlbum($album, false);
@@ -114,5 +127,92 @@ class BreadcrumbsOrganizer
 		);
 
 	}
+
+	public function showLogin($last=true){
+
+		$this->showHome(false);
+
+		$this->breadcrumbs->addItem(
+			'menu.login',
+			($last ? null : $this->router->generate('fos_user_security_login'))
+		);
+
+	}
+
+	public function resetPassword($last=true){
+
+		$this->showLogin(false);
+
+		$this->breadcrumbs->addItem(
+			'user.title.reset_password',
+			($last ? null : $this->router->generate('fos_user_resetting_request'))
+		);
+
+	}
+
+	public function createAccount($last=true){
+
+		$this->showLogin(false);
+
+		$this->breadcrumbs->addItem(
+			'user.title.create_new',
+			($last ? null : $this->router->generate('fos_user_registration_register'))
+		);
+
+	}
+
+
+	public function showProfile($user, $last=true){
+
+		$this->showHome(false);
+
+		$username = $user->getUsername();
+
+		$this->breadcrumbs->addItem(
+			'user.data.username',
+			($last ? null : $this->router->generate('profile_base_default', ['username'=>$username])),
+			['%username%'=>$username]
+		);
+
+	}
+
+
+	public function showAccount($last=true){
+
+		$user = $this->security_context->getToken()->getUser();
+
+		$this->showProfile($user, false);
+
+		$this->breadcrumbs->addItem(
+			'user.title.my_account',
+			($last ? null : $this->router->generate('fos_user_profile_show'))
+		);
+
+	}
+
+
+	public function editAccount($last=true){
+
+		$this->showAccount(false);
+
+		$this->breadcrumbs->addItem(
+			'user.title.edit_account',
+			($last ? null : $this->router->generate('fos_user_profile_edit'))
+		);
+
+	}
+
+
+	public function changePassword($last=true){
+
+		$this->showAccount(false);
+
+		$this->breadcrumbs->addItem(
+			'user.title.change_password',
+			($last ? null : $this->router->generate('fos_user_change_password'))
+		);
+
+	}
+
 
 }

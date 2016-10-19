@@ -13,8 +13,9 @@
 
 	<div class="album-edit-position-wrap">
 		<div class="album-edit-position-arrows">
-			<a style="display:block;" class="reorder-photo reorder-photo-up"><i class="fi-arrow-up"></i></a>
-			<a style="display:block;" class="reorder-photo reorder-photo-down"><i class="fi-arrow-down"></i></a>
+			<a style="display:block;" class="reorder-photo reorder-photo-up icon-blue"><i class="fi-arrow-up"></i></a>
+			<a style="display:block;" class="reorder-photo reorder-photo-down icon-blue"><i class="fi-arrow-down"></i></a>
+			<a style="display:block;" class="delete-photo icon-red"><i class="fi-x"></i></a>
 		</div>
 		<a target="_blank" class="thumbnail thumbnail-edit-list" href="{{ signed_url_cacher.getUrl(data.sizeOriginal) }}">
 	    	<img src="{{ signed_url_cacher.getUrl(data.sizeThumb) }}">
@@ -32,16 +33,17 @@
 {% block _album_photos_entry_widget %}
 	
 	<hr>
+	<div class="row">
+		<div class="large-4 medium-6 small-12 columns">
+			{{ form_widget(form.photo) }}
+		</div>
 
-	<div class="large-4 columns">
-		{{ form_widget(form.photo) }}
-	</div>
-
-	<div class="large-8 columns">
-		{{ form_row(form.title) }}
-		{{ form_row(form.caption) }}
-		{{ form_row(form.description) }}
-		{{ form_row(form.position) }}
+		<div class="large-8 medium-6 small-12 columns">
+			{{ form_row(form.title) }}
+			{{ form_row(form.caption) }}
+			{{ form_row(form.description) }}
+			{{ form_row(form.position) }}
+		</div>
 	</div>
 {% endblock %}
 
@@ -49,23 +51,43 @@
 
 {% block body %}
 
-	<div class="row">
-		{{ form_start(edit_form) }}
-		
-		<div class="column large-6 medium-8 small-12">
-			<input type="submit" class="button" value="{{ 'album.label.save_album'|trans }}">
-			<a class="button" href="{{ path('show_album', {'id': album.id}) }}">{{ 'misc.cancel'|trans }}</a>
-			
+	{{ form_start(edit_form) }}
 
-			{{ form_row(edit_form.name) }}
-			{{ form_row(edit_form.description) }}
-			{{ form_row(edit_form.collection) }}
-			{{ form_row(edit_form.public) }}
+		<div class="row">
+			
+			<div class="column large-6 medium-8 small-12">
+				<input type="submit" class="button" value="{{ 'album.label.save_album'|trans }}">
+				<a class="button" href="{{ path('show_album', {'id': album.id}) }}">{{ 'misc.cancel'|trans }}</a>
+				
+
+				{{ form_row(edit_form.name) }}
+				{{ form_row(edit_form.description) }}
+				{{ form_row(edit_form.collection) }}
+				{{ form_row(edit_form.public) }}
+			</div>
+
 		</div>
 
-		{{ form_row(edit_form.photos) }}
-		
-		{{ form_end(edit_form) }}
-	</div>
+		<div class="row photo-container">
+			<div class="column">
+				{{ form_row(edit_form.photos) }}
+			</div>
+		</div>		
 
+		
+	{{ form_end(edit_form) }}
+
+	<div class="reveal" id="confirmDeleteModal" data-reveal>
+		<h1>{{ 'album_photo.title.confirm_delete'|trans }}</h1>
+		<p class="img-container text-center"></p>
+		<p class="lead">{{ 'album_photo.confirm_delete'|trans }}</p>
+		<p class="text-center">
+			<button class="button alert delete-confirm">{{ 'misc.delete'|trans }}</button> 
+			<button class="button delete-cancel">{{ 'misc.cancel'|trans }}</button>
+		</p>
+			<button class="close-button" data-close aria-label="Close modal" type="button">
+				<span aria-hidden="true">&times;</span>
+			</button>
+	</div>
+	
 {% endblock %}

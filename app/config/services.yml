@@ -25,9 +25,19 @@ services:
         parent: app.base_form
         tags:
             - { name: form.type }
+    app.form.album_permissions:
+        class: AppBundle\Form\AlbumPermissionsType
+        parent: app.base_form
+        tags:
+            - { name: form.type }
     app.form.upload_photos_to_album:
         class: AppBundle\Form\UploadPhotosToAlbumType
         parent: app.base_form
+        tags:
+            - { name: form.type }
+    app.form.permission:
+        class: AppBundle\Form\PermissionType
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: form.type }
     app.voter.collection:
@@ -63,4 +73,4 @@ services:
 
     breadcrumbs_organizer:
         class: AppBundle\Utils\BreadcrumbsOrganizer
-        arguments: ['@white_october_breadcrumbs', '@router']
+        arguments: ['@white_october_breadcrumbs', '@router', '@security.token_storage']

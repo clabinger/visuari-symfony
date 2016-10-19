@@ -24,9 +24,15 @@ fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 
+# START FOS User Bundle overrides in order to match without trailing slash - by default the package wants to use trailing slash
 fos_user_registration_register:
     path:      '/register'
     defaults:  { _controller: FOSUserBundle:Registration:register }
+
+fos_user_profile_show:
+    path:   '/profile'
+    defaults:  { _controller: FOSUserBundle:Profile:show }
+# END FOS User Bundle overrides in order to match without trailing slash
 
 # profile_base:
 #     resource: routing/profile_base.yml

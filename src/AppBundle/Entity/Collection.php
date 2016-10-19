@@ -71,6 +71,11 @@ class Collection
      * @Assert\Type("bool")
      */
     private $public;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Permission", mappedBy="collection", cascade={"persist"})
+     */
+    private $permissions;
 
 
     public function __construct(){

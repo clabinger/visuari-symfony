@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% if page_title is defined %} {{ page_title }} - {% endif %} Photo Albums</title>
+        <title>{% if page_title is defined %} {{ page_title }} - {% endif %} Visuari</title>
         {% block stylesheets %}
             {% stylesheets 
                 'assets/vendor/foundation/css/app.css'
@@ -42,7 +42,7 @@
         </div>
           
 
-
+        {% block pre_process %}{% endblock %}
 
         {# {% block fos_user_content %}{% endblock %} #}
 
@@ -59,16 +59,18 @@
         {% endif %}
 
         <div class="row column">
-            {% for type, messages in app.session.flashbag.all() %}
-                {% for message in messages %}
-                    <div class="callout {{ type }}" data-closable>
-                        <p>{{ message }}</p>
-                        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+            <div class="space-vertical">
+                {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                        <div class="callout {{ type }}" data-closable>
+                            <p>{{ message }}</p>
+                            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
+            </div>
         </div>
 
     

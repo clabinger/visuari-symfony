@@ -38,6 +38,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         signed_url_cacher: "@app.signed_url_cacher"
+        breadcrumbs: "@breadcrumbs_organizer"
         default_form_theme: "foundation_5_layout.html.twig"
 
 # Doctrine Configuration
