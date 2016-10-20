@@ -56,9 +56,10 @@
 		<div class="row">
 			
 			<div class="column large-6 medium-8 small-12">
-				<input type="submit" class="button" value="{{ 'album.label.save_album'|trans }}">
-				<a class="button" href="{{ path('show_album', {'id': album.id}) }}">{{ 'misc.cancel'|trans }}</a>
-				
+				<p>
+					<input type="submit" class="button" value="{{ 'album.label.save_album'|trans }}">
+					<a class="button" href="{{ path('show_album', {'id': album.id}) }}">{{ 'misc.cancel'|trans }}</a>
+				</p>
 
 				{{ form_row(edit_form.name) }}
 				{{ form_row(edit_form.description) }}

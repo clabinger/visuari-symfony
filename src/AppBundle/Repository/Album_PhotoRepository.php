@@ -16,8 +16,7 @@ class Album_PhotoRepository extends EntityRepository
 
 
     /**
-     * Return all albums that are owned by the specified $owner and are either public or the current $user is the owner
-     * TODO: Add albums that the current user can see through permissions
+     * Get the max "position" field that exists in the Album_Photo entity for a particular album. 
      *
      * @param Album $owner 
      *

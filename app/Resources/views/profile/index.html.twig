@@ -6,7 +6,11 @@
 {% block body %}
 
 	<div class="row column">
-		<p><a class="button" href="{{ path('fos_user_profile_show') }}">{{ 'user.title.my_account'|trans }}</a></p>
+		<p>
+			<a class="button" href="{{ path('fos_user_profile_show') }}">{{ 'user.title.my_account'|trans }}</a>
+			<a class="button" href="{{ path('new_collection') }}">{{ 'collection.title.create_collection'|trans }}</a>
+			<a class="button" href="{{ path('new_album') }}">{{ 'album.title.create_album'|trans }}</a>
+		</p>
 	</div>
 
 	<div class="row column">

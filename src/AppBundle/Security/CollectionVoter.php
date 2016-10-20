@@ -8,16 +8,17 @@ use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class CollectionVoter extends Voter
+class CollectionVoter extends ItemVoter
 {
     // these strings are just invented: you can use anything
     const VIEW = 'view';
     const EDIT = 'edit';
+    const EDIT_PERM = 'edit_permissions';
 
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::VIEW, self::EDIT))) {
+        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::EDIT_PERM))) {
             return false;
         }
 
@@ -48,25 +49,11 @@ class CollectionVoter extends Voter
                 return $this->canView($collection, ($user instanceof User) ? $user : NULL);
             case self::EDIT:
                 return $this->canEdit($collection, ($user instanceof User) ? $user : NULL);
+            case self::EDIT_PERM:
+                return $this->canEditPermissions($collection, ($user instanceof User) ? $user : NULL);
         }
 
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canView(Collection $collection, User $user=NULL)
-    {
-        // if they can edit, they can view
-        if ($this->canEdit($collection, $user)) {
-            return true;
-        }
-
-        return $collection->isPublic();
-    }
-
-    private function canEdit(Collection $collection, User $user=NULL)
-    {
-        // this assumes that the data object has a getOwner() method
-        // to get the entity of the user who owns this data object
-        return $user === $collection->getOwner();
-    }
 }

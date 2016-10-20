@@ -12,14 +12,17 @@
 	    <p>Collection by <a href="{{ path('profile_base_default', {'username': collection.owner.username}) }}">{{ collection.owner.username }}</a></p>
 
 	    {% if is_granted('edit', collection) %}
-	    	<p><a class="button" href="{{ path('edit_collection', {'id': collection.id}) }}">Edit</a>
+	    	<p>
+	    		<a class="button" href="{{ path('edit_collection', {'id': collection.id}) }}">{{ 'collection.button.edit'|trans }}</a>
+	    		<a class="button" href="{{ path('new_album', {'collection': collection.id}) }}">{{ 'collection.button.add_album'|trans }}</a>
+	    	</p>
 	    {% endif %}
 
 	    <p>{{ collection.description|e }}</p>
 
-	    {% for album in collection.albums %}
-	        <h3><a href="{{ path('show_album', {'id': album.id}) }}">{{ album.name|e }}</a></h3>
-	        <p>{{ album.description|e }}</p>
+	    {% for album in albums %}
+	        <h3><a href="{{ path('show_album', {'id': album.id}) }}">{{ album.name }}</a></h3>
+	        <p>{{ album.description }}</p>
 	    {% endfor %}
 
 	</div>

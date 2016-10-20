@@ -5,35 +5,34 @@
 namespace AppBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Security\Core\Authorization;
+use AppBundle\Utils\CurrentUser;
 
-class Builder implements ContainerAwareInterface
+class Builder
 {
-    use ContainerAwareTrait;
 
-    public function mainMenu(FactoryInterface $factory, array $options)
+    public function __construct(FactoryInterface $factory, CurrentUser $user)
+    {
+        $this->current_user = $user->get();
+        $this->factory = $factory;
+    }
+
+    public function mainMenu(array $options)
     {
 
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
-
-
-        $menu = $factory->createItem('root', array(
+        $menu = $this->factory->createItem('root', array(
             'childrenAttributes'    => array(
                 'class'             => 'menu dropdown align-right',
                 'data-dropdown-menu' => '',
             ),
         ));
 
-      
-        
-        if(is_string($user)){
+        if(!$this->current_user){
 
             $menu->addChild('menu.login', array('route' => 'fos_user_security_login'));
             
         }else{
-            $username = $user->getUsername();
+            $username = $this->current_user->getUsername();
 
             $profile_link = array(
                 'route' => 'profile_base_default', 

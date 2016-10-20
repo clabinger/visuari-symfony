@@ -8,12 +8,20 @@
 
 {% block body %}
 
-	<h1>{{ page_title }}</h1>
-
 	{{ form_start(form) }}
-	{{ form_widget(form) }}
-	<input type="submit" class="button" value="{{ 'album.label.create_album'|trans }}">
-	<a class="button" href="{{ path('homepage', {'id': album.id}) }}">Cancel</a>
+	
+		<div class="row">
+			<div class="column large-6 medium-8 small-12">
+				<p>
+					<input type="submit" class="button" value="{{ 'album.label.create_album'|trans }}">
+					<a class="button" href="{{ app.request.get('collection') ? path('show_collection', {'id': app.request.get('collection')}) : path('homepage') }}">Cancel</a>
+				</p>		
+
+				{{ form_widget(form) }}
+
+			</div>
+		</div>
+	
 	{{ form_end(form) }}
 
 {% endblock %}

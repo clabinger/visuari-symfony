@@ -60,11 +60,7 @@ class ProfileController extends Controller
         $this->get('breadcrumbs_organizer')->listUserCollections($request_user);
 
 
-    	if($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-        	$current_user = $this->container->get('security.token_storage')->getToken()->getUser();
-        }else{
-        	$current_user = NULL;
-        }
+    	$current_user = $this->get('app.current_user')->get();
 
 		$collections = $this->getDoctrine()->getRepository(Collection::class)->findByOwner($request_user, $current_user);
 
@@ -93,11 +89,7 @@ class ProfileController extends Controller
         $this->get('breadcrumbs_organizer')->listUserAlbums($request_user);
 
 
-    	if($this->container->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')){
-        	$current_user = $this->container->get('security.token_storage')->getToken()->getUser();
-        }else{
-        	$current_user = NULL;
-        }
+        $current_user = $this->get('app.current_user')->get();
 
     	$albums = $this->getDoctrine()->getRepository(Album::class)->findByOwner($request_user, $current_user);
 

@@ -45,8 +45,7 @@ class Collection
     private $changeDate;
     
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank()
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
@@ -73,7 +72,7 @@ class Collection
     private $public;
     
     /**
-     * @ORM\OneToMany(targetEntity="Permission", mappedBy="collection", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Permission", mappedBy="collection")
      */
     private $permissions;
 
@@ -122,4 +121,154 @@ class Collection
     }
 
 
+
+    /**
+     * Set createDate
+     *
+     * @param \DateTime $createDate
+     *
+     * @return Collection
+     */
+    public function setCreateDate($createDate)
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createDate
+     *
+     * @return \DateTime
+     */
+    public function getCreateDate()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * Set changeDate
+     *
+     * @param \DateTime $changeDate
+     *
+     * @return Collection
+     */
+    public function setChangeDate($changeDate)
+    {
+        $this->changeDate = $changeDate;
+
+        return $this;
+    }
+
+    /**
+     * Get changeDate
+     *
+     * @return \DateTime
+     */
+    public function getChangeDate()
+    {
+        return $this->changeDate;
+    }
+
+    /**
+     * Get public
+     *
+     * @return boolean
+     */
+    public function getPublic()
+    {
+        return $this->public;
+    }
+
+    /**
+     * Add album
+     *
+     * @param \AppBundle\Entity\Album $album
+     *
+     * @return Collection
+     */
+    public function addAlbum(\AppBundle\Entity\Album $album)
+    {
+        $this->albums[] = $album;
+
+        return $this;
+    }
+
+    /**
+     * Remove album
+     *
+     * @param \AppBundle\Entity\Album $album
+     */
+    public function removeAlbum(\AppBundle\Entity\Album $album)
+    {
+        $this->albums->removeElement($album);
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Collection
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Add permission
+     *
+     * @param \AppBundle\Entity\Permission $permission
+     *
+     * @return Collection
+     */
+    public function addPermission(\AppBundle\Entity\Permission $permission)
+    {
+        $this->permissions[] = $permission;
+
+        return $this;
+    }
+
+    /**
+     * Remove permission
+     *
+     * @param \AppBundle\Entity\Permission $permission
+     */
+    public function removePermission(\AppBundle\Entity\Permission $permission)
+    {
+        $this->permissions->removeElement($permission);
+    }
+
+    /**
+     * Get permissions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
 }

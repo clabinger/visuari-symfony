@@ -9,7 +9,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use AppBundle\Utils\CurrentUser;
+
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,20 +27,19 @@ use Symfony\Component\Form\FormView;
 class AlbumPermissionsType extends AbstractType
 {
 
-    private $tokenStorage;
-    private $translator;
 
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(CurrentUser $current_user)
     {
-        $this->tokenStorage = $tokenStorage;
+        $this->current_user = $current_user->get();
     }
 
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $user = $this->tokenStorage->getToken()->getUser();
-        if (!$user || !method_exists($user, 'getId')) {
+        $user = $this->current_user;
+
+        if (!$user) {
             throw new \LogicException(
                 'Authenticated user not found.'
             );
@@ -52,7 +52,7 @@ class AlbumPermissionsType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
-                'label' => 'album.label.permissions',
+                'label' => false,
                 'entry_options' => array(
                     'label'=> false,
                 ),
@@ -64,7 +64,7 @@ class AlbumPermissionsType extends AbstractType
 	public function configureOptions(OptionsResolver $resolver)
 	{
 	    $resolver->setDefaults(array(
-	        'data_class' => 'AppBundle\Entity\Album',
+
 	    ));
 	}
 

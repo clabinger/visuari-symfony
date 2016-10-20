@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Collection;
+use AppBundle\Entity\Album;
 
 use AppBundle\Form\CollectionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -27,7 +28,7 @@ class CollectionController extends Controller {
      */
 	public function indexAction($page)
     {
-        $collections = $this->getDoctrine()->getRepository(Collection::class)->findLatest($page);
+        $collections = $this->getDoctrine()->getRepository(Collection::class)->findLatest($this->get('app.current_user')->get(), $page);
 
         $this->get('breadcrumbs_organizer')->listCollections();
 
@@ -50,7 +51,9 @@ class CollectionController extends Controller {
 
         $this->get('breadcrumbs_organizer')->showCollection($collection);
 
-    	return $this->render('collection/show.html.twig', ['collection'=>$collection]);
+        $albums = $this->getDoctrine()->getRepository(Album::class)->findByCollection($collection, $this->get('app.current_user')->get() );
+
+    	return $this->render('collection/show.html.twig', ['collection'=>$collection, 'albums'=>$albums]);
 
     }
 
@@ -71,7 +74,7 @@ class CollectionController extends Controller {
     	if($form->isSubmitted() && $form->isValid()){
     		$collection = $form->getData();
 
-            $user = $this->container->get('security.token_storage')->getToken()->getUser();
+            $user = $this->get('app.current_user')->get();
 
             $collection->setOwner($user);
 

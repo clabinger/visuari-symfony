@@ -51,8 +51,7 @@ class Album
     private $changeDate;
     
     /**
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank()
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 

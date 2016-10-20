@@ -10,29 +10,31 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.menu_builder:
+        class: AppBundle\Menu\Builder
+        arguments: ['@knp_menu.factory', '@app.current_user']
+        tags:
+            - { name: knp_menu.menu_builder, method: mainMenu, alias: main } # The alias is what is used to retrieve the menu
     imagine.handler:
         class: Imagine\Imagick\Imagine
-    app.base_form:
-        abstract: true
-        arguments: ['@security.token_storage', '@translator']
     app.form.collection:
         class: AppBundle\Form\CollectionType
-        parent: app.base_form
+        arguments: ['@app.current_user', '@translator']
         tags:
             - { name: form.type }
     app.form.album:
         class: AppBundle\Form\AlbumType
-        parent: app.base_form
+        arguments: ['@app.current_user', '@request_stack', '@doctrine.orm.entity_manager']
         tags:
             - { name: form.type }
     app.form.album_permissions:
         class: AppBundle\Form\AlbumPermissionsType
-        parent: app.base_form
+        arguments: ['@app.current_user', '@translator']
         tags:
             - { name: form.type }
     app.form.upload_photos_to_album:
         class: AppBundle\Form\UploadPhotosToAlbumType
-        parent: app.base_form
+        arguments: ['@app.current_user', '@translator']
         tags:
             - { name: form.type }
     app.form.permission:
@@ -73,4 +75,8 @@ services:
 
     breadcrumbs_organizer:
         class: AppBundle\Utils\BreadcrumbsOrganizer
-        arguments: ['@white_october_breadcrumbs', '@router', '@security.token_storage']
+        arguments: ['@white_october_breadcrumbs', '@router', '@app.current_user']
+
+    app.current_user:
+        class: AppBundle\Utils\CurrentUser
+        arguments: ['@security.token_storage', '@security.authorization_checker']

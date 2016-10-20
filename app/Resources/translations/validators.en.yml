@@ -9,3 +9,7 @@ permission:
     grantee:
         invalid: This username was not found.
         duplicate: This username has already been selected.
+
+album:
+    collection:
+        required: You must choose a collection.

@@ -31,7 +31,11 @@ class AlbumController extends Controller {
      */
 	public function indexAction($page)
     {
-        $albums = $this->getDoctrine()->getRepository(Album::class)->findLatest($page);
+
+        $user = $this->get('app.current_user')->get();
+
+
+        $albums = $this->getDoctrine()->getRepository(Album::class)->findLatest($user, $page);
 
         // $albums = $this->getDoctrine()
         // ->getRepository('AppBundle:Album')
@@ -59,7 +63,7 @@ class AlbumController extends Controller {
 
 
     /**
-     * @Route("/new", name="new_album")
+     * @Route("/new/{collection}", name="new_album", requirements={"collection": "\d+"}, defaults={"collection" = null})
      * @Method({"GET", "POST"})
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
@@ -74,7 +78,7 @@ class AlbumController extends Controller {
     	if($form->isSubmitted() && $form->isValid()){
     		$album = $form->getData();
 
-            $user = $this->container->get('security.token_storage')->getToken()->getUser();
+            $user = $this->get('app.current_user')->get();
 
             $album->setOwner($user);
 
@@ -160,7 +164,7 @@ class AlbumController extends Controller {
     public function editPermissionsAction(Album $album, Request $request){
 
         // Check voters
-        $this->denyAccessUnlessGranted('edit', $album, $this->get('translator')->trans('album.edit_not_allowed'));
+        $this->denyAccessUnlessGranted('edit_permissions', $album, $this->get('translator')->trans('album.edit_not_allowed_permissions'));
 
         $this->get('breadcrumbs_organizer')->permissionsAlbum($album);
 
@@ -179,7 +183,7 @@ class AlbumController extends Controller {
 
         $editForm->handleRequest($request);
 
-        $user = $this->container->get('security.token_storage')->getToken()->getUser();
+        $user = $this->get('app.current_user')->get();
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 

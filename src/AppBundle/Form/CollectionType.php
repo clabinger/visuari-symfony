@@ -23,7 +23,7 @@ class CollectionType extends AbstractType
 
         $builder
             ->add('name', TextType::class, Array('label'=>'collection.label.name'))
-            ->add('description', TextType::class, Array('label'=>'collection.label.description'))
+            ->add('description', TextType::class, Array('label'=>'collection.label.description', 'required'=>false))
             ->add('public', CheckboxType::class, Array('label'=>'collection.label.make_public', 'required'=>false))
             // ->add('save', SubmitType::class, Array('label'=>'collection.label.create_collection'))
         ;

@@ -9,13 +9,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-// use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
-// use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-// use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 use AppBundle\Repository\CollectionRepository;
 
@@ -23,24 +19,9 @@ use AppBundle\Repository\CollectionRepository;
 class AlbumPhotoType extends AbstractType
 {
 
-    private $tokenStorage;
-    private $translator;
-
-    // public function __construct(TokenStorageInterface $tokenStorage)
-    // {
-    //     $this->tokenStorage = $tokenStorage;
-    // }
-
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        // $user = $this->tokenStorage->getToken()->getUser();
-        // if (!$user || !method_exists($user, 'getId')) {
-        //     throw new \LogicException(
-        //         'Authenticated user not found.'
-        //     );
-        // }
 
         $builder
             ->add('photo', EntityType::class, array('class'=>'AppBundle:Photo', 'choice_label'=>'size_thumb', 'disabled'=>true))

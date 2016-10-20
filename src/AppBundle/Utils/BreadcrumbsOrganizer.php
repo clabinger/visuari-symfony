@@ -5,16 +5,16 @@ use WhiteOctober\BreadcrumbsBundle\Model\Breadcrumbs;
 use AppBundle\Entity\Collection;
 use AppBundle\Entity\Album;
 use AppBundle\Entity\User;
+use AppBundle\Utils\CurrentUser;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class BreadcrumbsOrganizer
 {
 
-	public function __construct(Breadcrumbs $breadcrumbs, Router $router, TokenStorage $security_context){
+	public function __construct(Breadcrumbs $breadcrumbs, Router $router, CurrentUser $current_user){
 		$this->breadcrumbs = $breadcrumbs;
 		$this->router = $router;
-		$this->security_context = $security_context;
+		$this->current_user = $current_user;
 	}
 
 	public function showHome($last=true){
@@ -179,7 +179,7 @@ class BreadcrumbsOrganizer
 
 	public function showAccount($last=true){
 
-		$user = $this->security_context->getToken()->getUser();
+		$user = $this->current_user->get();
 
 		$this->showProfile($user, false);
 

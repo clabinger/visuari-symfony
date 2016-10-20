@@ -22,7 +22,9 @@
     	<p>
             <a class="button" href="{{ path('edit_album', {'id': album.id}) }}">{{ 'album.button.edit'|trans }}</a>
             <a class="button" href="{{ path('upload_to_album', {'id': album.id}) }}">{{ 'album.button.upload'|trans }}</a>
-            <a class="button" href="{{ path('edit_album_permissions', {'id': album.id}) }}">{{ 'album.button.edit_permissions'|trans }}</a>
+            {% if is_granted('edit_permissions', album) %}
+                <a class="button" href="{{ path('edit_album_permissions', {'id': album.id}) }}">{{ 'album.button.edit_permissions'|trans }}</a>
+            {% endif %}
         </p>
     {% endif %}
 

@@ -4,76 +4,90 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Collection;
 use AppBundle\Entity\Album;
+use AppBundle\Entity\User;
+use AppBundle\Entity\Permission;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
 
+use AppBundle\Security\PermissionChecker;
 
 class AlbumRepository extends EntityRepository
 {
     /**
+     * Return all albums that the current $user has permission to see
+     * 
+     * @param User $user
+     *
      * @return Query
      */
-    public function queryLatest()
+    public function queryLatest(User $user = null)
     {
+        $permissionChecker = new PermissionChecker();
 
-        $qb = $this->createQueryBuilder('a');
-
-        return $qb
-            ->where(
-                $qb->expr()->eq('a.public', '1')
-            )
-            ->orderBy('a.createDate','DESC')
-            
-            // 'WHERE p.publishedAt <= :now'
-            // ->setParameter('now', new \DateTime())
-        ;
+        return $permissionChecker->queryItems($this, $user, 'album');        
     }
 
+
+
     /**
-     * Return all albums that are owned by the specified $owner and are either public or the current $user is the owner
-     * TODO: Add albums that the current user can see through permissions
+     * Return all albums in the specified $collection that the current $user has permission to see
+     *
+     * @param Collection $collection
+     * @param User $user 
+     *
+     * @return Query
+     */
+    public function queryByCollection(Collection $collection, $user=null)
+    {
+        $permissionChecker = new PermissionChecker();
+
+        $additional_expr = Array('eq', 'i.collection', ':collection');
+
+        $additional_param = Array(
+            'collection'=>$collection->getId()
+        );
+
+        return $permissionChecker->queryItems($this, $user, 'album', $additional_expr, $additional_param);
+    }
+
+
+
+    /**
+     * Return all albums owned by the specified $owner that the current $user has permission to see
      *
      * @param User $owner 
      * @param User $user 
      *
      * @return Query
      */
-    public function queryByOwner($owner, $user=NULL)
+    public function queryByOwner(User $owner, User $user=null)
     {
+        $permissionChecker = new PermissionChecker();
 
-        $qb = $this->createQueryBuilder('a');
+        $additional_expr = Array('eq', 'i.owner', ':owner');
 
-        return $qb 
-            ->where($qb->expr()->andX(
-                $qb->expr()->eq('a.owner', ':owner'),
-                $qb->expr()->orX(
-                    $qb->expr()->eq('a.public', '1'),
-                    $qb->expr()->eq('a.owner', ($user===NULL ? '0' : ':user')) // If user is not set, use 0 to effectively remove this condition
-                )
-            ))
-            ->setParameter('owner', $owner->getId())
-            ->setParameter('user', $user->getId())
+        $additional_param = Array(
+            'owner'=>$owner->getId()
+        );
 
-            ->orderBy('a.createDate','DESC')
-            
-            // 'WHERE p.publishedAt <= :now'
-            // ->setParameter('now', new \DateTime())
-        ;
+        return $permissionChecker->queryItems($this, $user, 'album', $additional_expr, $additional_param);
     }
 
     
 
     /**
+     * @param User $user
      * @param int $page
      *
      * @return Pagerfanta
      */
-    public function findLatest($page = 1)
+    public function findLatest(User $user = null, $page = 1)
     {
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest(), false));
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($user), false));
         $paginator->setMaxPerPage(Album::NUM_ITEMS);
         $paginator->setCurrentPage($page);
 
@@ -81,7 +95,22 @@ class AlbumRepository extends EntityRepository
     }
 
     /**
-     * Return all albums that are owned by the specified $owner and are either public or the current $user is the owner
+     * @param Collection $collection
+     * @param User $user
+     * @param int $page
+     *
+     * @return Pagerfanta
+     */
+    public function findByCollection(Collection $collection, User $user = null, $page = 1)
+    {
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryByCollection($collection, $user), false));
+        $paginator->setMaxPerPage(Album::NUM_ITEMS);
+        $paginator->setCurrentPage($page);
+
+        return $paginator;
+    }
+
+    /**
      * 
      * @param User $owner
      * @param User $user
@@ -89,7 +118,7 @@ class AlbumRepository extends EntityRepository
      *
      * @return Pagerfanta
      */
-    public function findByOwner($owner, $user = NULL, $page = 1)
+    public function findByOwner(User $owner, User $user = null, $page = 1)
     {
         $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryByOwner($owner, $user), false));
         $paginator->setMaxPerPage(Album::NUM_ITEMS);

@@ -8,16 +8,17 @@ use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class AlbumVoter extends Voter
+class AlbumVoter extends ItemVoter
 {
     // these strings are just invented: you can use anything
     const VIEW = 'view';
     const EDIT = 'edit';
+    const EDIT_PERM = 'edit_permissions';
 
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::VIEW, self::EDIT))) {
+        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::EDIT_PERM))) {
             return false;
         }
 
@@ -48,25 +49,12 @@ class AlbumVoter extends Voter
                 return $this->canView($album, ($user instanceof User) ? $user : NULL);
             case self::EDIT:
                 return $this->canEdit($album, ($user instanceof User) ? $user : NULL);
+            case self::EDIT_PERM:
+                return $this->canEditPermissions($album, ($user instanceof User) ? $user : NULL);
         }
 
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canView(Album $album, User $user=NULL)
-    {
-        // if they can edit, they can view
-        if ($this->canEdit($album, $user)) {
-            return true;
-        }
 
-        return $album->isPublic();
-    }
-
-    private function canEdit(Album $album, User $user=NULL)
-    {
-        // this assumes that the data object has a getOwner() method
-        // to get the entity of the user who owns this data object
-        return $user === $album->getOwner();
-    }
 }

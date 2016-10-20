@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use AppBundle\Utils\CurrentUser;
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,20 +23,19 @@ use AppBundle\Repository\CollectionRepository;
 class UploadPhotosToAlbumType extends AbstractType
 {
 
-    private $tokenStorage;
     private $translator;
 
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(CurrentUser $current_user)
     {
-        $this->tokenStorage = $tokenStorage;
+        $this->current_user = $current_user->get();
     }
 
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $user = $this->tokenStorage->getToken()->getUser();
-        if (!$user || !method_exists($user, 'getId')) {
+        $user = $this->current_user;
+        if (!$user) {
             throw new \LogicException(
                 'Authenticated user not found.'
             );
@@ -44,17 +43,6 @@ class UploadPhotosToAlbumType extends AbstractType
 
         $builder
             ->add('album', HiddenType::class, Array('data' => $builder->getData()->getId() , 'mapped' => false , 'attr' => array('class' => 'uploader_album_id') ))
-            // ->add('name', TextType::class, Array('label'=>'album.label.name'))
-            // ->add('description', TextType::class, Array('label'=>'album.label.description'))
-            // ->add('public', CheckboxType::class, Array('label'=>'album.label.make_public', 'required'=>false))
-            // ->add('collection', EntityType::class, Array(
-            //         'class' => 'AppBundle:Collection',
-            //         'choice_label' => 'name',
-            //         'label'=>'album.label.collection',
-            //         'query_builder' => function (CollectionRepository $cr) use ($user){
-            //             return $cr->queryByOwner($user, $user);
-            //         },
-            //     ))
         ;
     }
 

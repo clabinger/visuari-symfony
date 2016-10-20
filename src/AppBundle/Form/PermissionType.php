@@ -68,7 +68,15 @@ class PermissionType extends AbstractType
 	        'data_class' => 'AppBundle\Entity\Permission',
             'constraints'=>array(
                 new UniqueEntity(array(
+                    'fields'=>['grantee','collection'],
+                    'message'=>'permission.grantee.duplicate'
+                )),
+                new UniqueEntity(array(
                     'fields'=>['grantee','album'],
+                    'message'=>'permission.grantee.duplicate'
+                )),
+                new UniqueEntity(array(
+                    'fields'=>['grantee','album_photo'],
                     'message'=>'permission.grantee.duplicate'
                 )),
             ),

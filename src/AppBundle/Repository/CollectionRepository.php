@@ -5,6 +5,10 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Collection;
+use AppBundle\Entity\User;
+
+use AppBundle\Security\PermissionChecker;
+
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -14,65 +18,53 @@ use Pagerfanta\Pagerfanta;
 class CollectionRepository extends EntityRepository
 {
     /**
+     *
+     * Return all collections that the current $user has permission to see
+     *
+     * @param User $user
+     *
      * @return Query
      */
-    public function queryLatest()
+    public function queryLatest(User $user = null)
     {
+        $permissionChecker = new PermissionChecker();
 
-        $qb = $this->createQueryBuilder('c');
-
-        return $qb
-            ->where(
-                $qb->expr()->eq('c.public', '1')
-            )
-            ->orderBy('c.createDate','DESC')
-            
-            // 'WHERE p.publishedAt <= :now'
-            // ->setParameter('now', new \DateTime())
-        ;
+        return $permissionChecker->queryItems($this, $user, 'collection');
     }
 
     /**
-     * Return all collections that are owned by the specified $owner and are either public or the current $user is the owner
-     * TODO: Add collections that the current user can see through permissions
+     * Return all collections owned by the specified $owner that the current user has permission to see
      *
      * @param User $owner 
      * @param User $user 
      *
      * @return Query
      */
-    public function queryByOwner($owner, $user=NULL)
+    public function queryByOwner(User $owner, User $user=NULL)
     {
 
-        $qb = $this->createQueryBuilder('c');
+        $permissionChecker = new PermissionChecker();
 
-        return $qb 
-            ->where($qb->expr()->andX(
-                $qb->expr()->eq('c.owner', ':owner'),
-                $qb->expr()->orX(
-                    $qb->expr()->eq('c.public', '1'),
-                    $qb->expr()->eq('c.owner', ($user===NULL ? '0' : $user->getId())) // If user is not set, use 0 to effectively remove this condition
-                )
-            ))
-            ->setParameter('owner', $owner->getId())
+        $additional_expr = Array('eq', 'i.owner', ':owner');
 
-            ->orderBy('c.createDate','DESC')
-            
-            // 'WHERE p.publishedAt <= :now'
-            // ->setParameter('now', new \DateTime())
-        ;
+        $additional_param = Array(
+            'owner'=>$owner->getId()
+        );
+
+        return $permissionChecker->queryItems($this, $user, 'collection', $additional_expr, $additional_param);
     }
 
     
 
     /**
+     * @param User $user
      * @param int $page
      *
      * @return Pagerfanta
      */
-    public function findLatest($page = 1)
+    public function findLatest(User $user = null, $page = 1)
     {
-        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest(), false));
+        $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryLatest($user), false));
         $paginator->setMaxPerPage(Collection::NUM_ITEMS);
         $paginator->setCurrentPage($page);
 
@@ -80,7 +72,6 @@ class CollectionRepository extends EntityRepository
     }
 
     /**
-     * Return all collections that are owned by the specified $owner and are either public or the current $user is the owner
      * 
      * @param User $owner
      * @param User $user
@@ -88,7 +79,7 @@ class CollectionRepository extends EntityRepository
      *
      * @return Pagerfanta
      */
-    public function findByOwner($owner, $user = NULL, $page = 1)
+    public function findByOwner(User $owner, User $user = null, $page = 1)
     {
         $paginator = new Pagerfanta(new DoctrineORMAdapter($this->queryByOwner($owner, $user), false));
         $paginator->setMaxPerPage(Collection::NUM_ITEMS);

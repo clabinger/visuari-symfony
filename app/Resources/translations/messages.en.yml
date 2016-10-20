@@ -47,6 +47,9 @@ collection:
         save_collection: Save Collection
     view:
         denied: You do not have permission to view this collection.
+    button:
+        edit: Edit Collection Settings
+        add_album: Add Album
     data:
         name: %name%
 album:
@@ -61,6 +64,7 @@ album:
     list_name: %name%'s Albums
     edit_not_owner: You must be the owner to edit this album.
     edit_not_allowed: You do not have permission to edit this album.
+    edit_not_allowed_permissions: You do not have permission to adjust the sharing settings of this album.
     edit_not_allowed_photos: You do not have permission to add photos to this album.
     edit_not_signed_in: You must be signed in to create or edit an album.
     title:
@@ -73,6 +77,7 @@ album:
         edit_permissions: Share
         upload: Upload
         save_permissions: Save Permissions
+        choose_collection: Choose a collection...
     label:
         name: Album Name
         description: Album Description
