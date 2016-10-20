@@ -5,6 +5,7 @@
 namespace AppBundle\Security;
 
 use AppBundle\Entity\User;
+use AppBundle\Entity\Album;
 use AppBundle\Entity\Permission;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -27,8 +28,17 @@ abstract class ItemVoter extends Voter
 
         $result = $item->getPermissions()->matching($criteria)->get(0);
 
-        if($result instanceof Permission){
+        // Albums inherit permissions from collections 
+        if($item instanceof Album){
+            $inherited_result = $item->getCollection()->getPermissions()->matching($criteria)->get(0);
+        }else{
+            $inherited_result = null;
+        }
+
+        if($result instanceof Permission){ // Permission set directly on the item - do not look at inherited permissions in this case
             return $result->getLevel();
+        }else if($inherited_result instanceof Permission){ // Permission set on parent item
+            return $inherited_result->getLevel();
         }else{
             return null;
         }

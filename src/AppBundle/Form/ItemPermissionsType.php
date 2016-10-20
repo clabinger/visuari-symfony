@@ -1,6 +1,6 @@
 <?php
 
-// src/AppBundle/Form/AlbumPermissionsType.php
+// src/AppBundle/Form/ItemPermissionsType.php
 
 namespace AppBundle\Form;
 
@@ -24,7 +24,7 @@ use AppBundle\Entity\Permission;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
-class AlbumPermissionsType extends AbstractType
+class ItemPermissionsType extends AbstractType
 {
 
 

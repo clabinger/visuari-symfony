@@ -1,4 +1,5 @@
 {# Resources/views/collection/show.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% set page_title = collection.name|e %}
@@ -15,6 +16,9 @@
 	    	<p>
 	    		<a class="button" href="{{ path('edit_collection', {'id': collection.id}) }}">{{ 'collection.button.edit'|trans }}</a>
 	    		<a class="button" href="{{ path('new_album', {'collection': collection.id}) }}">{{ 'collection.button.add_album'|trans }}</a>
+	    		{% if is_granted('edit_permissions', collection) %}
+	                <a class="button" href="{{ path('edit_collection_permissions', {'id': collection.id}) }}">{{ 'collection.button.edit_permissions'|trans }}</a>
+	            {% endif %}
 	    	</p>
 	    {% endif %}
 

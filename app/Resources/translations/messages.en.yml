@@ -36,8 +36,10 @@ collection:
     list_name: %name%'s Collections
     edit_not_owner: You must be the owner to edit this collection.
     edit_not_signed_in: You must be signed in to create or edit a collection.
+    edit_not_allowed_permissions: You do not have permission to adjust the sharing settings of this collection.
     title:
         edit_collection: Edit Collection
+        edit_collection_permissions: Edit Collection Permissions
         create_collection: New Collection
     label:
         name: Collection Name
@@ -49,6 +51,8 @@ collection:
         denied: You do not have permission to view this collection.
     button:
         edit: Edit Collection Settings
+        edit_permissions: Share
+        save_permissions: Save Permissions
         add_album: Add Album
     data:
         name: %name%

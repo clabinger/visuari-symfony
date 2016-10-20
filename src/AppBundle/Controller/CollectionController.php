@@ -4,13 +4,14 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Collection;
 use AppBundle\Entity\Album;
-
+use AppBundle\Form\ItemPermissionsType;
 use AppBundle\Form\CollectionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
@@ -133,6 +134,73 @@ class CollectionController extends Controller {
 
 
     }
+
+
+
+    /**
+     * @Route("/{id}/permissions",  requirements={"id": "\d+"}, name="edit_collection_permissions")
+     * @Method({"GET", "POST"})
+     * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
+     */
+    public function editPermissionsAction(Collection $collection, Request $request){
+
+        // Check voters
+        $this->denyAccessUnlessGranted('edit_permissions', $collection, $this->get('translator')->trans('collection.edit_not_allowed_permissions'));
+
+        $this->get('breadcrumbs_organizer')->permissionsCollection($collection);
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // START get list of permissions for the purpose of persisting new permissions to the DB / deleting permissions that were deleted from DOM
+        $originalPermissions = new ArrayCollection();
+
+        // Create an ArrayCollection of the current Photo objects in the database
+        foreach ($collection->getPermissions() as $permission) {
+            $originalPermissions->add($permission);
+        }
+        // END get list of permissions
+
+        $editForm = $this->createForm(ItemPermissionsType::class, $collection);
+
+        $editForm->handleRequest($request);
+
+        $user = $this->get('app.current_user')->get();
+
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+
+            // START persist any new permissions
+            foreach ($collection->getPermissions() as $permission) {
+                if (false === $originalPermissions->contains($permission)) {
+                    $permission->setCollection($collection);
+                    $permission->setGrantedBy($user);
+                    $entityManager->persist($permission);
+                }
+            }
+            // END persist any new permissions
+
+            // START Remove any deleted permissions
+            foreach ($originalPermissions as $permission) {
+                if (false === $collection->getPermissions()->contains($permission)) {
+                    $entityManager->remove($permission);
+                }
+            }
+            // END Remove any deleted permissions
+
+            $entityManager->flush();
+
+            $this->addFlash('success', $this->get('translator')->trans('collection.updated_successfully'));
+            
+            return $this->redirectToRoute('show_collection', ['id' => $collection->getId()]);
+        }
+
+        return $this->render('collection/edit_permissions.html.twig', [
+            'collection'  => $collection,
+            'edit_form'   => $editForm->createView(),
+        ]);
+
+
+    }
+
 
     /**
      * Creates a form to delete a Collection entity by id.

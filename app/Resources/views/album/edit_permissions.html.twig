@@ -4,32 +4,7 @@
 
 {% set page_title = 'album.title.edit_album_permissions'|trans ~ ' - ' ~ album.name %}
 
-{% form_theme edit_form default_form_theme _self %}
-
-
-
-
-
-{# Magic name to provide custom template block for each permissions sub-form #}
-{% block _album_permissions_permissions_entry_widget %}
-	
-	<div class="permission-row">
-		<hr>
-		<div class="row">
-			<div class="column large-1 medium-1 small-1">
-				<a style="display:block;" class="delete-permission icon-red"><i class="fi-x"></i></a>
-			</div>
-			<div class="column large-6 medium-6 small-11">
-				{{ form_row(form.grantee) }}
-			</div>
-			<div class="column large-5 medium-5 small-12">
-				{{ form_row(form.level) }}
-			</div>
-		</div>
-	</div>
-{% endblock %}
-
-
+{% form_theme edit_form default_form_theme 'form/permissions_entry.html.twig' %}
 
 {% block body %}
 
@@ -49,18 +24,6 @@
 		
 	{{ form_end(edit_form) }}
 
+	{% include 'form/confirm_delete_modal.html.twig' with {'title':'permission.title.confirm_delete'|trans, 'message':'permission.confirm_delete'|trans } %}
 		
-	<div class="reveal" id="confirmDeleteModal" data-reveal>
-		<h1>{{ 'permission.title.confirm_delete'|trans }}</h1>
-		<p class="lead">{{ 'permission.confirm_delete'|trans }}</p>
-		<p class="text-center">
-			<button class="button alert delete-confirm">{{ 'misc.delete'|trans }}</button> 
-			<button class="button delete-cancel">{{ 'misc.cancel'|trans }}</button>
-		</p>
-			<button class="close-button" data-close aria-label="Close modal" type="button">
-				<span aria-hidden="true">&times;</span>
-			</button>
-	</div>
-
-	
 {% endblock %}

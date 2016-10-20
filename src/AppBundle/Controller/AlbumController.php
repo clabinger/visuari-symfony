@@ -7,7 +7,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Album;
 
 use AppBundle\Form\AlbumType;
-use AppBundle\Form\AlbumPermissionsType;
+use AppBundle\Form\ItemPermissionsType;
 use AppBundle\Form\UploadPhotosToAlbumType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -179,7 +179,7 @@ class AlbumController extends Controller {
         }
         // END get list of permissions
 
-        $editForm = $this->createForm(AlbumPermissionsType::class, $album);
+        $editForm = $this->createForm(ItemPermissionsType::class, $album);
 
         $editForm->handleRequest($request);
 

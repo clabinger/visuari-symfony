@@ -27,8 +27,8 @@ services:
         arguments: ['@app.current_user', '@request_stack', '@doctrine.orm.entity_manager']
         tags:
             - { name: form.type }
-    app.form.album_permissions:
-        class: AppBundle\Form\AlbumPermissionsType
+    app.form.item_permissions:
+        class: AppBundle\Form\ItemPermissionsType
         arguments: ['@app.current_user', '@translator']
         tags:
             - { name: form.type }

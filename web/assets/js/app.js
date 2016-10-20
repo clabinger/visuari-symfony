@@ -152,8 +152,8 @@ delete_permission_buttons();
 $('#add_new_permission').click(function(e) {
     e.preventDefault();
 
-    var permissionsList = $('#album_permissions_permissions');
-
+    var permissionsList = $('#item_permissions_permissions');
+    
     var permissionsCount = permissionsList.children().length;
 
     // grab the prototype template

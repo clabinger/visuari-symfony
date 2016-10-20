@@ -84,6 +84,17 @@ class BreadcrumbsOrganizer
 
 	}
 
+	public function permissionsCollection(Collection $collection, $last=true){
+
+		$this->showCollection($collection, false);
+
+		$this->breadcrumbs->addItem(
+			'collection.title.edit_collection_permissions',
+			($last ? null : $this->router->generate('edit_collection_permissions', ['id'=>$album->getId()]))
+		);
+
+	}
+
 	public function uploadToAlbum(Album $album, $last=true){
 
 		$this->showAlbum($album, false);
