@@ -14,12 +14,6 @@ app:
     #     _locale: '%locale%'
 
 
-# homepage:
-#     path: "/"
-#     defaults: { _controller: AppBundle:Default:index }
-# upload:
-#     path: "/upload"
-#     defaults: { _controller: AppBundle:Upload:upload }
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
@@ -34,14 +28,25 @@ fos_user_profile_show:
     defaults:  { _controller: FOSUserBundle:Profile:show }
 # END FOS User Bundle overrides in order to match without trailing slash
 
-# profile_base:
-#     resource: routing/profile_base.yml
-#     prefix: /{username}
-#     defaults: { username: "test"}
-# collection_base:
-#     resource: routing/collection_base.yml
-#     prefix: /collections
+
 
 oneup_uploader:
     resource: .
     type: uploader
+
+
+
+remove_trailing_slash:
+    path:   /{url}
+    defaults:   { _controller: AppBundle:Redirecting:removeTrailingSlash }
+    requirements:
+        url: .*/$
+    methods: [GET]
+
+
+# Explicitly match all pages and manually throw a NotFoundHttpException, so that the firewall will be loaded and we will have access to the user tokens from error pages
+pageNotFound:
+    path:    /{path}
+    defaults:   { _controller: AppBundle:PageNotFound:show}
+    requirements:
+        path: .*

@@ -1,0 +1,12 @@
+{# app/Resources/TwigBundle/views/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% set page_title = 'Access Denied' %}
+
+{% block body %}
+    <div class="row column">
+	    <p>
+	        You do not have permission to access this resource. <a href="{{ path('homepage') }}">Return to the homepage</a>.
+	    </p>
+	</div>
+{% endblock %}

@@ -66,8 +66,12 @@ class PermissionChecker
 
         // If we are getting a list of albums, inherit permissions that are for the collection that owns each album.
         if($entity==='album'){ // pi = permission_inherited
-           $qb->leftJoin('AppBundle\Entity\Permission', 'pi', 'WITH', 'pi.collection = i.collection');
+            $qb->leftJoin('AppBundle\Entity\Permission', 'pi', 'WITH', 'pi.collection = i.collection');
+            $inherited = true;
+        }else{
+            $inherited = false;
         }
+
 
 		$qb
             ->leftJoin('AppBundle\Entity\Permission', 'p', 'WITH', 'p.'.$entity.' = i.id')
@@ -78,13 +82,16 @@ class PermissionChecker
                         $qb->expr()->eq('p.grantee', ':user'), // The current user is the grantee ...
                         $qb->expr()->gte('p.level', 1) // ... and they have been given view access or higher
                     ),
-                    $qb->expr()->andX( // Inherited access
-                        $qb->expr()->eq('pi.grantee', ':user'), // The current user is the grantee ...
-                        $qb->expr()->gte('pi.level', 1), // ... and they have been given view access or higher ...
-                        $qb->expr()->orX( 
-                            $qb->expr()->neq('p.level', 0), // ... as long as access has not been explicitly denied directly on the item
-                            $qb->expr()->isNull('p.level')
+                    ($inherited
+                        ? $qb->expr()->andX( // Inherited access
+                            $qb->expr()->eq('pi.grantee', ':user'), // The current user is the grantee ...
+                            $qb->expr()->gte('pi.level', 1), // ... and they have been given view access or higher ...
+                            $qb->expr()->orX( 
+                                $qb->expr()->neq('p.level', 0), // ... as long as access has not been explicitly denied directly on the item
+                                $qb->expr()->isNull('p.level')
+                            )
                         )
+                        : null
                     ),
                     $qb->expr()->eq('i.public', '1'), // Or item is public
                     $qb->expr()->eq('i.owner', $user) // Or current user owns the item

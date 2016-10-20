@@ -1,0 +1,12 @@
+{# app/Resources/TwigBundle/views/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% set page_title = 'Not Found' %}
+
+{% block body %}
+    <div class="row column">
+	    <p>
+	        The requested page could not be located. Check for any URL misspellings or <a href="{{ path('homepage') }}">return to the homepage</a>.
+	    </p>
+	</div>
+{% endblock %}

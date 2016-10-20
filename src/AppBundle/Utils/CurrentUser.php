@@ -5,6 +5,7 @@ use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
+
 class CurrentUser
 {
 
@@ -14,6 +15,12 @@ class CurrentUser
 	}
 
 	public function get(){
+
+
+        if(!$this->security_context->getToken()){
+            return null;
+        }
+
 
     	if(
     		$this->authorization_checker->isGranted('IS_AUTHENTICATED_FULLY')

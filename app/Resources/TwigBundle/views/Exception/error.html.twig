@@ -1,0 +1,12 @@
+{# app/Resources/TwigBundle/views/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% set page_title = 'Error' %}
+
+{% block body %}
+    <div class="row column">
+	    <p>
+	        An error has occured. Please try again or <a href="{{ path('homepage') }}">return to the homepage</a>.
+	    </p>
+	</div>
+{% endblock %}

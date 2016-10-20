@@ -196,8 +196,3 @@ form small.error{
 	color: white;
 	margin-left: 20px;
 }
-
-div.permission-row:before{
-	content: '';
-	@extend hr;
-}

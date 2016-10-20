@@ -13,12 +13,15 @@ class Builder
 
     public function __construct(FactoryInterface $factory, CurrentUser $user)
     {
-        $this->current_user = $user->get();
+        $this->current_user = $user;
         $this->factory = $factory;
     }
 
     public function mainMenu(array $options)
     {
+
+        $user = $this->current_user->get();
+
 
         $menu = $this->factory->createItem('root', array(
             'childrenAttributes'    => array(
@@ -27,12 +30,12 @@ class Builder
             ),
         ));
 
-        if(!$this->current_user){
+        if(!$user){
 
             $menu->addChild('menu.login', array('route' => 'fos_user_security_login'));
             
         }else{
-            $username = $this->current_user->getUsername();
+            $username = $user->getUsername();
 
             $profile_link = array(
                 'route' => 'profile_base_default', 
