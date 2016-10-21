@@ -76,8 +76,6 @@ $('div.gallery-wrapper').each(function(){
     var items_elements = getItems();
     var items = items_elements[0];
     var elements = items_elements[1];
-
-    console.log(items);
     
     var pswp = $('.pswp')[0];
 	
