@@ -1,0 +1,19 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set page_title = 'misc.thank_you'|trans %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="row column">
+    	<p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+    </div>
+
+    <div class="row column">
+		<p class="text-center space-vertical">
+			<a class="button" href="{{ path('homepage') }}">{{ 'menu.home'|trans({}, 'messages') }}</a>
+		</p>
+	</div>
+
+{% endblock fos_user_content %}
+

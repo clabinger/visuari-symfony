@@ -1,0 +1,15 @@
+# validators.en.yml
+
+fos_user.email.already_used: 'An account already exists with that email address.'
+fos_user.username.already_used: 'An account already exists with that username.'
+fos_user.password.mismatch: 'The entered passwords do not match.'
+"This value should be the user's current password.": 'The password you entered is not correct. Please enter your current password.'
+
+permission:
+    grantee:
+        invalid: This username was not found.
+        duplicate: This username has already been selected.
+
+album:
+    collection:
+        required: You must choose a collection.

@@ -1,0 +1,29 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set page_title = 'user.title.create_new'|trans %}
+
+{% block fos_preface %}
+
+{% endblock %}
+
+{% block pre_process %}
+	{{ breadcrumbs.createAccount() }}
+{% endblock %}
+
+{% block fos_user_content %}
+
+	{% if app.user %}
+		<div class="row column">
+		    <div class="callout primary">
+	    		<p>{{ 'user.register.logged_in'|trans }}</p>
+	    		<p class="text-center"><a class="button" href="{{ path('fos_user_security_logout') }}">{{ 'menu.logout'|trans }}</a></p>
+	    	</div>
+		</div>
+	{% else %}
+		<div class="row">
+		    <div class="column large-6 medium-8 small-12 end">
+				{% include "FOSUserBundle:Registration:register_content.html.twig" %}
+			</div>
+		</div>
+	{% endif %}
+{% endblock fos_user_content %}

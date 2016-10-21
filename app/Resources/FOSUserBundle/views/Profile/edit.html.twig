@@ -1,0 +1,21 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set page_title = 'user.title.edit_account'|trans %}
+
+{% block pre_process %}
+	{{ breadcrumbs.editAccount() }}
+{% endblock %}
+
+{% block fos_user_content %}
+	<div class="row">
+		<div class="column large-6 medium-8 small-12 end">
+			{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+			    {{ form_widget(form) }}
+			    <div>
+			        <input type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
+			        <a class="button" href="{{ path('fos_user_profile_show') }}">{{ 'misc.cancel'|trans }}</a>
+			    </div>
+			{{ form_end(form) }}
+		</div>
+	</div>
+{% endblock %}

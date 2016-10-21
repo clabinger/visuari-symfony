@@ -1,0 +1,20 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set page_title = 'user.title.my_account'|trans %}
+
+{% block pre_process %}
+	{{ breadcrumbs.showAccount() }}
+{% endblock %}
+
+{% block fos_user_content %}
+	<div class="row column">
+		<p>
+			<a class="button" href="{{ path('fos_user_profile_edit') }}">{{ 'user.title.edit_account'|trans }}</a>
+			<a class="button" href="{{ path('fos_user_change_password') }}">{{ 'user.title.change_password'|trans }}</a>
+		</p>
+	</div>
+	<div class="row column">
+	    <p>{{ 'profile.show.username'|trans({}, 'FOSUserBundle') }}: {{ user.username }}</p>
+	    <p>{{ 'profile.show.email'|trans({}, 'FOSUserBundle') }}: {{ user.email }}</p>
+	</div>
+{% endblock fos_user_content %}

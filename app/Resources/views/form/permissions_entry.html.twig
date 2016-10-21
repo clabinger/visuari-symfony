@@ -1,0 +1,20 @@
+{# /app/Resources/views/form/permissions_entry.html.twig #}
+{# Used to customize form theming for each individual permission entry #}
+
+{% block _item_permissions_permissions_entry_widget %}
+	
+	<div class="permission-row">
+		<hr>
+		<div class="row">
+			<div class="column large-1 medium-1 small-1">
+				<a style="display:block;" class="delete-permission icon-red"><i class="fi-x"></i></a>
+			</div>
+			<div class="column large-6 medium-6 small-11">
+				{{ form_row(form.grantee) }}
+			</div>
+			<div class="column large-5 medium-5 small-12">
+				{{ form_row(form.level) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

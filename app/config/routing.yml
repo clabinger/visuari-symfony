@@ -1,0 +1,52 @@
+# These first lines load the all routes defined as @Route() annotations in any
+# controller defined inside the src/AppBundle/Controller/ directory. Controllers
+# are loaded recursively, so you can separate them into subdirectories.
+# If you don't like to add annotations in your applications, you can also define
+# the routes in YAML, XML or PHP files.
+# See http://symfony.com/doc/current/book/routing.html
+app:
+    resource: '@AppBundle/Controller/'
+    type:     annotation
+    # prefix:   /{_locale}
+    # requirements:
+    #     _locale: '%app_locales%'
+    # defaults:
+    #     _locale: '%locale%'
+
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+
+# START FOS User Bundle overrides in order to match without trailing slash - by default the package wants to use trailing slash
+fos_user_registration_register:
+    path:      '/register'
+    defaults:  { _controller: FOSUserBundle:Registration:register }
+
+fos_user_profile_show:
+    path:   '/profile'
+    defaults:  { _controller: FOSUserBundle:Profile:show }
+# END FOS User Bundle overrides in order to match without trailing slash
+
+
+
+oneup_uploader:
+    resource: .
+    type: uploader
+
+
+
+remove_trailing_slash:
+    path:   /{url}
+    defaults:   { _controller: AppBundle:Redirecting:removeTrailingSlash }
+    requirements:
+        url: .*/$
+    methods: [GET]
+
+
+# Explicitly match all pages and manually throw a NotFoundHttpException, so that the firewall will be loaded and we will have access to the user tokens from error pages
+pageNotFound:
+    path:    /{path}
+    defaults:   { _controller: AppBundle:PageNotFound:show}
+    requirements:
+        path: .*

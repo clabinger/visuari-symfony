@@ -1,0 +1,29 @@
+{# app/Resources/views/album/edit_permissions.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% set page_title = 'album.title.edit_album_permissions'|trans ~ ' - ' ~ album.name %}
+
+{% form_theme edit_form default_form_theme 'form/permissions_entry.html.twig' %}
+
+{% block body %}
+
+	{{ form_start(edit_form) }}
+	
+	<div class="row">
+		
+		<div class="column large-6 medium-8 small-12">
+			<p>
+				<input type="submit" class="button" value="{{ 'album.button.save_permissions'|trans }}">
+				<a class="button" href="{{ path('show_album', {'id': album.id}) }}">{{ 'misc.cancel'|trans }}</a>
+				<button class="button" id="add_new_permission">Add new user</button>
+			</p>
+		</div>
+
+	</div>
+		
+	{{ form_end(edit_form) }}
+
+	{% include 'form/confirm_delete_modal.html.twig' with {'title':'permission.title.confirm_delete'|trans, 'message':'permission.confirm_delete'|trans } %}
+		
+{% endblock %}

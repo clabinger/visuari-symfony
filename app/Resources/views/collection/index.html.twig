@@ -1,0 +1,37 @@
+{# app/Resources/views/collection/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% if name is defined %}
+	{% set page_title = label|trans({'%name%': name}) %}
+{% else %}
+	{% set page_title = label|trans %}
+{% endif %}
+
+{% block body_id 'collection_index' %}
+
+{% block body %}
+
+    <div class="row column">
+
+        {% for collection in collections %}
+            <article class="post">
+                <h2>
+                    <a href="{{ path('show_collection', { id: collection.id }) }}">
+                        {{ collection.name }}
+                    </a>
+                </h2>
+
+                {{ collection.description|e }}
+            </article>
+        {% else %}
+            <div class="well">{{ 'collection.no_collections_found'|trans }}</div>
+        {% endfor %}
+    
+
+        <div class="navigation text-center">
+           {# {{ pagerfanta(collections, 'twitter_bootstrap3_translated', { routeName: 'collection_index_paginated' }) }} #}
+        </div>
+
+    </div>
+{% endblock %}
+

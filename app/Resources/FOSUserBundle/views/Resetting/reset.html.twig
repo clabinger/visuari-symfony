@@ -1,0 +1,15 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set page_title = 'user.title.choose_password'|trans %}
+
+{% block fos_user_content %}
+	<div class="row column">
+		<p>{{ 'user.choose_password.instructions'|trans }}</p>
+	</div>
+
+	<div class="row">
+	    <div class="column large-6 medium-8 small-12 end">
+			{% include "FOSUserBundle:Resetting:reset_content.html.twig" %}
+		</div>
+	</div>
+{% endblock fos_user_content %}

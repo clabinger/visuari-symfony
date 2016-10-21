@@ -1,0 +1,139 @@
+# messages.en.yml
+menu:
+    home: Home
+    collections: Collections
+    upload: Upload
+    login: Sign In
+    logout: Sign Out
+    my_profile: My Profile
+user:
+    title:
+        create_new: Create New Account
+        account_confirmed: Account Confirmed
+        reset_password: Reset Password
+        choose_password: Set a New Password
+        check_email: Check Your Email
+        password_reset_error: Password Reset Error
+        my_account: My Account
+        edit_account: Edit Account
+        change_password: Change Password
+    reset_password:
+        instructions: 'Please enter your username or email address below. A link to reset your password will be emailed to you.'
+    choose_password:
+        instructions: 'Please choose a new password below.'
+    register:
+        logged_in: 'If you want to create a new account, please sign out first.'
+    data:
+        username: %username%
+collection:
+    created_successfully: The collection has been created successfully.
+    updated_successfully: The collection has been updated successfully.
+    deleted_successfully: The collection has been deleted successfully.
+    no_collections_found: No collections were found.
+    list_plural: Collections
+    list_all: All Collections
+    list_my: My Collections
+    list_name: %name%'s Collections
+    edit_not_owner: You must be the owner to edit this collection.
+    edit_not_signed_in: You must be signed in to create or edit a collection.
+    edit_not_allowed_permissions: You do not have permission to adjust the sharing settings of this collection.
+    title:
+        edit_collection: Edit Collection
+        edit_collection_permissions: Edit Collection Permissions
+        create_collection: New Collection
+    label:
+        name: Collection Name
+        description: Collection Description
+        make_public: Make Collection Public
+        create_collection: Create Collection
+        save_collection: Save Collection
+    view:
+        denied: You do not have permission to view this collection.
+    button:
+        edit: Edit Collection Settings
+        edit_permissions: Share
+        save_permissions: Save Permissions
+        add_album: Add Album
+    data:
+        name: %name%
+album:
+    created_successfully: The album has been created successfully.
+    photos_added_successfully: The photos have been added to the album successfully.
+    updated_successfully: The album has been updated successfully.
+    deleted_successfully: The album has been deleted successfully.
+    no_albums_found: No albums were found.
+    list_plural: Albums
+    list_all: All Albums
+    list_my: My Albums
+    list_name: %name%'s Albums
+    edit_not_owner: You must be the owner to edit this album.
+    edit_not_allowed: You do not have permission to edit this album.
+    edit_not_allowed_permissions: You do not have permission to adjust the sharing settings of this album.
+    edit_not_allowed_photos: You do not have permission to add photos to this album.
+    edit_not_signed_in: You must be signed in to create or edit an album.
+    title:
+        edit_album: Edit Album
+        edit_album_permissions: Edit Album Permissions
+        upload_to_album: Add Photos to Album
+        create_album: New Album
+    button:
+        edit: Edit
+        edit_permissions: Share
+        upload: Upload
+        save_permissions: Save Permissions
+        choose_collection: Choose a collection...
+    label:
+        name: Album Name
+        description: Album Description
+        collection: Collection
+        make_public: Make Album Public
+        create_album: Create Album
+        save_album: Save Album
+        photos: Photos
+        permissions: Permissions
+    view:
+        denied: You do not have permission to view this album.
+        ownership: Album by %link_start%%owner%%link_end%
+        num_photos: '{0} No photos yet|{1} 1 Photo|]1,Inf] %count% Photos'
+    data:
+        name: %name%
+album_photo:
+    confirm_delete: 'Are you sure you want to delete this photo? Once you save this album, you will not be able to undo this action.'
+    title:
+        confirm_delete: Confirm Delete
+    label:
+        name: Name
+        title: Title
+        description: Description
+        caption: Caption
+permission:
+    confirm_delete: 'Are you sure you want to delete this user? (Changes are applied once you save this page.)'
+    title:
+        confirm_delete: Confirm Delete
+    label:
+        collection: Collection
+        album: Album
+        album_photo: Photo
+        grantee: User
+        level: Access level
+    level:
+        0: No access
+        1: View only
+        2: Edit contents
+        3: Edit contents and sharing settings
+upload:
+    title:
+        upload: Upload Page
+    label:
+        upload: Upload
+    error:
+        file_format_not_supported: File format not supported.
+        album_not_found: Album to upload into was not found.
+        album_not_initialized: Album to upload into could not be initialized
+misc:
+    delete: Delete
+    cancel: Cancel
+    thank_you: Thank You!
+    generic_error: An error has occured.
+    done: Done
+    empty_string: ''

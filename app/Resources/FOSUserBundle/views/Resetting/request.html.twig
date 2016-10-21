@@ -1,0 +1,19 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% set page_title = 'user.title.reset_password'|trans %}
+
+{% block pre_process %}
+	{{ breadcrumbs.resetPassword() }}
+{% endblock %}
+
+{% block fos_user_content %}
+	<div class="row column">
+		<p>{{ 'user.reset_password.instructions'|trans }}</p>
+	</div>
+
+	<div class="row">
+	    <div class="column large-6 medium-8 small-12 end">
+			{% include "FOSUserBundle:Resetting:request_content.html.twig" %}
+		</div>
+	</div>
+{% endblock fos_user_content %}

@@ -1,0 +1,94 @@
+{# app/Resources/views/base.html.twig #}
+
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% if page_title is defined %} {{ page_title }} - {% endif %} Visuari</title>
+        {% block stylesheets %}
+            {% stylesheets 
+                'assets/vendor/foundation/css/app.css'
+                'https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css'
+                filter='cssrewrite' output='css/compiled/app_base.css' %}
+
+                <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <!--[if lt IE 9]>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+
+        <div class="title-bar" data-responsive-toggle="main-menu" data-hide-for="medium" data-responsivetoggle="decr9o-responsivetoggle" style="display: none;">
+            <button class="menu-icon" type="button" data-toggle=""></button>
+            <div class="title-bar-title">Menu</div>
+        </div>
+
+        <div class="top-bar" id="main-menu">
+            <div class="row column">
+                <div class="top-bar-left">
+                    <ul class="menu">
+                        <li><a href="{{ path('homepage') }}" class="flush-left"><b>Visuari</b></a></li>
+                    </ul>
+                </div>
+                <div class="top-bar-right">   
+                      {{ knp_menu_render('main') }}
+                </div>
+            </div>
+        </div>
+          
+
+        {% block pre_process %}{% endblock %}
+
+        {# {% block fos_user_content %}{% endblock %} #}
+
+        <div class="row column">
+            {{ wo_render_breadcrumbs() }}
+        </div>
+
+        {% block pre_body %}{% endblock %}
+
+        {% if page_title is defined %}
+            <div class="row column page-title">
+                <h1>{{ page_title }}</h1>
+            </div>
+        {% endif %}
+
+        <div class="row column">
+            <div class="space-vertical">
+                {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                        <div class="callout {{ type }}" data-closable>
+                            <p>{{ message }}</p>
+                            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+
+    
+        {% block body %}{% endblock %}
+
+
+        {# 'https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js' #}
+
+        {% block javascripts %}
+            {% javascripts 
+                'https://code.jquery.com/jquery-2.2.4.min.js' 
+                
+                'https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.3/foundation.min.js'
+                'assets/vendor/foundation/js/app.js'
+                'assets/js/app.js'
+            %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+    </body>
+</html>

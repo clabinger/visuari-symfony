@@ -1,0 +1,82 @@
+imports:
+    - { resource: parameters.yml }
+
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.menu_builder:
+        class: AppBundle\Menu\Builder
+        arguments: ['@knp_menu.factory', '@app.current_user']
+        tags:
+            - { name: knp_menu.menu_builder, method: mainMenu, alias: main } # The alias is what is used to retrieve the menu
+    imagine.handler:
+        class: Imagine\Imagick\Imagine
+    app.form.collection:
+        class: AppBundle\Form\CollectionType
+        arguments: ['@app.current_user', '@translator']
+        tags:
+            - { name: form.type }
+    app.form.album:
+        class: AppBundle\Form\AlbumType
+        arguments: ['@app.current_user', '@request_stack', '@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type }
+    app.form.item_permissions:
+        class: AppBundle\Form\ItemPermissionsType
+        arguments: ['@app.current_user', '@translator']
+        tags:
+            - { name: form.type }
+    app.form.upload_photos_to_album:
+        class: AppBundle\Form\UploadPhotosToAlbumType
+        arguments: ['@app.current_user', '@translator']
+        tags:
+            - { name: form.type }
+    app.form.permission:
+        class: AppBundle\Form\PermissionType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type }
+    app.voter.collection:
+        class: AppBundle\Security\CollectionVoter
+        tags:
+            - { name: security.voter }
+        # small performance boost
+        public: false
+    app.voter.album:
+        class: AppBundle\Security\AlbumVoter
+        tags:
+            - { name: security.voter }
+        # small performance boost
+        public: false
+    app.s3_client:
+        class: Aws\S3\S3Client
+        arguments:
+            -
+                version: 'latest' # '2012-10-17' # or 'latest'
+                region: "us-east-1" # 'eu-central-1' for example
+                credentials:
+                    key: "%aws_s3_key%"
+                    secret: "%aws_s3_secret%"
+    app.upload_listener:
+        class: AppBundle\EventListener\UploadListener
+        arguments: ["@security.authorization_checker", "@doctrine.orm.entity_manager", "@translator", "@photoalbums_filesystem", "@photoalbums_filesystem_local", "@imagine.handler", %local_photo_directory%, %size_thumb%, %size_medium%, %allowed_extensions%]
+        tags:
+            - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
+
+    app.signed_url_cacher: 
+        class: AppBundle\Utils\S3SignedUrlCacher
+        arguments: ["@app.s3_client", "@doctrine.orm.entity_manager"]
+
+    breadcrumbs_organizer:
+        class: AppBundle\Utils\BreadcrumbsOrganizer
+        arguments: ['@white_october_breadcrumbs', '@router', '@app.current_user']
+
+    app.current_user:
+        class: AppBundle\Utils\CurrentUser
+        arguments: ['@security.token_storage', '@security.authorization_checker']
