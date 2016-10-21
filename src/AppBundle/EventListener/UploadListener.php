@@ -2,6 +2,8 @@
 
 namespace AppBundle\EventListener;
 
+
+
 use Doctrine\Common\Persistence\ObjectManager;
 use League\Flysystem\Filesystem;
 use Oneup\UploaderBundle\Event\PostPersistEvent;
@@ -54,6 +56,10 @@ class UploadListener
     public function onUpload(PostPersistEvent $event)
     {
         
+        ini_set('memory_limit', '512M');
+        ini_set('max_execution_time', 300);
+
+
         $file = $event->getFile();
         $filename = $file->getBasename();
         $extension = $file->getExtension();
