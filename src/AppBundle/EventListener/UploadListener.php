@@ -10,7 +10,7 @@ use Oneup\UploaderBundle\Event\PostPersistEvent;
 use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Translation\DataCollectorTranslator;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
 
 use Imagine\Imagick\Imagine;
@@ -32,7 +32,7 @@ class UploadListener
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker, 
         ObjectManager $om, 
-        DataCollectorTranslator $translator, 
+        Translator $translator, 
         Filesystem $filesystem, 
         Filesystem $filesystem_local, 
         Imagine $imager, 
@@ -67,6 +67,7 @@ class UploadListener
         $dimensions = Array(); // Used to store dimensions of original and resized photos until they are written to the database.
 
         if(!in_array(strtoupper($extension), $this->extensions_allowed)){
+            $this->filesystem_local->delete($filename);
             throw new UploadException($this->translator->trans('upload.error.file_format_not_supported'));
         }
 
@@ -82,16 +83,19 @@ class UploadListener
         try{
             $album = $this->om->getRepository('AppBundle:Album')->find( $request->get('album') );
         }catch(\Doctrine\ORM\ORMException $e){
+            $this->filesystem_local->delete($filename);
             throw new UploadException($this->translator->trans('upload.error.album_not_found'));
         }
 
         try{
             $album_max_position = $this->om->getRepository('AppBundle:Album_Photo')->getMaxPosition($album);
         }catch(\Doctrine\ORM\ORMException $e){
+            $this->filesystem_local->delete($filename);
             throw new UploadException($this->translator->trans('upload.error.album_not_initialized'));
         }
 
         if(false === $this->authorizationChecker->isGranted('edit', $album)){
+            $this->filesystem_local->delete($filename);
             throw new UploadException($this->translator->trans('album.edit_not_allowed_photos'));
         }
 
