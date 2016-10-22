@@ -34,13 +34,21 @@
 
     <div class="row small-up-2 medium-up-3 large-up-5 gallery-wrapper align-middle">
         {% for photo in album.photos %}
-        	<div class="column align-middle">
+        	
+            {% set display_list = [] %}
+            {% for item in [photo.title, photo.caption, photo.description] %}
+                {% if item is not empty %}
+                    {% set display_list = display_list|merge([item]) %}
+                {% endif %}
+            {% endfor %}
+
+            <div class="column align-middle">
                 
                  <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                     <a class="thumbnail" href="{{ signed_url_cacher.getUrl(photo.photo.sizeMedium) }}" itemprop="contentUrl" data-size="{{ photo.photo.mediumwidth }}x{{ photo.photo.mediumheight }}">
                         <img src="{{ signed_url_cacher.getUrl(photo.photo.sizeThumb) }}" itemprop="thumbnail" alt="{{ photo.title }}">
                     </a>
-                    <figcaption itemprop="caption description">{{ photo.title }} - {{ photo.caption }} - {{ photo.description }}</figcaption>
+                    <figcaption itemprop="caption description">{{ display_list|join(' - ') }}</figcaption>
                 </figure>
 
             </div>
