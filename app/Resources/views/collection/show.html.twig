@@ -25,7 +25,7 @@
 	    <p>{{ collection.description|e }}</p>
 
 	    {% for album in albums %}
-	        <h3><a href="{{ path('show_album', {'id': album.id}) }}">{{ album.name }}</a></h3>
+	        <h3><a href="{{ path('show_album', {'id': album.id}) }}">{{ album.name }}</a> <small class="h3-comment">{{ 'album.view.num_photos'|transchoice(album.photos.count) }}</small></h3>
 	        <p>{{ album.description }}</p>
 	    {% endfor %}
 
