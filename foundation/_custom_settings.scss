@@ -10,6 +10,8 @@ $brand-success: #10BF69;
 
 $body-background: #F2F5F7;
 
+$text-gray-dark: #878787;
+
 $white: #ffffff;
 
 $button-background: $brand-medium;
@@ -195,4 +197,16 @@ form small.error{
 	border-radius: $global-radius;
 	color: white;
 	margin-left: 20px;
+}
+
+h1,h2,h3,h4,h5,h6{
+	small:not(.imforcingspecifity){
+		color:$text-gray-dark;
+	}
+}
+
+small.h3-comment{
+	margin-left: 25px;
+	font-size: 0.5em;
+	font-family: $body-font-family;
 }
