@@ -135,6 +135,8 @@ assetic:
     use_controller: '%kernel.debug%'
     filters:
         cssrewrite: ~
+        uglifyjs2:
+            bin: /usr/bin/uglifyjs
 
 white_october_breadcrumbs:
     listClass: 'breadcrumbs'
