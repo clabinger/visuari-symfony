@@ -9,7 +9,7 @@ parameters:
     locale: en
     size_thumb: '400'
     size_medium: '2048'
-    max_upload_size: '31457280'
+    max_upload_size: 31457280
     allowed_extensions:
         - JPG
         - JPEG
@@ -122,13 +122,13 @@ oneup_uploader:
             storage:
                 type: flysystem
                 filesystem: photoalbums_filesystem
-            max_size: "%max_upload_size%"
+            max_size: %max_upload_size%
         photoalbums_local:
             frontend: dropzone
             storage:
                 type: flysystem
                 filesystem: photoalbums_filesystem_local
-            max_size: "%max_upload_size%"
+            max_size: %max_upload_size%
 
 assetic:
     debug:          '%kernel.debug%'
