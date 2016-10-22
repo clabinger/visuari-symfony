@@ -7,6 +7,16 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    size_thumb: '400'
+    size_medium: '2048'
+    max_upload_size: '31457280'
+    allowed_extensions:
+        - JPG
+        - JPEG
+        - GIF
+        - PNG
+        - BMP
+
 
 framework:
     #esi:             ~
@@ -86,9 +96,6 @@ fos_user:
     registration:
         confirmation:
             enabled: true
-
-framework:
-    translator: { fallbacks: [en] }
 
 oneup_flysystem:
     adapters:
