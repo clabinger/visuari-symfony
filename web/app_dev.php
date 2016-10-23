@@ -13,6 +13,8 @@ use Symfony\Component\Debug\Debug;
 if (
 
 	getenv('DEV_DOMAIN')!=='DEV'
+	// &&
+	// !($_SERVER['REMOTE_ADDR']==='208.66.215.161') // For debugging - enter your IP address here
 
 	// isset($_SERVER['HTTP_CLIENT_IP'])
     // || isset($_SERVER['HTTP_X_FORWARDED_FOR'])
