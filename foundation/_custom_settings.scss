@@ -210,3 +210,9 @@ small.h3-comment{
 	font-size: 0.5em;
 	font-family: $body-font-family;
 }
+
+a.pswp__share--download-full {
+	&:hover {
+		background: #DDD;
+	}
+}

@@ -45,7 +45,12 @@
             <div class="column align-middle">
                 
                  <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a class="thumbnail" href="{{ signed_url_cacher.getUrl(photo.photo.sizeMedium) }}" itemprop="contentUrl" data-size="{{ photo.photo.mediumwidth }}x{{ photo.photo.mediumheight }}">
+                    <a class="thumbnail" itemprop="contentUrl" 
+                        href="{{ signed_url_cacher.getUrl(photo.photo.sizeMedium) }}" 
+                        fhref="{{ signed_url_cacher.getUrl(photo.photo.sizeOriginal) }}" 
+                        data-size="{{ photo.photo.mediumwidth }}x{{ photo.photo.mediumheight }}" 
+                        data-fsize="{{ photo.photo.originalwidth }}x{{ photo.photo.originalheight }}"
+                    >
                         <img src="{{ signed_url_cacher.getUrl(photo.photo.sizeThumb) }}" itemprop="thumbnail" alt="{{ photo.title }}">
                     </a>
                     <figcaption itemprop="caption description">{{ display_list|join(' - ') }}</figcaption>
@@ -60,9 +65,10 @@
 {% endblock %}
 
 {% block javascripts %}
+    {# "https://rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js" #}
     {% javascripts 
         "https://rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe.min.js"
-        "https://rawgit.com/dimsemenov/PhotoSwipe/master/dist/photoswipe-ui-default.min.js"
+        "/srv/www/visuari.com/related_projects/PhotoSwipe/dist/photoswipe-ui-default.min.js"
         filter='uglifyjs2'
         %} 
         <script type="text/javascript" src="{{ asset_url }}" ></script>
