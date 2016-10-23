@@ -52,19 +52,29 @@ $('div.gallery-wrapper').each(function(){
         var items = [], 
         	elements = [];
         pic.find('a').each(function() {
-            var href   = $(this).attr('href'),
-            	src    = $(this).find('img').attr('src'),
-                size   = $(this).data('size').split('x'),
+            var src_medium   = $(this).attr('href'), // medium size
+                src_thumb    = $(this).find('img').attr('src'), // thumb size
+            	src_orig    = $(this).attr('fhref'), // full size
+                size_medium   = $(this).data('size').split('x'),
+                size_orig   = $(this).data('fsize').split('x'),
                 caption= $(this).closest('figure').find('figcaption').text(),
-                width  = size[0],
-                height = size[1];
+                width_medium  = size_medium[0],
+                height_medium = size_medium[1],
+                width_orig = size_orig[0],
+                height_orig = size_orig[1];
 
             var item = {
-                src : href,
-                msrc: src,
-                w   : width,
-                h   : height,
-                title: caption
+                src : src_medium, // PhotoSwipe-dictated key
+                msrc: src_thumb, // PhotoSwipe-dictated key
+                w   : width_medium, // PhotoSwipe-dictated key
+                w_full   : width_orig, 
+                h   : height_medium, // PhotoSwipe-dictated key
+                h_full   : height_orig, 
+                title: caption // PhotoSwipe-dictated key
+            }
+
+            if(size_orig[0]!==size_medium[0]){
+                item.fsrc = src_orig; // full size, if different than medium size - PhotoSwipe-dictated key
             }
 
             items.push(item);
@@ -83,7 +93,19 @@ $('div.gallery-wrapper').each(function(){
 	    event.preventDefault();
 	     
 	    var index = $(this).index();
-	    var options = {
+	       
+        var shareButtons = [
+                {id:'download', label:'Download image ('+items[index].w+'x'+items[index].h+')', url:'{{raw_image_url}}', download:true},
+        ];
+
+        if(items[index]['fsrc']){
+            shareButtons.push(
+                {id:'download-full', label:'Download full-resolution image ('+items[index].w_full+'x'+items[index].h_full+')', url:'{{raw_full_image_url}}', download:true}
+            );
+        }
+
+
+        var options = {
 	        index: index,
 	        bgOpacity: 0.7,
 	        // showHideOpacity: true,
@@ -95,9 +117,7 @@ $('div.gallery-wrapper').each(function(){
 
                 return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
             },
-            shareButtons: [
-			    {id:'download', label:'Download image', url:'{{raw_image_url}}', download:true}
-			],
+            shareButtons: shareButtons,
 	    }
 	     
 	    // Initialize PhotoSwipe
