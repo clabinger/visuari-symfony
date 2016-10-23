@@ -10,6 +10,7 @@ user:
     title:
         create_new: Create New Account
         account_confirmed: Account Confirmed
+        confirm_account: Confirm Account
         reset_password: Reset Password
         choose_password: Set a New Password
         check_email: Check Your Email
@@ -25,6 +26,10 @@ user:
         logged_in: 'If you want to create a new account, please sign out first.'
     data:
         username: %username%
+    button:
+        confirm_account: Confirm Account
+    instructions:
+        confirm_account: Please click the button below to confirm your account:
 collection:
     created_successfully: The collection has been created successfully.
     updated_successfully: The collection has been updated successfully.

@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new MyFOS\UserBundle\MyFOSUserBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Oneup\FlysystemBundle\OneupFlysystemBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
