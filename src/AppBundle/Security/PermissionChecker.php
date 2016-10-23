@@ -66,7 +66,7 @@ class PermissionChecker
 
         // If we are getting a list of albums, inherit permissions that are for the collection that owns each album.
         if($entity==='album'){ // pi = permission_inherited
-            $qb->leftJoin('AppBundle\Entity\Permission', 'pi', 'WITH', 'pi.collection = i.collection');
+            $qb->leftJoin('AppBundle\Entity\Permission', 'pi', 'WITH', 'pi.collection = i.collection AND pi.grantee = :user'); // The current user is the grantee ... **
             $inherited = true;
         }else{
             $inherited = false;
@@ -74,18 +74,16 @@ class PermissionChecker
 
 
 		$qb
-            ->leftJoin('AppBundle\Entity\Permission', 'p', 'WITH', 'p.'.$entity.' = i.id')
+            ->leftJoin('AppBundle\Entity\Permission', 'p', 'WITH', 'p.'.$entity.' = i.id AND p.grantee = :user')  // The current user is the grantee ... *
             ->where($qb->expr()->andX(
                 $additional_expr ? $this->build_expr($qb, $additional_expr) : null,
                 $qb->expr()->orX(
                     $qb->expr()->andX( // Direct access
-                        $qb->expr()->eq('p.grantee', ':user'), // The current user is the grantee ...
-                        $qb->expr()->gte('p.level', 1) // ... and they have been given view access or higher
+                        $qb->expr()->gte('p.level', 1) // * ... and they have been given view access or higher
                     ),
                     ($inherited
                         ? $qb->expr()->andX( // Inherited access
-                            $qb->expr()->eq('pi.grantee', ':user'), // The current user is the grantee ...
-                            $qb->expr()->gte('pi.level', 1), // ... and they have been given view access or higher ...
+                            $qb->expr()->gte('pi.level', 1), //  ** ... and they have been given view access or higher ...
                             $qb->expr()->orX( 
                                 $qb->expr()->neq('p.level', 0), // ... as long as access has not been explicitly denied directly on the item
                                 $qb->expr()->isNull('p.level')
