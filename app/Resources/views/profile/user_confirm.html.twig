@@ -1,0 +1,17 @@
+{# app/Resources/views/profile/user_confirm.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% set page_title = 'user.title.confirm_account'|trans %}
+
+{% block body %}
+
+	<div class="row column">
+		<p>{{ 'user.instructions.confirm_account'|trans }}</p>
+	</div>
+	<div class="row column">
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		{{ form_end(form) }}
+	</div>
+
+{% endblock %}

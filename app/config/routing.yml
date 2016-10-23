@@ -27,6 +27,12 @@ fos_user_profile_show:
     path:   '/profile'
     defaults:  { _controller: FOSUserBundle:Profile:show }
 # END FOS User Bundle overrides in order to match without trailing slash
+# START FOS User Bundle override to listen for POST requests on confirm page
+fos_user_registration_confirm:
+    path:   'register/confirm/{token}'
+    methods:    [GET, POST]
+    defaults:  { _controller: FOSUserBundle:Registration:confirm }
+# END FOS User Bundle override to listen for POST requests on confirm page
 
 
 
