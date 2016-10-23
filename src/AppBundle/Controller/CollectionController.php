@@ -54,6 +54,32 @@ class CollectionController extends Controller {
 
         $albums = $this->getDoctrine()->getRepository(Album::class)->findByCollection($collection, $this->get('app.current_user')->get() );
 
+        
+        // Choose random photos from each album to display - in case we want to have changing-image thumbnails someday
+        if(false){
+            foreach($albums as $key=>$album){
+
+                $photos = $album->getPhotos()->getValues();
+
+                if(count($photos)>0){
+
+                    $choose_photos = array_rand($photos, (count($photos)>5 ? 5 : count($photos)));
+
+                    if(!is_array($choose_photos)){
+                        $choose_photos = [$choose_photos];
+                    }
+
+                    foreach($choose_photos as $chosen){
+                        $album->thumbs[] = $photos[$chosen];
+                    }
+                }else{
+                    $choose_photos = [];
+                }
+            }
+        }
+
+
+
     	return $this->render('collection/show.html.twig', ['collection'=>$collection, 'albums'=>$albums]);
 
     }

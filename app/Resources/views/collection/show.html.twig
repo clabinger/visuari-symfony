@@ -23,12 +23,21 @@
 	    {% endif %}
 
 	    <p>{{ collection.description|e }}</p>
+	</div>
 
 	    {% for album in albums %}
-	        <h3><a href="{{ path('show_album', {'id': album.id}) }}">{{ album.name }}</a> <small class="h3-comment">{{ 'album.view.num_photos'|transchoice(album.photos.count) }}</small></h3>
-	        <p>{{ album.description }}</p>
+	    	{% set link = path('show_album', {'id': album.id}) %}
+	    	{% set thumb = random(album.photos) %}
+	    	<div class="row">
+		    	<div class="column large-2 medium-4 small-12">
+		        	<a href="{{link}}"><img class="thumbnail" src="{{ signed_url_cacher.getUrl(thumb.photo.sizeThumb) }}"></a>
+		        </div>
+		        <div class="column large-10 medium-8 small-12">
+			        <h3><a href="{{ link }}">{{ album.name }}</a> <small class="h3-comment">{{ 'album.view.num_photos'|transchoice(album.photos.count) }}</small></h3>
+			        <p>{{ album.description }}</p>
+			    </div>
+		    </div>
 	    {% endfor %}
 
-	</div>
 	    
 {% endblock %}
