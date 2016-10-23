@@ -49,6 +49,8 @@ collection:
         save_collection: Save Collection
     view:
         denied: You do not have permission to view this collection.
+        ownership: Collection by %link_start%%owner%%link_end%
+        num_albums: '{0} No albums yet|{1} 1 Album|]1,Inf] %count% Albums'
     button:
         edit: Edit Collection Settings
         edit_permissions: Share
