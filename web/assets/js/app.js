@@ -42,7 +42,6 @@ $('a.delete-photo').on('click', function(){
 
 
 
-
 // Set up thumbnails for PhotoSwipe
 $('div.gallery-wrapper').each(function(gallery_index){
 	
@@ -115,6 +114,7 @@ $('div.gallery-wrapper').each(function(gallery_index){
     var showImage = function(index){
 
         var shareButtons = [
+                {id:'copy_url', label:'Copy URL to clipboard', url:'{{raw_url}}', action:'copy'},
                 {id:'download', label:'Download image ('+items[index].w+'x'+items[index].h+')', url:'{{raw_image_url}}', download:true},
         ];
 
