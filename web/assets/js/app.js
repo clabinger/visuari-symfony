@@ -44,14 +44,36 @@ $('a.delete-photo').on('click', function(){
 
 
 // Set up thumbnails for PhotoSwipe
-$('div.gallery-wrapper').each(function(){
+$('div.gallery-wrapper').each(function(gallery_index){
 	
-	var pic = $(this);
+	var gallery = $(this);
 	
+    var extract_id = function(filename){
+
+        // Take the full S3 url of the photo and return just the filename (without extension)
+
+        q = filename.indexOf('?');        
+        if(q){
+            filename = filename.substring(0,q);
+        }
+
+        s = filename.lastIndexOf('/');
+        if(s){
+            filename = filename.substring(s+1);
+        }
+
+        p = filename.lastIndexOf('.');
+        if(s){
+            filename = filename.substring(0,p);
+        }
+
+        return filename;
+    }
+
 	var getItems = function() {
         var items = [], 
         	elements = [];
-        pic.find('a').each(function() {
+        gallery.find('a').each(function() {
             var src_medium   = $(this).attr('href'), // medium size
                 src_thumb    = $(this).find('img').attr('src'), // thumb size
             	src_orig    = $(this).attr('fhref'), // full size
@@ -70,7 +92,8 @@ $('div.gallery-wrapper').each(function(){
                 w_full   : width_orig, 
                 h   : height_medium, // PhotoSwipe-dictated key
                 h_full   : height_orig, 
-                title: caption // PhotoSwipe-dictated key
+                title: caption, // PhotoSwipe-dictated key
+                pid: extract_id(src_orig) // PhotoSwipe-dictated key
             }
 
             if(size_orig[0]!==size_medium[0]){
@@ -89,11 +112,8 @@ $('div.gallery-wrapper').each(function(){
     
     var pswp = $('.pswp')[0];
 	
-	pic.on('click', 'div.column', function(event) {
-	    event.preventDefault();
-	     
-	    var index = $(this).index();
-	       
+    var showImage = function(index){
+
         var shareButtons = [
                 {id:'download', label:'Download image ('+items[index].w+'x'+items[index].h+')', url:'{{raw_image_url}}', download:true},
         ];
@@ -106,10 +126,11 @@ $('div.gallery-wrapper').each(function(){
 
 
         var options = {
-	        index: index,
-	        bgOpacity: 0.7,
-	        // showHideOpacity: true,
-	        getThumbBoundsFn: function(index) {
+            index: index,
+            bgOpacity: 0.7,
+            galleryPIDs: true,
+            // showHideOpacity: true,
+            getThumbBoundsFn: function(index) {
                 // See Options ->  section of documentation for more info
                 var thumbnail = elements[index].children('img')[0], // find thumbnail
                     pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
@@ -118,15 +139,66 @@ $('div.gallery-wrapper').each(function(){
                 return {x:rect.left, y:rect.top + pageYScroll, w:rect.width};
             },
             shareButtons: shareButtons,
-	    }
+        }
+        
+
+        // Initialize PhotoSwipe
+        var lightBox = new PhotoSwipe(pswp, PhotoSwipeUI_Default, items, options);
+        lightBox.init();
+    
+    }
+
+	gallery.on('click', 'figure a', function(event) {
+	    event.preventDefault();
 	     
-	    // Initialize PhotoSwipe
-	    var lightBox = new PhotoSwipe(pswp, PhotoSwipeUI_Default, items, options);
-	    lightBox.init();
+	    var index = $(this).closest('div.column').index();
+
+        showImage(index);
+	       
 	});
 
+    // parse picture index and gallery index from URL (#&pid=1&gid=2)
+    var photoswipeParseHash = function() {
+        var hash = window.location.hash.substring(1),
+        params = {};
+
+        if(hash.length < 5) {
+            return params;
+        }
+
+        var vars = hash.split('&');
+        for (var i = 0; i < vars.length; i++) {
+            if(!vars[i]) {
+                continue;
+            }
+            var pair = vars[i].split('=');  
+            if(pair.length < 2) {
+                continue;
+            }           
+            params[pair[0]] = pair[1];
+        }
+
+        if(params.gid) {
+            params.gid = parseInt(params.gid, 10);
+        }
+
+        return params;
+    };
+
+    // Parse URL and open gallery if it contains #&pid=3&gid=1
+    var hashData = photoswipeParseHash();
+
+    if(hashData.pid && hashData.gid && gallery_index+1===hashData.gid) { // There is a pid in the URL for this gallery
+
+        if(
+            (index = items.findIndex(function(item){ return item.pid===hashData.pid; })) !== -1 // Image was found with the provided pid
+        ){
+            showImage(index);
+        }
+    }
 
 });
+
 
 
 // Generic autofocusing
