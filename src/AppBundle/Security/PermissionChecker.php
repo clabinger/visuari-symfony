@@ -65,8 +65,9 @@ class PermissionChecker
         $qb = $repository->createQueryBuilder('i');
 
         // If we are getting a list of albums, inherit permissions that are for the collection that owns each album.
-        if($entity==='album'){ // pi = permission_inherited
+        if($entity==='album'){ // pi = permission_inherited, ei = entity inherited
             $qb->leftJoin('AppBundle\Entity\Permission', 'pi', 'WITH', 'pi.collection = i.collection AND pi.grantee = :user'); // The current user is the grantee ... **
+            $qb->leftJoin('AppBundle\Entity\Collection', 'ei', 'WITH', 'ei.id = i.collection'); // Join with information about the owning collection 
             $inherited = true;
         }else{
             $inherited = false;
@@ -83,15 +84,19 @@ class PermissionChecker
                     ),
                     ($inherited
                         ? $qb->expr()->andX( // Inherited access
-                            $qb->expr()->gte('pi.level', 1), //  ** ... and they have been given view access or higher ...
+                            $qb->expr()->gte('pi.level', 1), //  ** ... and they have been given view access or higher ... **
                             $qb->expr()->orX( 
-                                $qb->expr()->neq('p.level', 0), // ... as long as access has not been explicitly denied directly on the item
+                                $qb->expr()->neq('p.level', 0), // ** ... as long as access has not been explicitly denied directly on the item
                                 $qb->expr()->isNull('p.level')
                             )
                         )
                         : null
                     ),
                     $qb->expr()->eq('i.public', '1'), // Or item is public
+                    ($inherited 
+                        ? $qb->expr()->eq('ei.public', '1') // Or item's owning entity is public
+                        : null
+                    ),
                     $qb->expr()->eq('i.owner', $user) // Or current user owns the item
                 )
             ))

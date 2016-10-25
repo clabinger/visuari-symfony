@@ -54,6 +54,14 @@ abstract class ItemVoter extends Voter
             return true;
         }
 
+        if($item instanceof Album){
+            // If the album's collection is public, all albums are public regardless of their individual publicity settings. (until we change public from a check box to a {Yes, No, Inherit} option)
+            if($item->getCollection()->isPublic()){
+                return true;
+            }
+        }
+
+        // If the album's collection is not public, use the album's own public setting
         return $item->isPublic();
     }
 
