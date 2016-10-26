@@ -29,21 +29,21 @@
 	    <p>{{ collection.description|e }}</p>
 	</div>
 
+    <div class="row small-up-2 medium-up-3 large-up-5 album-thumb-wrapper">
 	    {% for album in albums %}
 	    	{% set link = path('show_album', {'id': album.id}) %}
-	    	<div class="row">
-		    	<div class="column large-2 medium-4 small-12">
-		    		{% if album.photos is defined and album.photos|length>0 %}
-	    				{% set thumb = random(album.photos) %}
-		        		<a href="{{link}}"><img class="thumbnail" src="{{ signed_url_cacher.getUrl(thumb.photo.sizeThumb) }}"></a>
-		        	{% endif %}
-		        </div>
-		        <div class="column large-10 medium-8 small-12">
-			        <h3><a href="{{ link }}">{{ album.name }}</a> <small class="h3-comment">{{ 'album.view.num_photos'|transchoice(album.photos.count) }}</small></h3>
-			        <p>{{ album.description }}</p>
-			    </div>
+	    	<div class="column ">
+	    		{% if album.photos is defined and album.photos|length>0 %}
+    				{% set thumb = random(album.photos) %}
+	        		<div class="thumb-wrap">
+	        			<a href="{{link}}"><img class="thumbnail" src="{{ signed_url_cacher.getUrl(thumb.photo.sizeThumb) }}"></a>
+	        		</div>
+	        	{% endif %}
+	        
+		        <h3><a href="{{ link }}">{{ album.name }}</a> <small class="h3-comment no-break-spaces">{{ 'album.view.num_photos'|transchoice(album.photos.count) }}</small></h3>
+		        <p>{{ album.description }}</p>
 		    </div>
 	    {% endfor %}
+	</div>
 
-	    
 {% endblock %}

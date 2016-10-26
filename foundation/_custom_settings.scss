@@ -35,8 +35,26 @@ $thumbnail-shadow-hover: 0 0 1px 1px $brand-medium;
 $body-font-family: 'Hind Madurai', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 $header-font-family: 'Questrial', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 
-.gallery-wrapper figure{
-	margin: 6px;
+.gallery-wrapper{
+	figure{
+		margin: 6px;
+		text-align: center;
+	}
+
+	img {
+		max-height: 200px;
+	}
+}
+
+.album-thumb-wrapper{
+	img{
+		max-height: 200px;
+	}
+	
+	div.thumb-wrap{
+		width: 100%;
+		text-align: center;
+	}
 }
 
 /* START Topbar */
@@ -221,13 +239,6 @@ a.pswp__share--download-full {
 	}
 }
 
-div.album-grid {
-	img {
-		max-height: 200px;
-	}
-
-	figure {
-		text-align: center;
-	}
+.no-break-spaces{
+	white-space: nowrap;
 }
-
