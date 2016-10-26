@@ -11,15 +11,17 @@
 {# Magic name to provide custom template block for the photo field in each photo sub-form #}
 {% block _album_photos_entry_photo_widget %}
 
-	<div class="album-edit-position-wrap">
-		<div class="album-edit-position-arrows">
+	<div class="album-edit-thumbnail-wrap">
+		<div class="album-edit-thumbnail-controls">
 			<a style="display:block;" class="reorder-photo reorder-photo-up icon-blue"><i class="fi-arrow-up"></i></a>
 			<a style="display:block;" class="reorder-photo reorder-photo-down icon-blue"><i class="fi-arrow-down"></i></a>
 			<a style="display:block;" class="delete-photo icon-red"><i class="fi-x"></i></a>
 		</div>
-		<a target="_blank" class="thumbnail thumbnail-edit-list" href="{{ signed_url_cacher.getUrl(data.sizeOriginal) }}">
-	    	<img src="{{ signed_url_cacher.getUrl(data.sizeThumb) }}">
-	    </a>
+		<div class="album-edit-thumbnail">
+			<a target="_blank" href="{{ signed_url_cacher.getUrl(data.sizeOriginal) }}">
+		    	<img class="thumbnail" src="{{ signed_url_cacher.getUrl(data.sizeThumb) }}">
+		    </a>
+	    </div>
 	</div>
 
 {% endblock %}
@@ -34,11 +36,11 @@
 	
 	<hr>
 	<div class="row">
-		<div class="large-4 medium-6 small-12 columns">
+		<div class="large-3 medium-4 small-12 columns">
 			{{ form_widget(form.photo) }}
 		</div>
 
-		<div class="large-8 medium-6 small-12 columns">
+		<div class="large-9 medium-8 small-12 columns">
 			{{ form_row(form.title) }}
 			{{ form_row(form.caption) }}
 			{{ form_row(form.description) }}

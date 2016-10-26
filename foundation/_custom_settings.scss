@@ -163,22 +163,30 @@ body{
 	margin-bottom: 20px;
 }
 
-a.thumbnail-edit-list{
-	max-width:200px;
+div.album-edit-thumbnail img{
 	max-height:300px;
 }
 
 
-div.album-edit-position-wrap{
-	white-space: nowrap 
+div.album-edit-thumbnail-wrap{
+	white-space: nowrap;
+	position: relative; 
 }
 
-div.album-edit-position-arrows,
+div.album-edit-thumbnail-controls
 {
 	vertical-align:middle;
 	font-size:1.5em;
 	display:inline-block;
 	padding-right:10px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 30px;
+}
+
+div.album-edit-thumbnail{
+	margin-left: 30px;
 }
 
 a.delete-permission{
