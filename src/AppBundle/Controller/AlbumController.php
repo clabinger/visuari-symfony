@@ -45,6 +45,7 @@ class AlbumController extends Controller {
             $photo->setChangeDate($photo->getChangeDate());
         }
 
+        $album->setPendingUpload(0);
 
         $entityManager = $this->getDoctrine()->getManager();
 
