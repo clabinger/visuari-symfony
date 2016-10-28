@@ -83,6 +83,12 @@ class Album
      */
     private $permissions;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default" : false})
+     * @Assert\Type("bool")
+     */
+    private $pendingUpload = false; // Set to true when a photo is uploaded. Set to false when the photos are reordered using AlbumController::applyUploadOrder()
+    
 
     public function __construct(){
         
@@ -387,5 +393,29 @@ class Album
     public function getPermissions()
     {
         return $this->permissions;
+    }
+
+    /**
+     * Set pendingUpload
+     *
+     * @param boolean $pendingUpload
+     *
+     * @return Album
+     */
+    public function setPendingUpload($pendingUpload)
+    {
+        $this->pendingUpload = $pendingUpload;
+
+        return $this;
+    }
+
+    /**
+     * Get pendingUpload
+     *
+     * @return boolean
+     */
+    public function getPendingUpload()
+    {
+        return $this->pendingUpload;
     }
 }
