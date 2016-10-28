@@ -41,6 +41,13 @@ class Album_Photo
     private $position;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $uploadPosition; // used to keep track of the order in which files were dropped into the uploader (may be different from the order in which the server received them). Will be cleared when an upload is finished
+
+
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;
@@ -361,5 +368,63 @@ class Album_Photo
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set uploadPosition
+     *
+     * @param integer $uploadPosition
+     *
+     * @return Album_Photo
+     */
+    public function setUploadPosition($uploadPosition)
+    {
+        $this->uploadPosition = $uploadPosition;
+
+        return $this;
+    }
+
+    /**
+     * Get uploadPosition
+     *
+     * @return integer
+     */
+    public function getUploadPosition()
+    {
+        return $this->uploadPosition;
+    }
+
+    /**
+     * Add permission
+     *
+     * @param \AppBundle\Entity\Permission $permission
+     *
+     * @return Album_Photo
+     */
+    public function addPermission(\AppBundle\Entity\Permission $permission)
+    {
+        $this->permissions[] = $permission;
+
+        return $this;
+    }
+
+    /**
+     * Remove permission
+     *
+     * @param \AppBundle\Entity\Permission $permission
+     */
+    public function removePermission(\AppBundle\Entity\Permission $permission)
+    {
+        $this->permissions->removeElement($permission);
+    }
+
+    /**
+     * Get permissions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
     }
 }

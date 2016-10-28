@@ -5,6 +5,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Album;
+use AppBundle\Entity\Album_Photo;
 
 use AppBundle\Form\AlbumType;
 use AppBundle\Form\ItemPermissionsType;
@@ -15,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Controller used to manage albums
@@ -24,6 +26,38 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class AlbumController extends Controller {
 	
+    private function applyUploadOrder(Album $album){
+
+        if($album->getPendingUpload()===0){ // There is no pending upload action on this album
+            return $album;
+        }
+
+        $criteria = Criteria::create()
+            ->orderBy(array("uploadPosition" => Criteria::ASC, "position" => Criteria::ASC));
+
+        $photos = $album->getPhotos()->matching($criteria);
+
+        $pos = 0;
+
+        foreach($photos as $photo){
+            $photo->setPosition(++$pos);
+            $photo->setUploadPosition(0);
+            $photo->setChangeDate($photo->getChangeDate());
+        }
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // Don't observe lifecycle callbacks for this request
+        $entityManager->getClassMetadata(Album_Photo::class)->lifecycleCallbacks = Array();
+
+        $entityManager->persist($album);
+        $entityManager->flush();
+
+        return $album;
+
+    }
+
 	/**
      * @Route("", defaults={"page": 1}, name="album_index")
      * @Route("/page/{page}", requirements={"page": "[1-9]\d*"}, name="album_index_paginated")
@@ -37,11 +71,6 @@ class AlbumController extends Controller {
 
         $albums = $this->getDoctrine()->getRepository(Album::class)->findLatest($user, $page);
 
-        // $albums = $this->getDoctrine()
-        // ->getRepository('AppBundle:Album')
-        // // ->findByPublic(true);
-        // ->findAll();
-
         return $this->render('album/index.html.twig', ['albums' => $albums, 'label' => 'album.list_all']);
     }
 
@@ -51,6 +80,9 @@ class AlbumController extends Controller {
      * @Method("GET")
      */
     public function showAction(Album $album){
+
+        // Put photos in uploaded order, if this step has not been performed since photos were uploaded into the album.
+        $album = $this->applyUploadOrder($album);
 
         // Check voters
         $this->denyAccessUnlessGranted('view', $album, $this->get('translator')->trans('album.view.denied'));
@@ -227,6 +259,9 @@ class AlbumController extends Controller {
      * @Security("is_granted('IS_AUTHENTICATED_REMEMBERED')")
      */
     public function uploadAction(Album $album, Request $request){
+
+        // Put photos in uploaded order, if this step has not been performed since photos were uploaded into the album.
+        $album = $this->applyUploadOrder($album);
 
         // Check voters
         $this->denyAccessUnlessGranted('edit', $album, $this->get('translator')->trans('album.edit_not_allowed_photos'));

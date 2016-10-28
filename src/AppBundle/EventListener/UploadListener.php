@@ -102,6 +102,7 @@ class UploadListener
 
         $file_original_name = $request->get('file_name');
         $file_original_modified = $request->get('file_modified_date');
+        $upload_position = $request->get('upload_count');
 
 
         // For Testing:
@@ -226,6 +227,8 @@ class UploadListener
 
         // End create photo
 
+        // Mark the album as having a pending upload, so the photos can be correctly ordered on a future pageload
+        $album->setPendingUpload(1);
 
 
         // Start add photo to album
@@ -235,6 +238,7 @@ class UploadListener
         $album_photo->setPhoto($photo);
         $album_photo->setAlbum($album);
         $album_photo->setPosition($album_max_position + 1);
+        $album_photo->setUploadPosition($upload_position);
 
         $this->om->persist($album_photo);
 
