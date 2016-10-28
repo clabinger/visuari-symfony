@@ -141,3 +141,5 @@ assetic:
 white_october_breadcrumbs:
     listClass: 'breadcrumbs'
     separator: ''
+
+doctrine_migrations: ~

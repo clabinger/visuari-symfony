@@ -13,7 +13,7 @@
 	    <p>
         	{{ 'collection.view.ownership'|trans({'%owner%':collection.owner.username, '%link_start%':'<a href="'~path('profile_base_default', {'username': collection.owner.username})~'">', '%link_end%':'</a>' })|raw }}
         	<span class="bar"></span>
-        	{{ 'collection.view.num_albums'|transchoice(collection.albums.count) }}
+        	{{ 'collection.view.num_albums'|transchoice(albums.count) }}
         </p>
 
 	    {% if is_granted('edit', collection) %}

@@ -38,7 +38,8 @@
         "symfony/assetic-bundle": "^2.8",
         "whiteoctober/breadcrumbs-bundle": "^1.2",
         "knplabs/knp-menu-bundle": "^2.1",
-        "sensio/generator-bundle": "^3.0"
+        "sensio/generator-bundle": "^3.0",
+        "doctrine/doctrine-migrations-bundle": "^1.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.0"
