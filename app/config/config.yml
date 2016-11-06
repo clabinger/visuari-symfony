@@ -137,6 +137,9 @@ assetic:
         cssrewrite: ~
         uglifyjs2:
             bin: /usr/bin/uglifyjs
+    workers:
+        cache_busting:
+            enabled: true
 
 white_october_breadcrumbs:
     listClass: 'breadcrumbs'
