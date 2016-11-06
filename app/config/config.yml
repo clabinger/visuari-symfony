@@ -143,3 +143,6 @@ white_october_breadcrumbs:
     separator: ''
 
 doctrine_migrations: ~
+
+white_october_pagerfanta:
+    default_view: my_template

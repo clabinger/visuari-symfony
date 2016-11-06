@@ -11,6 +11,7 @@ $brand-success: #10BF69;
 $body-background: #F2F5F7;
 
 $text-gray-dark: #878787;
+$background-gray-light: #CCF;
 
 $white: #ffffff;
 
@@ -28,6 +29,8 @@ $callout-radius: $global-radius;
 
 $thumbnail-border: solid 3px $white;
 $thumbnail-radius: $global-radius;
+$pagination-radius: $global-radius;
+$pagination-item-background-current: $button-background;
 $thumbnail-shadow-hover: 0 0 1px 1px $brand-medium;
 
 @import url('https://fonts.googleapis.com/css?family=Hind+Madurai:300|Questrial');
