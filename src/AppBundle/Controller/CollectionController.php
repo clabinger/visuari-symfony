@@ -42,17 +42,18 @@ class CollectionController extends Controller {
 
 
 	/**
-     * @Route("/{id}", name="show_collection", requirements={"id": "\d+"})
+     * @Route("/{id}", defaults={"page": 1}, name="show_collection", requirements={"id": "\d+"})
+     * @Route("/{id}/page/{page}", name="show_collection_paginated", requirements={"id": "\d+", "page": "[1-9]\d*"})
      * @Method("GET")
      */
-    public function showAction(Collection $collection){
+    public function showAction(Collection $collection, $page){
 
         // Check voters
         $this->denyAccessUnlessGranted('view', $collection, $this->get('translator')->trans('collection.view.denied'));
 
         $this->get('breadcrumbs_organizer')->showCollection($collection);
 
-        $albums = $this->getDoctrine()->getRepository(Album::class)->findByCollection($collection, $this->get('app.current_user')->get() );
+        $albums = $this->getDoctrine()->getRepository(Album::class)->findByCollection($collection, $this->get('app.current_user')->get(), $page);
 
         
         // Choose random photos from each album to display - in case we want to have changing-image thumbnails someday

@@ -10,6 +10,14 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.pagerfanta.my_template:
+        class: AppBundle\Template\Pagerfanta
+    pagerfanta.view.my_template:
+        class: Pagerfanta\View\DefaultView
+        public: false
+        arguments:
+            - "@app.pagerfanta.my_template"
+        tags: [{ name: pagerfanta.view, alias: my_template }]
     app.menu_builder:
         class: AppBundle\Menu\Builder
         arguments: ['@knp_menu.factory', '@app.current_user']

@@ -45,4 +45,8 @@
 	    {% endfor %}
 	</div>
 
+	<div class="row column space-vertical">
+		{{ pagerfanta(albums, null, {'routeName': 'show_collection_paginated', 'routeParams': {'id': collection.id}}) }}
+	</div>
+
 {% endblock %}
