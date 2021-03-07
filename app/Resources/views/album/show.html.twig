@@ -60,6 +60,12 @@
         {% endfor %}
     </div>
 
+    <div class="row column">
+        {% embed 'comment/comment_form.html.twig' %}
+        {% endembed %}
+    </div>
+
+
     {% include 'tools/photoswipe.html' %}
 
 {% endblock %}

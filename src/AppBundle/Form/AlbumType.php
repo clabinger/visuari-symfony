@@ -50,7 +50,7 @@ class AlbumType extends AbstractType
         $request_collection_id = $this->request->getCurrentRequest()->get('collection');
 
         $default = $request_collection_id
-            ? $this->em->getReference('AppBundle:Collection', $request_collection_id) // 
+            ? $this->em->getReference('AppBundle:Collection', $request_collection_id) // Load the Collection entity with the provided id (default to the collection in the request)
             : $builder->getData()->getCollection(); // Otherwise use the default Form functionality
 
         $builder

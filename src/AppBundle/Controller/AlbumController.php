@@ -6,8 +6,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Album;
 use AppBundle\Entity\Album_Photo;
+use AppBundle\Entity\Comment;
 
 use AppBundle\Form\AlbumType;
+use AppBundle\Form\CommentType;
 use AppBundle\Form\ItemPermissionsType;
 use AppBundle\Form\UploadPhotosToAlbumType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -90,7 +92,11 @@ class AlbumController extends Controller {
 
         $this->get('breadcrumbs_organizer')->showAlbum($album);
 
-    	return $this->render('album/show.html.twig', ['album'=>$album]);
+        $comment = new Comment();
+
+        $comment_form = $this->createForm(CommentType::class, $comment, ['target_entity_type'=>'AppBundle:Album', 'entity'=>$album]);
+
+    	return $this->render('album/show.html.twig', ['album'=>$album, 'comment_form'=>$comment_form->createView()]);
 
     }
 
@@ -127,7 +133,7 @@ class AlbumController extends Controller {
 
     	return $this->render('album/new.html.twig', Array(
             'album' => $album,
-            'form'       => $form->createView(),
+            'form'  => $form->createView(),
         ));
 
     }

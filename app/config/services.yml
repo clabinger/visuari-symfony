@@ -73,7 +73,7 @@ services:
                     secret: "%aws_s3_secret%"
     app.upload_listener:
         class: AppBundle\EventListener\UploadListener
-        arguments: ["@security.authorization_checker", "@doctrine.orm.entity_manager", "@translator.default", "@photoalbums_filesystem", "@photoalbums_filesystem_local", "@imagine.handler", %local_photo_directory%, %size_thumb%, %size_medium%, %allowed_extensions%]
+        arguments: ["@security.authorization_checker", "@doctrine.orm.entity_manager", "@translator.default", "@photoalbums_filesystem", "@photoalbums_filesystem_local", "@imagine.handler", "%local_photo_directory%", "%size_thumb%", "%size_medium%", "%allowed_extensions%"]
         tags:
             - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
 
