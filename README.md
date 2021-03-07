@@ -1,4 +1,8 @@
-photoalbums
+Visuari
 ===========
 
-A Symfony project created on June 20, 2016, 8:38 pm.
+A Symfony app 
+
+Photo album publishing platform, featuring an upload manager, captions, and granular sharing.
+
+No longer maintained or in development.
